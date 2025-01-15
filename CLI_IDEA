@@ -1,0 +1,22 @@
+import argparse
+from central_server import central_server_main
+from probe_server import probe_server_main
+
+def cli_main():
+    """Main CLI interface for the cybersecurity system."""
+    parser = argparse.ArgumentParser(description="Cybersecurity CLI Tool")
+    parser.add_argument("role", choices=["central", "probe"], help="Role to execute")
+    parser.add_argument("--client-id", type=str, help="Unique ID for the probe server")
+    args = parser.parse_args()
+
+    if args.role == "central":
+        central_server_main()
+    elif args.role == "probe":
+        if not args.client_id:
+            print("[Error] --client-id is required for probe servers.")
+            return
+        print(f"[Probe Server] Starting with ID: {args.client_id}")
+        probe_server_main(args.client_id)
+
+if __name__ == "__main__":
+    cli_main()
