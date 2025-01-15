@@ -1,66 +1,39 @@
 # central_server.py
 
-import threading
-import queue
-import mysql.connector
-from mysql.connector import Error
+import socket
+import ssl
 
-# Queue for communication with probe servers
-central_server_queue = queue.Queue()
+def central_server_main(host, port):
+    """Main function for the central server. Listens for secure connections from probe servers."""
+    print(f"[Central Server] Starting on {host}:{port}...")
 
-def initialize_database():
-    """Initialize the connection to the external MariaDB database."""
+    # Create an SSL context
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE
+
     try:
-        conn = mysql.connector.connect(
-            host="localhost",  # Update with your MariaDB host
-            user="root",       # Update with your MariaDB user
-            password="password",  # Update with your MariaDB password
-            database="cybersecurity_db"  # Update with your database name
-        )
-        if conn.is_connected():
-            print("[Central Server] Connected to MariaDB database.")
-            cursor = conn.cursor()
-            # Ensure the table exists
-            cursor.execute("""
-            CREATE TABLE IF NOT EXISTS scan_data (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                client_ip VARCHAR(255),
-                scan_type VARCHAR(255),
-                scan_result TEXT
-            )
-            """)
-            conn.commit()
-            return conn, cursor
-    except Error as e:
-        print(f"[Central Server] Error connecting to MariaDB: {e}")
-        raise
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+            server_socket.bind((host, port))
+            server_socket.listen(5)
+            print(f"[Central Server] Listening for connections...")
 
-def handle_data(cursor, conn):
-    """Handle incoming data from probe servers."""
-    while True:
-        data = central_server_queue.get()
-        if data == "EXIT":
-            break
-        try:
-            # Save data to the database
-            cursor.execute("INSERT INTO scan_data (client_ip, scan_type, scan_result) VALUES (%s, %s, %s)", data)
-            conn.commit()
-        except Error as e:
-            print(f"[Central Server] Error inserting data into MariaDB: {e}")
+            while True:
+                client_socket, addr = server_socket.accept()
+                with context.wrap_socket(client_socket, server_side=True) as ssock:
+                    print(f"[Central Server] Secure connection established with {addr}")
 
-def central_server_main():
-    """Main function for the central server."""
-    print("[Central Server] Starting...")
-    try:
-        conn, cursor = initialize_database()
-
-        # Start a thread to handle incoming data
-        threading.Thread(target=handle_data, args=(cursor, conn), daemon=True).start()
-
-        print("[Central Server] Ready to collect data.")
+                    # Placeholder for communication logic
+                    ssock.sendall(b"Welcome to the Central Server!\n")
+                    while True:
+                        message = ssock.recv(1024).decode('utf-8')
+                        if not message or message == "EXIT":
+                            print(f"[Central Server] Connection with {addr} closed.")
+                            break
+                        print(f"[Central Server] Received: {message}")
+                        ssock.sendall(b"ACK: " + message.encode('utf-8'))
     except Exception as e:
-        print(f"[Central Server] Failed to start: {e}")
+        print(f"[Central Server] Error: {e}")
 
 if __name__ == "__main__":
-    central_server_main()
+    central_server_main("localhost", 8443)
