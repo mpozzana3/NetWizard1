@@ -1,0 +1,66 @@
+# central_server.py
+
+import threading
+import queue
+import mysql.connector
+from mysql.connector import Error
+
+# Queue for communication with probe servers
+central_server_queue = queue.Queue()
+
+def initialize_database():
+    """Initialize the connection to the external MariaDB database."""
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",  # Update with your MariaDB host
+            user="root",       # Update with your MariaDB user
+            password="password",  # Update with your MariaDB password
+            database="cybersecurity_db"  # Update with your database name
+        )
+        if conn.is_connected():
+            print("[Central Server] Connected to MariaDB database.")
+            cursor = conn.cursor()
+            # Ensure the table exists
+            cursor.execute("""
+            CREATE TABLE IF NOT EXISTS scan_data (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                client_ip VARCHAR(255),
+                scan_type VARCHAR(255),
+                scan_result TEXT
+            )
+            """)
+            conn.commit()
+            return conn, cursor
+    except Error as e:
+        print(f"[Central Server] Error connecting to MariaDB: {e}")
+        raise
+
+def handle_data(cursor, conn):
+    """Handle incoming data from probe servers."""
+    while True:
+        data = central_server_queue.get()
+        if data == "EXIT":
+            break
+        try:
+            # Save data to the database
+            cursor.execute("INSERT INTO scan_data (client_ip, scan_type, scan_result) VALUES (%s, %s, %s)", data)
+            conn.commit()
+        except Error as e:
+            print(f"[Central Server] Error inserting data into MariaDB: {e}")
+
+def central_server_main():
+    """Main function for the central server."""
+    print("[Central Server] Starting...")
+    try:
+        conn, cursor = initialize_database()
+
+        # Start a thread to handle incoming data
+        threading.Thread(target=handle_data, args=(cursor, conn), daemon=True).start()
+
+        print("[Central Server] Ready to collect data.")
+    except Exception as e:
+        print(f"[Central Server] Failed to start: {e}")
+
+if __name__ == "__main__":
+    central_server_main()
