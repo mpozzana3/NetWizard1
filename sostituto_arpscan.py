@@ -1,5 +1,6 @@
 from scapy.all import ARP, Ether, srp
 import sys
+import macaddress  # Importiamo il modulo creato
 
 # File per salvare i risultati
 output_file = "test_attività.txt"
@@ -26,10 +27,13 @@ def arp_scan(target_ip_range):
     for element in answered_list:
         ip = element[1].psrc
         mac = element[1].hwsrc
-        devices.append((ip, mac))
-        print(f"IP: {ip} - MAC: {mac}")
+        vendor = macaddress.get_mac_vendor(mac)  # Recuperiamo il vendor usando il modulo macaddress
+        devices.append((ip, mac, vendor))
+
+        # Mostra i risultati e scrivili nel file
+        print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}")
         with open(output_file, "a") as f:
-            f.write(f"IP: {ip} - MAC: {mac}\n")
+            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}\n")
 
     return devices
 
@@ -45,8 +49,10 @@ def main():
         print("Nessun dispositivo trovato.")
     else:
         print(f"\nDispositivi trovati: {len(devices)}")
-        for ip, mac in devices:
-            print(f"IP: {ip} - MAC: {mac}")
+        for ip, mac, vendor in devices:
+            print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}")
 
 if __name__ == "__main__":
     main()
+
+
