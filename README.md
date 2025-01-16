@@ -13,6 +13,7 @@ Installa le dipendenze:
    ```bash
 pip install -r requirements.txt
 
+
 Installa il pacchetto come modulo Python:
    ```bash
 pip install .
