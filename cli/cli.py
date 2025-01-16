@@ -1,26 +1,57 @@
-import argparse
+import click
+import subprocess
+import sys
 import requests
 
-SERVER_URL = "http://127.0.0.1:5000"  # URL del server
+# Funzione per inviare un comando di scansione al server tramite HTTP
+def start_scan_on_server():
+    """Invia il comando di avvio della scansione ARP al server."""
+    url = "http://localhost:5000/execute"
+    data = {
+        "command": "start_scan",
+        "args": []
+    }
+    response = requests.post(url, json=data)
+    
+    if response.status_code == 200:
+        print("Scansione ARP avviata con successo.")
+    else:
+        print(f"Errore nell'avvio della scansione ARP: {response.json().get('error', 'Errore sconosciuto')}")
 
-def send_command(command, args):
-    """Invia un comando al server."""
+# Funzione per eseguire comandi nel server
+def execute_command(command, args):
+    """Invia un comando al server per l'esecuzione."""
+    url = "http://localhost:5000/execute"
+    data = {
+        "command": command,
+        "args": args
+    }
+    
     try:
-        response = requests.post(f"{SERVER_URL}/execute", json={"command": command, "args": args})
+        response = requests.post(url, json=data)
         if response.status_code == 200:
-            print(f"Risultato: {response.json()['result']}")
+            print(f"Risultato: {response.json().get('result')}")
         else:
-            print(f"Errore dal server: {response.text}")
-    except requests.RequestException as e:
+            print(f"Errore: {response.json().get('error')}")
+    except requests.exceptions.RequestException as e:
         print(f"Errore di connessione: {e}")
 
-def main():
-    parser = argparse.ArgumentParser(description="CLI per comunicare con il server remoto")
-    parser.add_argument("command", type=str, help="Il comando da eseguire")
-    parser.add_argument("args", nargs="*", help="Argomenti del comando")
-    
-    args = parser.parse_args()
-    send_command(args.command, args.args)
+@click.group()
+def cli():
+    """CLI per gestire la scansione e l'esecuzione di comandi sul server."""
+    pass
+
+@cli.command()
+@click.argument('command')
+@click.argument('args', nargs=-1)
+def execute(command, args):
+    """Esegui un comando sul server."""
+    execute_command(command, args)
+
+@cli.command()
+def start_scan():
+    """Avvia la scansione ARP sulla rete del server."""
+    start_scan_on_server()
 
 if __name__ == "__main__":
-    main()
+    cli()
