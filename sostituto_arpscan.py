@@ -1,8 +1,17 @@
 from scapy.all import ARP, Ether, srp
 import sys
+from mac_vendor_lookup import MacLookup
 
 # File per salvare i risultati
 output_file = "test_attività.txt"
+
+def get_mac_vendor(mac_address):
+    """Recupera il vendor a partire dal MAC address."""
+    try:
+        vendor = MacLookup().lookup(mac_address)
+        return vendor
+    except Exception as e:
+        return f"Errore: {e}"
 
 def arp_scan(target_ip_range):
     """Esegui una scansione ARP su un intervallo di IP."""
@@ -26,10 +35,13 @@ def arp_scan(target_ip_range):
     for element in answered_list:
         ip = element[1].psrc
         mac = element[1].hwsrc
-        devices.append((ip, mac))
-        print(f"IP: {ip} - MAC: {mac}")
+        vendor = get_mac_vendor(mac)
+        devices.append((ip, mac, vendor))
+        
+        # Mostra i risultati e scrivili nel file
+        print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}")
         with open(output_file, "a") as f:
-            f.write(f"IP: {ip} - MAC: {mac}\n")
+            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}\n")
 
     return devices
 
@@ -45,8 +57,9 @@ def main():
         print("Nessun dispositivo trovato.")
     else:
         print(f"\nDispositivi trovati: {len(devices)}")
-        for ip, mac in devices:
-            print(f"IP: {ip} - MAC: {mac}")
+        for ip, mac, vendor in devices:
+            print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}")
 
 if __name__ == "__main__":
     main()
+
