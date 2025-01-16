@@ -10,10 +10,10 @@ Un progetto che implementa un'interfaccia a riga di comando (CLI) per comunicare
    cd cli_project
 
 Installa le dipendenze:
-   ```bash
+```bash
 pip install -r requirements.txt
 
 
 Installa il pacchetto come modulo Python:
-   ```bash
+```bash
 pip install .
