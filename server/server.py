@@ -1,8 +1,9 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../server')))
-
+import subprocess
 from flask import Flask, request, jsonify
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../server')))
 
 app = Flask(__name__)
 
@@ -24,10 +25,25 @@ def execute():
             result = sum(numbers)
         except ValueError:
             return jsonify({"error": "Argomenti non validi per add"}), 400
+    elif command == "start-scan":
+        try:
+            # Esegui lo script di scansione ARP
+            subprocess.run(['python3', 'scan/scan-1.py'], check=True)
+            result = "Scansione ARP avviata correttamente."
+        except subprocess.CalledProcessError:
+            return jsonify({"error": "Errore nell'avvio della scansione ARP"}), 500
+    elif command == "start-scan2":
+        try:
+            # Esegui lo script di scansione ARP per scan-2.py
+            subprocess.run(['python3', 'scan/scan-2.py'], check=True)
+            result = "Scansione ARP con scan-2.py avviata correttamente."
+        except subprocess.CalledProcessError:
+            return jsonify({"error": "Errore nell'avvio della scansione ARP con scan-2.py"}), 500
     else:
         return jsonify({"error": f"Comando '{command}' non supportato"}), 400
 
     return jsonify({"result": result})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
+

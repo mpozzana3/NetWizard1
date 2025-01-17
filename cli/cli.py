@@ -6,9 +6,9 @@ import requests
 # Funzione per inviare un comando di scansione al server tramite HTTP
 def start_scan_on_server():
     """Invia il comando di avvio della scansione ARP al server."""
-    url = "http://localhost:5000/execute"
+    url = "http://localhost:5001/execute"
     data = {
-        "command": "start_scan",
+        "command": "start-scan",
         "args": []
     }
     response = requests.post(url, json=data)
@@ -18,10 +18,26 @@ def start_scan_on_server():
     else:
         print(f"Errore nell'avvio della scansione ARP: {response.json().get('error', 'Errore sconosciuto')}")
 
+# Funzione per inviare un comando di scansione al server tramite HTTP per scan2
+def start_scan2_on_server():
+    """Invia il comando di avvio della scansione ARP al server per scan-2.py."""
+    url = "http://localhost:5001/execute"
+    data = {
+        "command": "start-scan2",
+        "args": []
+    }
+    response = requests.post(url, json=data)
+
+    if response.status_code == 200:
+        print("Scansione ARP con scan-2.py avviata con successo.")
+    else:
+        print(f"Errore nell'avvio della scansione ARP: {response.json().get('error', 'Errore sconosciuto')}")
+
+
 # Funzione per eseguire comandi nel server
 def execute_command(command, args):
     """Invia un comando al server per l'esecuzione."""
-    url = "http://localhost:5000/execute"
+    url = "http://localhost:5001/execute"
     data = {
         "command": command,
         "args": args
@@ -52,6 +68,11 @@ def execute(command, args):
 def start_scan():
     """Avvia la scansione ARP sulla rete del server."""
     start_scan_on_server()
+
+@cli.command()
+def start_scan2():
+    """Avvia la scansione ARP con scan-2.py."""
+    start_scan2_on_server()
 
 if __name__ == "__main__":
     cli()
