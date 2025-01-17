@@ -34,11 +34,17 @@ def execute():
             return jsonify({"error": "Errore nell'avvio della scansione ARP"}), 500
     elif command == "start-scan2":
         try:
-            # Esegui lo script di scansione ARP per scan-2.py
-            subprocess.run(['python3', 'scan/scan-2.py'], check=True)
-            result = "Scansione ARP con scan-2.py avviata correttamente."
+            # Prendi l'intervallo IP dagli argomenti
+            ip_range = args[0] if args else None
+            if not ip_range:
+                return jsonify({"error": "Intervallo IP mancante"}), 400
+
+        # Passa l'intervallo IP a scan-2.py
+            subprocess.run(['python3', 'scan/scan-2.py', ip_range], check=True)
+            result = f"Scansione ARP con scan-2.py avviata per {ip_range}."
         except subprocess.CalledProcessError:
             return jsonify({"error": "Errore nell'avvio della scansione ARP con scan-2.py"}), 500
+
     else:
         return jsonify({"error": f"Comando '{command}' non supportato"}), 400
 
@@ -46,4 +52,3 @@ def execute():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
-
