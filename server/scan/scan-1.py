@@ -82,11 +82,11 @@ def process_packet(packet, vendor_data):
 
         # Recupera il vendor del MAC usando la funzione dal modulo macaddress.py
         vendor = get_mac_vendor(mac, vendor_data)
-    
+
         # Salva nel file
         with open(output_file, "a") as f:
             f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}\n")
-    
+
         # Inserisci nel database
         conn = connect_db()
         if conn:
@@ -96,11 +96,11 @@ def process_packet(packet, vendor_data):
 def main():
     # Carica i dati del vendor dal file JSON
     vendor_data = load_vendor_data('mac-vendors-export.json')
-            
-    if not vendor_data:  
+
+    if not vendor_data:
         print("Impossibile caricare i dati del vendor. Termino.")
         return
-        
+
     # Connessione al database
     conn = connect_db()
     if conn:
@@ -110,10 +110,9 @@ def main():
     print("Sniffing ARP packets. Premere Ctrl+C per interrompere.")
     try:
         # Avvia lo sniffing sulla rete per pacchetti ARP
-        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data), store=False)
+        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data), store=False, timeout=60)
     except KeyboardInterrupt:
         print("\nInterrotto dallo user.")
-                
+
 if __name__ == "__main__":
     main()
-

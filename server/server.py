@@ -39,11 +39,33 @@ def execute():
             if not ip_range:
                 return jsonify({"error": "Intervallo IP mancante"}), 400
 
-        # Passa l'intervallo IP a scan-2.py
+            # Passa l'intervallo IP a scan-2.py
             subprocess.run(['python3', 'scan/scan-2.py', ip_range], check=True)
             result = f"Scansione ARP con scan-2.py avviata per {ip_range}."
         except subprocess.CalledProcessError:
             return jsonify({"error": "Errore nell'avvio della scansione ARP con scan-2.py"}), 500
+    elif command == "start-nmap-scan":
+        try:
+            # Prendi l'intervallo IP dagli argomenti
+            ip_range = args[0] if args else None
+            if not ip_range:
+                return jsonify({"error": "Intervallo IP mancante"}), 400
+
+            # Esegui la scansione NMAP
+            result = subprocess.run(
+            ['sudo', 'nmap', '-v', '-d', '--script-timeout', '30s', '--script=vuln', '-oA', 'nmap-vuln', ip_range],
+            capture_output=True, text=True
+        )
+
+            if result.returncode != 0:
+            # Se nmap fallisce, restituisci l'errore
+                return jsonify({"error": f"Errore nell'esecuzione di NMAP: {result.stderr}"}), 500
+
+                return jsonify({"result": f"Scansione NMAP completata per {ip_range}. Risultati: {result.stdout}"})
+
+        except Exception as e:
+            return jsonify({"error": f"Errore nell'esecuzione di NMAP: {str(e)}"}), 500
+
 
     else:
         return jsonify({"error": f"Comando '{command}' non supportato"}), 400
