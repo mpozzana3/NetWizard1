@@ -96,5 +96,22 @@ def start_nmap(ip_range):
     """Avvia la scansione NMAP per l'intervallo IP specificato."""
     start_nmap_scan_on_server(ip_range)
 
+@cli.command()
+@click.argument('ip_range', required=True)
+def start_scan_completa(ip_range):
+    """Esegue tutte le scansioni (ARP, ARP con intervallo, NMAP) in sequenza."""
+    url = "http://localhost:5001/execute"
+    data = {
+        "command": "start-scan-completa",
+        "args": [ip_range]
+    }
+    response = requests.post(url, json=data)
+
+    if response.status_code == 200:
+        print("Scansioni complete eseguite con successo.")
+        print(f"Risultati: {response.json().get('result')}")
+    else:
+        print(f"Errore durante l'esecuzione delle scansioni complete: {response.json().get('error', 'Errore sconosciuto')}")
+
 if __name__ == "__main__":
     cli()

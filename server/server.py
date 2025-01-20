@@ -53,19 +53,32 @@ def execute():
 
             # Esegui la scansione NMAP
             result = subprocess.run(
-            ['sudo', 'nmap', '-v', '-d', '--script-timeout', '30s', '--script=vuln', '-oA', 'nmap-vuln', ip_range],
-            capture_output=True, text=True
-        )
+                ['sudo', 'nmap', '-sV', '-sC', '-v', '-d', '--script-timeout', '30s', '--script=vuln', '-oA', 'nmap-vuln', ip_range],
+                capture_output=True, text=True
+            )
 
             if result.returncode != 0:
-            # Se nmap fallisce, restituisci l'errore
+                # Se nmap fallisce, restituisci l'errore
                 return jsonify({"error": f"Errore nell'esecuzione di NMAP: {result.stderr}"}), 500
 
-                return jsonify({"result": f"Scansione NMAP completata per {ip_range}. Risultati: {result.stdout}"})
-
+            result = f"Scansione NMAP completata per {ip_range}. Risultati: {result.stdout}"
         except Exception as e:
             return jsonify({"error": f"Errore nell'esecuzione di NMAP: {str(e)}"}), 500
+    elif command == "start-scan-completa":
+        try:
+            # Prendi l'intervallo IP dagli argomenti
+            ip_range = args[0] if args else None
+            if not ip_range:
+                return jsonify({"error": "Intervallo IP mancante"}), 400
 
+            # Esegui le tre scansioni in sequenza
+            subprocess.run(['python3', 'scan/scan-1.py'], check=True)
+            subprocess.run(['python3', 'scan/scan-2.py', ip_range], check=True)
+            subprocess.run(['sudo', 'nmap', '-sV', '-sC', '-v', '-d', '--script-timeout', '30s', '--script=vuln', '-oA', 'nmap-vuln', ip_range], check=True)
+
+            result = "Scansioni complete avviate e completate con successo."
+        except subprocess.CalledProcessError as e:
+            return jsonify({"error": f"Errore durante l'esecuzione delle scansioni: {str(e)}"}), 500
 
     else:
         return jsonify({"error": f"Comando '{command}' non supportato"}), 400
