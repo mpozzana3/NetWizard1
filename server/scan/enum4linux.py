@@ -36,7 +36,7 @@ def run_enum4linux(ip, output_file, connection):
         listeners_data = data.get("listeners", {})
         domain = data.get("domain", "")
         nmblookup = data.get("nmblookup", "")
-        errors = data.get("errors", "")
+        errors = data.get("errors", {})
 
         # Filtra i dati di credentials
         credentials = json.dumps({
@@ -52,10 +52,15 @@ def run_enum4linux(ip, output_file, connection):
                 active_listeners[listener] = details
         listeners = json.dumps(active_listeners) if active_listeners else ""
 
-        # Converti i dati in formato stringa per l'inserimento
-        domain_str = json.dumps(domain) if isinstance(domain, dict) else str(domain)
-        nmblookup_str = json.dumps(nmblookup) if isinstance(nmblookup, dict) else str(nmblookup)
-        errors_str = json.dumps(errors) if isinstance(errors, dict) else str(errors)
+        # Estrazione e salvataggio solo degli errori sotto "enum_listeners"
+        enum_listeners_errors = errors.get("listeners", {}).get("enum_listeners", [])
+        errors_str = json.dumps(enum_listeners_errors) if enum_listeners_errors else ""
+
+        # Salva il domain normalmente
+        domain_str = domain if domain else "null"  # Se domain è vuoto, salva "null"
+
+        # Per nmblookup, se domain c'è, stampa "more info", altrimenti "null"
+        nmblookup_str = "more info" if domain else "null"
 
         # Inserisci i dati nel database
         cursor = connection.cursor()
