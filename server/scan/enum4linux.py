@@ -1,164 +1,98 @@
 import subprocess
+import json
 import os
-import re
 import mysql.connector
-from datetime import datetime
 
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"
-DB_NAME = "test"
-DB_USER = "root"
-DB_PASS = "nuova_password"
+DB_HOST = "localhost"  # Host del database
+DB_NAME = "test"  # Nome del database
+DB_USER = "root"  # Nome utente per il database
+DB_PASS = "nuova_password"  # Password del database
 
-NBTSCAN_FILE = "nbtscan.txt"
-ENUM_OUTPUT_FILE = "enum4linux.txt"
+# Funzione per connettersi al database
+def connect_to_db():
+    return mysql.connector.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        charset="utf8mb4",
+        collation="utf8mb4_general_ci"
+    )
 
-def extract_ips(file_path):
-    """
-    Legge il file nbtscan.txt e restituisce una lista di indirizzi IP.
-    """
-    ips = []
-    try:
-        with open(file_path, "r") as file:
-            for line in file:
-                match = re.match(r"(\d+\.\d+\.\d+\.\d+)", line)
-                if match:
-                    ips.append(match.group(1))
-    except FileNotFoundError:
-        print(f"Errore: Il file {file_path} non esiste nella directory.")
-    return ips
+# Funzione per eseguire enum4linux-ng e salvare i risultati nel database e nel file
+def run_enum4linux(ip, output_file, connection):
+    command = f"python3 enum4linux-ng/enum4linux-ng.py -A {ip} -oJ temp_output"
+    subprocess.run(command, shell=True)
 
-def run_enum4linux(ip):
-    """
-    Esegue il comando `enum4linux -Sd <ip>` e scrive l'output in un file.
-    """
-    try:
-        command = ["enum4linux", "-S", ip]
-        with open(ENUM_OUTPUT_FILE, "a") as output_file:
-            output_file.write(f"\n\n--- Scansione per {ip} ---\n")
-            subprocess.run(command, stdout=output_file, stderr=subprocess.STDOUT, text=True)
-            print(f"Scansione completata per {ip}")
-    except Exception as e:
-        print(f"Errore durante la scansione di {ip}: {e}")
+    # Verifica se il file JSON di output esiste
+    json_file = "temp_output.json"  # Nome del file di output temporaneo
+    if os.path.exists(json_file):
+        with open(json_file, 'r') as f:
+            data = json.load(f)  # Carica i dati JSON
 
+        # Estrai i dati necessari per l'inserimento
+        credentials_data = data.get("credentials", {})
+        listeners_data = data.get("listeners", {})
+        domain = data.get("domain", "")
+        nmblookup = data.get("nmblookup", "")
+        errors = data.get("errors", "")
 
-def parse_enum4linux_output(file_path):
-    results = []
-    current_scan = None
+        # Filtra i dati di credentials
+        credentials = json.dumps({
+            "auth_method": credentials_data.get("auth_method", "null"),
+            "user": credentials_data.get("user", ""),
+            "password": credentials_data.get("password", "")
+        })
 
-    try:
-        with open(file_path, "r") as file:
-            for line in file:
-                line = line.strip()
+        # Filtra i listeners, mantenendo solo quelli accessibili (accessible: true)
+        active_listeners = {}
+        for listener, details in listeners_data.items():
+            if details.get("accessible", False):  # Se accessible è True
+                active_listeners[listener] = details
+        listeners = json.dumps(active_listeners) if active_listeners else ""
 
-                # Rileva l'inizio di una nuova scansione
-                if line.startswith("--- Scansione per"):
-                    if current_scan:  # Salva la scansione precedente
-                        results.append(current_scan)
-                    current_scan = {
-                        "IP": None,
-                        "Domain": "Unknown",  # Default value
-                        "Vulnerable": "NO",
-                        "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    }
-
-                # Estrai l'IP
-                ip_match = re.search(r"Target\s+\.+\s+(\d+\.\d+\.\d+\.\d+)", line)
-                if ip_match and current_scan:
-                    current_scan["IP"] = ip_match.group(1)
-
-                # Estrai il dominio
-                domain_match = re.search(r"\[\+\] Got domain/workgroup name: (\S+)", line)
-                if domain_match and current_scan:
-                    current_scan["Domain"] = domain_match.group(1)
-
-                # Determina vulnerabilità
-                if "[+] Server" in line and "allows sessions using username '', password ''" in line:
-                    if current_scan:
-                        current_scan["Vulnerable"] = "YES"
-
-            # Aggiungi l'ultima scansione se presente
-            if current_scan:
-                results.append(current_scan)
-
-        print(f"Dati estratti dall'output: {results}")
-    except FileNotFoundError:
-        print(f"Errore: Il file {file_path} non esiste.")
-    except Exception as e:
-        print(f"Errore durante il parsing: {e}")
-
-    return results
-
-def create_and_populate_table(data):
-    try:
-        conn = mysql.connector.connect(
-            host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASS, charset="utf8mb4", collation="utf8mb4_general_ci"
-        )
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS enum4linux (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                ip VARCHAR(15) NOT NULL,
-                timestamp DATETIME NOT NULL,
-                domain VARCHAR(255) NOT NULL,
-                vulnerable ENUM('YES', 'NO') NOT NULL
-            )
-        """)
-        conn.commit()
-
-        print("Dati da inserire (prima della conversione in tuple):", data)
-
-        # Controlla che tutti i dizionari abbiano le chiavi richieste
-        for entry in data:
-            if "Domain" not in entry:
-                print(f"Errore: Mancano informazioni sul dominio per {entry.get('IP', 'Indirizzo sconosciuto')}")
-                entry["Domain"] = "Unknown"
-
-        # Converti i dizionari in tuple
-        tuple_data = [(d["IP"], d["Timestamp"], d["Domain"], d["Vulnerable"]) for d in data]
-
-        print("Dati convertiti in tuple:", tuple_data)
+        # Converti i dati in formato stringa per l'inserimento
+        domain_str = json.dumps(domain) if isinstance(domain, dict) else str(domain)
+        nmblookup_str = json.dumps(nmblookup) if isinstance(nmblookup, dict) else str(nmblookup)
+        errors_str = json.dumps(errors) if isinstance(errors, dict) else str(errors)
 
         # Inserisci i dati nel database
+        cursor = connection.cursor()
         insert_query = """
-            INSERT INTO enum4linux (ip, timestamp, domain, vulnerable)
-            VALUES (%s, %s, %s, %s)
+        INSERT INTO enum4linux (host, credentials, listeners, domain, nmblookup, errors)
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
-        cursor.executemany(insert_query, tuple_data)
-        conn.commit()
+        cursor.execute(insert_query, (ip, credentials, listeners, domain_str, nmblookup_str, errors_str))
+        connection.commit()
 
-        print(f"Tabella enum4linux aggiornata con {len(data)} record.")
-    except mysql.connector.Error as err:
-        print(f"Errore durante la connessione al database: {err}")
-    finally:
-        if conn.is_connected():
-            cursor.close()
-            conn.close()
+        # Scrivi i dati nel file di output, aggiungendo nuovi risultati
+        with open(output_file, 'a') as out_file:
+            out_file.write(json.dumps(data, indent=4))  # Scrive i dati in formato leggibile
+            out_file.write("\n---\n")  # Separa le voci con '---'
 
+        # Rimuovi il file JSON temporaneo
+        os.remove(json_file)
+
+# Funzione principale
 def main():
-    print("Inizio scansione...")
-    ips = extract_ips(NBTSCAN_FILE)
-    if not ips:
-        print("Nessun indirizzo IP trovato.")
-        return
+    output_file = "output_combined.json"  # Nome del file di output finale
+    with open('nbtscan.txt', 'r') as file:
+        lines = file.readlines()
 
-    # Rimuove il file di output se già esiste
-    if os.path.exists(ENUM_OUTPUT_FILE):
-        os.remove(ENUM_OUTPUT_FILE)
+    # Connetti al database
+    connection = connect_to_db()
 
-    for ip in ips:
-        run_enum4linux(ip)
+    # Itera su ogni linea e esegui enum4linux-ng per ogni IP
+    for line in lines:
+        parts = line.split()
+        if len(parts) > 0:
+            ip_address = parts[0]
+            # Esegui il comando enum4linux-ng e salva i dati nel database
+            run_enum4linux(ip_address, output_file, connection)
 
-    print("Scansione completata. Analisi dell'output...")
-    scan_results = parse_enum4linux_output(ENUM_OUTPUT_FILE)
-    if not scan_results:
-        print("Nessun dato estratto dall'output.")
-        return
-
-    print("Connessione al database e aggiornamento della tabella...")
-    create_and_populate_table(scan_results)
+    # Chiudi la connessione al database
+    connection.close()
 
 if __name__ == "__main__":
     main()
-
