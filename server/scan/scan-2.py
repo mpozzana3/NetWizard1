@@ -1,15 +1,16 @@
 import sys
-import psycopg2
+import mysql.connector
 from scapy.all import ARP, Ether, srp
 import json
 from macaddress import get_mac_vendor
 from flask import Flask, request, jsonify
+import random
 
 # Dati per la connessione al database PostgreSQL
 DB_HOST = "localhost"
-DB_NAME = "tirocinio"
-DB_USER = "postgres"
-DB_PASS = "20134"
+DB_NAME = "test"
+DB_USER = "root"
+DB_PASS = "nuova_password"
 
 app = Flask(__name__)
 
@@ -24,11 +25,13 @@ def load_vendor_data(json_file):
 
 def connect_db():
     try:
-        conn = psycopg2.connect(
+        conn = mysql.connector.connect(
             host=DB_HOST,
-            dbname=DB_NAME,
+            database=DB_NAME,
             user=DB_USER,
-            password=DB_PASS
+            password=DB_PASS,
+            charset="utf8mb4",  # Specifica un charset compatibile
+            collation="utf8mb4_general_ci"  # Aggiunge la collation compatibile per la connessione
         )
         return conn
     except Exception as e:
@@ -38,23 +41,33 @@ def connect_db():
 def create_table(conn):
     with conn.cursor() as cursor:
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS arp_data (
-                id SERIAL PRIMARY KEY,
-                ip VARCHAR(15) UNIQUE,
-                mac VARCHAR(17),
-                vendor VARCHAR(255),
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
+       		 CREATE TABLE IF NOT EXISTS tabella_host (
+            		id_scansione VARCHAR(255),
+            		ip VARCHAR(15),
+            		mac_address VARCHAR(17),
+            		time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            		vendor VARCHAR(255),
+            		tipo_scansione VARCHAR(255) DEFAULT NULL,
+            		PRIMARY KEY (id_scansione, mac_address)
+        );         
         """)
         conn.commit()
 
-def insert_into_db(conn, ip, mac, vendor):
-    with conn.cursor() as cursor:
+# Funzione per inserire i dati nella tabella, solo se la coppia id_scansione e mac_address non esistono
+def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_ATTIVO"):
+    """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
+    cursor = conn.cursor()
+    id_scansione = str(random.randint(100000, 999999))  # ID scansione random
+    try:
         cursor.execute("""
-            INSERT INTO arp_data (ip, mac, vendor) VALUES (%s, %s, %s)
-            ON CONFLICT (ip) DO NOTHING;
-        """, (ip, mac, vendor))
+            INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
+            VALUES (%s, %s, %s, %s, %s);
+        """, (id_scansione, ip, mac, vendor, tipo_scansione))
         conn.commit()
+        print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} inserito nel database.")
+    except mysql.connector.Error as e:
+        print(f"Errore nell'inserimento: {e}")
+    cursor.close()
 
 def arp_scan(target_ip_range, vendor_data):
     arp_request = ARP(pdst=target_ip_range)

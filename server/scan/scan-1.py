@@ -1,13 +1,15 @@
-import psycopg2
+import mysql.connector
 from scapy.all import ARP, sniff
 import json
 from macaddress import get_mac_vendor  # Assicurati che il modulo macaddress sia importato correttamente
+import random
+import time
 
-# Dati per la connessione al database PostgreSQL
+# Dati per la connessione al database MariaDB
 DB_HOST = "localhost"  # Host del database
-DB_NAME = "tirocinio"  # Nome del database
-DB_USER = "postgres"  # Nome utente per il database
-DB_PASS = "20134"  # Password per l'utente del database
+DB_NAME = "test"  # Nome del database
+DB_USER = "root"  # Nome utente per il database
+DB_PASS = "nuova_password"  # Password per l'utente del database (puoi inserirla qui se necessaria)
 
 # File per salvare i risultati
 output_file = "test.txt"
@@ -23,55 +25,56 @@ def load_vendor_data(json_file):
         print(f"Errore nel caricamento del file JSON: {e}")
         return None
 
-# Connessione al database PostgreSQL
+# Connessione al database MariaDB
 def connect_db():
-    """Connessione al database PostgreSQL."""
+    """Connessione al database MariaDB."""
     try:
-        conn = psycopg2.connect(
+        conn = mysql.connector.connect(
             host=DB_HOST,
-            dbname=DB_NAME,
+            database=DB_NAME,
             user=DB_USER,
-            password=DB_PASS
+            password=DB_PASS,
+            charset="utf8mb4",  # Specifica un charset compatibile
+   	    collation="utf8mb4_general_ci"  # Add this line to specify a compatible collation for the connection
         )
         return conn
-    except Exception as e:
+    except mysql.connector.Error as e:
         print(f"Errore nella connessione al database: {e}")
         return None
 
 # Funzione per creare la tabella se non esiste
 def create_table(conn):
     """Crea la tabella per memorizzare i dati ARP se non esiste."""
-    with conn.cursor() as cursor:
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tabella_host (
+            id_scansione VARCHAR(255),
+            ip VARCHAR(15),
+            mac_address VARCHAR(17),
+            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            vendor VARCHAR(255),
+            tipo_scansione VARCHAR(255) DEFAULT NULL,
+            PRIMARY KEY (id_scansione, mac_address)
+        );
+    """)
+    conn.commit()
+    cursor.close()
+
+# Funzione per inserire i dati nella tabella, solo se la coppia id_scansione e mac_address non esistono
+def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
+    """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
+    cursor = conn.cursor()
+    id_scansione = str(random.randint(100000, 999999))  # ID scansione random
+    try:
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS arp_data (
-                id SERIAL PRIMARY KEY,
-                ip VARCHAR(15) UNIQUE,
-                mac VARCHAR(17),
-                vendor VARCHAR(255),
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
+            INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
+            VALUES (%s, %s, %s, %s, %s);
+        """, (id_scansione, ip, mac, vendor, tipo_scansione))
         conn.commit()
-
-# Funzione per verificare se un IP esiste già nel database
-def check_ip_exists(conn, ip):
-    """Verifica se l'indirizzo IP è già presente nel database."""
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT 1 FROM arp_data WHERE ip = %s LIMIT 1;", (ip,))
-        return cursor.fetchone() is not None
-
-# Funzione per inserire i dati nella tabella, solo se l'IP non esiste
-def insert_into_db(conn, ip, mac, vendor):
-    """Inserisce i dati ARP nella tabella del database solo se l'IP non è già presente."""
-    if not check_ip_exists(conn, ip):
-        with conn.cursor() as cursor:
-            cursor.execute("""
-                INSERT INTO arp_data (ip, mac, vendor) VALUES (%s, %s, %s);
-            """, (ip, mac, vendor))
-            conn.commit()
         print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} inserito nel database.")
-    else:
-        print(f"IP: {ip} già presente nel database, non inserito.")
+    except mysql.connector.Error as e:
+        print(f"Errore nell'inserimento: {e}")
+    cursor.close()
 
 def process_packet(packet, vendor_data):
     """Elabora i pacchetti ARP per individuare dispositivi attivi e salvarli nel file e nel database."""

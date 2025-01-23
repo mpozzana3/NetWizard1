@@ -67,6 +67,25 @@ def execute_command(command, args):
     except requests.exceptions.RequestException as e:
         print(f"Errore di connessione: {e}")
 
+# Funzione per inviare il comando "start" al server
+def start_command_on_server():
+    """Invia il comando di avvio al server e richiede azienda e P.IVA."""
+    url = "http://localhost:5001/execute"
+    data = {
+        "command": "start",
+        "args": []
+    }
+    response = requests.post(url, json=data)
+
+    if response.status_code == 200:
+        print(response.json().get('result'))
+        azienda = input("Inserisci il nome dell'azienda: ")
+        piva = input("Inserisci la P.IVA: ")
+        print(f"Azienda: {azienda}, P.IVA: {piva}")
+    else:
+        print(f"Errore nel comando: {response.json().get('error')}")
+
+
 @click.group()
 def cli():
     """CLI per gestire la scansione e l'esecuzione di comandi sul server."""
@@ -112,6 +131,11 @@ def start_scan_completa(ip_range):
         print(f"Risultati: {response.json().get('result')}")
     else:
         print(f"Errore durante l'esecuzione delle scansioni complete: {response.json().get('error', 'Errore sconosciuto')}")
+
+@cli.command()
+def start():
+    """Inizia la connessione con il server e richiede azienda e P.IVA."""
+    start_command_on_server()
 
 if __name__ == "__main__":
     cli()

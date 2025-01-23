@@ -1,0 +1,391 @@
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:48 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.8
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m =============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.8[0m[34m )=============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.8[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.8 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:49 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.3
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m =============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.3[0m[34m )=============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.3[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.3 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:50 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.32
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.32[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.32[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.32 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:50 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.31
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.31[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: WORKGROUP
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.31[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.31 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:51 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.2
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m =============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.2[0m[34m )=============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.2[0m[34m )====================================
+
+[0m[33m
+[+] [0m[32mServer 172.16.1.2 allows sessions using username '', password ''
+
+[0m
+[34m =================================( [0m[32mGetting domain SID for 172.16.1.2[0m[34m )=================================
+
+[0mrpcclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+rpcclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+rpcclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+rpcclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+Domain Name: GFTECH
+Domain Sid: S-1-5-21-2857987910-2622034082-2940064511
+[33m
+[+] [0m[32mHost is part of a domain (not a workgroup)
+
+[0m
+[34m ==================================( [0m[32mShare Enumeration on 172.16.1.2[0m[34m )==================================
+
+[0msmbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+smbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+smbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+smbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+smbXcli_negprot_smb1_done: No compatible protocol selected by server.
+
+	Sharename       Type      Comment
+	---------       ----      -------
+	amministrazione Disk      Amministrazione GFTech
+	commerciale     Disk      Commerciale GFTech
+	personale       Disk      Personale GFTech
+	varie           Disk      Varie GFTech
+	scansioni       Disk      Varie GFTech
+	tecnici         Disk      Tecnici GFTech
+	IPC$            IPC       IPC Service (Samba 4.21.2-git.382.df546a2d31bSUSE-oS16.9-x86_64)
+Reconnecting with SMB1 for workgroup listing.
+Protocol negotiation to server 172.16.1.2 (for a protocol between CORE and NT1) failed: NT_STATUS_INVALID_NETWORK_RESPONSE
+Unable to connect with SMB1 -- no workgroup available
+[33m
+[+] [0m[32mAttempting to map shares on 172.16.1.2
+
+[0m//172.16.1.2/amministrazione	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+//172.16.1.2/commerciale	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+//172.16.1.2/personale	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+//172.16.1.2/varie	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+//172.16.1.2/scansioni	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+//172.16.1.2/tecnici	[35mMapping: [0mDENIED[35m Listing: [0mN/A[35m Writing: [0mN/A
+[33m
+[E] [0m[31mCan't understand response:
+
+[0msmbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+smbclient: Ignoring: open or stat /etc/krb5.conf.d/crypto-policies: No such file or directory
+NT_STATUS_CONNECTION_REFUSED listing \*
+//172.16.1.2/IPC$	[35mMapping: [0mN/A[35m Listing: [0mN/A[35m Writing: [0mN/A
+enum4linux complete on Wed Jan 22 15:46:54 2025
+
+
+
+--- Scansione per 172.16.1.2 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:54 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.44
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.44[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.44[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.44 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:55 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.77
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.77[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: WORKGROUP
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.77[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.77 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:55 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.94
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.94[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ====================================( [0m[32mSession Check on 172.16.1.94[0m[34m )====================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.94 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:56 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.110
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.110[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ===================================( [0m[32mSession Check on 172.16.1.110[0m[34m )===================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.110 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:46:56 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.141
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.141[0m[34m )============================
+
+[0m[33m
+[E] [0m[31mCan't find workgroup/domain
+
+[0m
+
+[34m ===================================( [0m[32mSession Check on 172.16.1.141[0m[34m )===================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.141 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:47:07 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.159
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.159[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: GFTECH
+
+[0m
+[34m ===================================( [0m[32mSession Check on 172.16.1.159[0m[34m )===================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.159 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:47:07 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.131
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.131[0m[34m )============================
+
+[0m[33m
+[E] [0m[31mCan't find workgroup/domain
+
+[0m
+
+[34m ===================================( [0m[32mSession Check on 172.16.1.131[0m[34m )===================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.131 ---
+"my" variable $which_output masks earlier declaration in same scope at ./enum4linux.pl line 280.
+Starting enum4linux v0.9.1 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Jan 22 15:47:08 2025
+
+[34m =========================================( [0m[32mTarget Information[0m[34m )=========================================
+
+[0mTarget ........... 172.16.1.144
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+[34m ============================( [0m[32mEnumerating Workgroup/Domain on 172.16.1.144[0m[34m )============================
+
+[0m[33m
+[+] [0m[32mGot domain/workgroup name: WORKGROUP
+
+[0m
+[34m ===================================( [0m[32mSession Check on 172.16.1.144[0m[34m )===================================
+
+[0m[33m
+[E] [0m[31mServer doesn't allow session using username '', password ''.  Aborting remainder of tests.
+
+[0m
+
+--- Scansione per 172.16.1.144 ---
