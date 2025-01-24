@@ -77,7 +77,6 @@ def handle_client(client_socket):
                 client_socket.send(response.encode())
                 cursor.close()
                 db_connection.close()
-		client_socket.close()
 
         elif client_choice == '2':
             response = "Hai scelto Analisi DB."

@@ -12,6 +12,8 @@ DB_PASS = "nuova_password"
 # Configurazione del server socket
 HOST = "0.0.0.0"  # Ascolta su tutte le interfacce di rete
 PORT = 5003  # Porta per la comunicazione
+P_IVA = "IT12345679810"
+AZIENDA = "GFTECH"
 
 def connect_db():
     """Crea una connessione al database MariaDB."""
@@ -35,13 +37,6 @@ def create_table_if_not_exists():
     if conn:
         cursor = conn.cursor()
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS aziende (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                azienda VARCHAR(255) NOT NULL,
-                p_iva VARCHAR(255) NOT NULL UNIQUE
-            );
-        """)
-        cursor.execute("""
             CREATE TABLE IF NOT EXISTS scansioni (
                 id_scansione INT AUTO_INCREMENT PRIMARY KEY,
                 p_iva VARCHAR(255) NOT NULL,
@@ -55,44 +50,11 @@ def create_table_if_not_exists():
         cursor.close()
         conn.close()
 
-def insert_aziende(azienda, p_iva):
-    """Inserisce i dati azienda e P.IVA nel database se non esistono già."""
-    conn = connect_db()
-    if conn:
-        cursor = conn.cursor()
-        try:
-            # Tentativo di inserimento diretto
-            cursor.execute("INSERT INTO aziende (azienda, p_iva) VALUES (%s, %s)", (azienda, p_iva))
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return "INSERTED"
-        except mysql.connector.IntegrityError as e:
-            # Controlla se l'errore è dovuto a una chiave duplicata
-            if "Duplicate entry" in str(e):
-                # Recupera il nome associato alla p_iva
-                cursor.execute("SELECT azienda FROM aziende WHERE p_iva = %s", (p_iva,))
-                result = cursor.fetchone()
-                cursor.close()
-                conn.close()
 
-                if result and result[0] == azienda:
-                    return "EXISTS_SAME"
-                else:
-                    return "EXISTS_DIFFERENT"
-            else:
-                cursor.close()
-                conn.close()
-                return "ERROR"
-        except mysql.connector.Error as e:
-            print(f"Errore nell'inserimento dei dati: {e}")
-            cursor.close()
-            conn.close()
-            return "ERROR"
-    return "ERROR"
+import subprocess
 
-def insert_scansioni(p_iva, tipo_scansione):
-    """Inserisce i dati della scansione nella tabella scansioni."""
+def insert_scansioni(tipo_scansione):
+    """Inserisce i dati della scansione nella tabella scansioni e restituisce l'ID della scansione."""
     conn = connect_db()
     if conn:
         cursor = conn.cursor()
@@ -100,60 +62,63 @@ def insert_scansioni(p_iva, tipo_scansione):
             cursor.execute("""
                 INSERT INTO scansioni (p_iva, tipo_scansione, stato)
                 VALUES (%s, %s, %s)
-            """, (p_iva, tipo_scansione, 1))  # Stato "IN CORSO" = 1
+            """, (P_IVA, tipo_scansione, 1))  # Stato "IN CORSO" = 1
             conn.commit()
+
+            # Ottieni l'ID della scansione appena inserita
+            id_scansione = cursor.lastrowid
             cursor.close()
             conn.close()
-            return True
+            return id_scansione
         except mysql.connector.Error as e:
             print(f"Errore nell'inserimento dei dati della scansione: {e}")
             cursor.close()
             conn.close()
-            return False
-    return False
+            return None
+    return None
 
 def handle_client(client_socket):
     """Gestisce la comunicazione con il client."""
     while True:
         # Invia il messaggio di benvenuto
-        client_socket.send(b"Collegamento riuscito.\nInserisci il nome dell'azienda e la P.IVA.\n")
+        client_socket.send(
+            f"Collegamento riuscito.\nTi sei collegato alla sonda dell'azienda {AZIENDA}.\n".encode()
+        )
 
-        # Ricevi il nome dell'azienda e la P.IVA dal client
-        azienda = client_socket.recv(1024).decode().strip()
-        p_iva = client_socket.recv(1024).decode().strip()
-
-        # Debug: stampa i valori ricevuti
-        print(f"Azienda: {azienda}, P.IVA: {p_iva}")
-        
-        # Inserisci i dati nel database
-        if azienda and p_iva:
-            result = insert_aziende(azienda, p_iva)
-            if result == "INSERTED":
-                client_socket.send(f"Dati ricevuti e inseriti correttamente. Procedo con la scansione.\n".encode())
-                break  # Dati corretti, esci dal ciclo
-            elif result == "EXISTS_SAME":
-                client_socket.send(f"La P.IVA è già associata. Procedo con la scansione.\n".encode())
-                break  # Dati corretti, esci dal ciclo
-            elif result == "EXISTS_DIFFERENT":
-                client_socket.send(f"Errore: La P.IVA {p_iva} esiste già ma con un nome azienda diverso. Riprova.\n".encode())
-            else:
-                client_socket.send(b"Errore nell'inserimento dei dati. Riprova.\n")
-        else:
-            client_socket.send(b"Dati azienda o P.IVA mancanti. Riprova.\n")
-
-    # Solo se i dati sono corretti, il server chiede il tipo di scansione
-    while True:
         # Invia il messaggio di scansione al client
-        client_socket.send(b"Che tipo di scansione vuoi fare?\n1. ARP_PASSIVA\n2. ARP_ATTIVA\n3. NMAP\n4. COMPLETA\n")
+        client_socket.send(
+            b"Che tipo di scansione vuoi fare?\n"
+            b"ARP_PASSIVA\n"
+            b"ARP_ATTIVA\n"
+            b"NMAP\n"
+            b"NBTSCAN\n"
+            b"ENUM4LINUX (solo dopo NBTSCAN)\n"
+            b"SMBMAP (solo dopo NBTSCAN)\n"
+            b"SMBCLIENT (solo dopo NBTSCAN)\n"
+            b"COMPLETA\n"
+        )
         print("Messaggio di scansione inviato.")
 
         # Ricevi la scelta di scansione dal client
         scelta_scansione = client_socket.recv(1024).decode().strip()
         print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
 
-        # Inserisci la scansione nel database
-        if insert_scansioni(p_iva, scelta_scansione):
+        # Inserisci la scansione nel database e ottieni l'ID della scansione
+        id_scansione = insert_scansioni(scelta_scansione)
+        if id_scansione:
             client_socket.send(b"Scansione registrata nel database.\n")
+            print(f"Scelta scansione registrata nel database con ID: {id_scansione}")
+
+            # Se la scansione è "ARP_PASSIVA", lancia lo script scan-1.py con l'ID della scansione
+            if scelta_scansione == "ARP_PASSIVA":
+                try:
+                    subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
+                    print(f"Scansione ARP_PASSIVA finita per l'ID {id_scansione}")
+                except subprocess.CalledProcessError as e:
+                    print(f"Errore nell'esecuzione dello script scan-1.py: {e}")
+                    client_socket.send(b"Errore nell'esecuzione della scansione ARP_PASSIVA.\n")
+            else:
+                print("Scansione diversa da ARP_PASSIVA, nessuna esecuzione script.")
         else:
             client_socket.send(b"Errore nell'inserimento dei dati della scansione.\n")
 

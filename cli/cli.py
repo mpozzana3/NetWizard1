@@ -40,6 +40,7 @@ def start_client():
             # Ricevi la risposta dal server
             response = client_socket.recv(1024).decode()
             print(response)
+            print("Ora digita cli2.py <ip> <porta>")
 
         # Se l'utente ha scelto Analisi DB
         elif scelta == "2":

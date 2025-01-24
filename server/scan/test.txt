@@ -1,0 +1,195 @@
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.32 - MAC: 38:ca:84:44:5e:58 - Vendor: HP Inc.
+IP: 172.16.1.94 - MAC: 30:13:8b:68:6c:41 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.53 - MAC: 00:0c:29:64:98:e2 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.53 - MAC: 00:0c:29:64:98:e2 - Vendor: VMware, Inc.
+IP: 172.16.1.53 - MAC: 00:0c:29:64:98:e2 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.159 - MAC: 34:29:8f:10:64:e9 - Vendor: IEEE Registration Authority
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.132 - MAC: fa:3a:6b:c7:2e:19 - Vendor: Vendor non trovato
+IP: 172.16.1.97 - MAC: c6:75:25:12:55:88 - Vendor: Vendor non trovato
+IP: 172.16.1.97 - MAC: c6:75:25:12:55:88 - Vendor: Vendor non trovato
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.94 - MAC: 30:13:8b:68:6c:41 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.99 - MAC: 00:0c:29:76:b2:87 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.99 - MAC: 00:0c:29:76:b2:87 - Vendor: VMware, Inc.
+IP: 172.16.1.99 - MAC: 00:0c:29:76:b2:87 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.51 - MAC: 38:ca:84:35:a1:66 - Vendor: HP Inc.
+IP: 172.16.1.51 - MAC: 38:ca:84:35:a1:66 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.20 - MAC: 00:15:65:f3:6b:98 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 0.0.0.0 - MAC: 00:15:65:f3:6b:98 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 172.16.1.15 - MAC: 6e:32:c4:32:5d:ea - Vendor: Vendor non trovato
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.73 - MAC: 00:0c:29:48:56:56 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.8 - MAC: c8:d9:d2:0d:07:b9 - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.8 - MAC: c8:d9:d2:0d:07:b9 - Vendor: Hewlett Packard
+IP: 172.16.1.8 - MAC: c8:d9:d2:0d:07:b9 - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.97 - MAC: c6:75:25:12:55:88 - Vendor: Vendor non trovato
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.94 - MAC: 30:13:8b:68:6c:41 - Vendor: HP Inc.
+IP: 172.16.1.141 - MAC: 00:0c:29:0b:fd:e0 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.32 - MAC: 38:ca:84:44:5e:58 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.32 - MAC: 38:ca:84:44:5e:58 - Vendor: HP Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.44 - MAC: 9c:7b:ef:28:54:4e - Vendor: Hewlett Packard
+IP: 172.16.1.110 - MAC: 00:68:eb:af:a8:40 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.73 - MAC: 00:0c:29:48:56:56 - Vendor: VMware, Inc.
+IP: 172.16.1.88 - MAC: 00:0c:29:ed:e2:24 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.196 - MAC: 00:0c:29:bc:a1:1c - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.73 - MAC: 00:0c:29:48:56:56 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.116 - MAC: 00:0c:29:96:1e:9c - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.116 - MAC: 00:0c:29:96:1e:9c - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.76 - MAC: 00:0c:29:20:d6:22 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.76 - MAC: 00:0c:29:20:d6:22 - Vendor: VMware, Inc.
+IP: 172.16.1.76 - MAC: 00:0c:29:20:d6:22 - Vendor: VMware, Inc.
+IP: 172.16.1.76 - MAC: 00:0c:29:20:d6:22 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.32 - MAC: 38:ca:84:44:5e:58 - Vendor: HP Inc.
+IP: 172.16.1.73 - MAC: 00:0c:29:48:56:56 - Vendor: VMware, Inc.
+IP: 172.16.1.14 - MAC: 00:0c:29:97:24:ba - Vendor: VMware, Inc.
+IP: 172.16.1.5 - MAC: f8:0d:ac:fc:1e:dd - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.14 - MAC: 00:0c:29:97:24:ba - Vendor: VMware, Inc.
+IP: 172.16.1.73 - MAC: 00:0c:29:48:56:56 - Vendor: VMware, Inc.
+IP: 0.0.0.0 - MAC: 00:15:65:9e:18:f0 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.5 - MAC: f8:0d:ac:fc:1e:dd - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.159 - MAC: 34:29:8f:10:64:e9 - Vendor: IEEE Registration Authority
+IP: 172.16.1.159 - MAC: 34:29:8f:10:64:e9 - Vendor: IEEE Registration Authority
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.4 - MAC: 3c:a8:2a:22:5c:dc - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.151 - MAC: 2c:c8:1b:c4:d0:0e - Vendor: Routerboard.com
+IP: 172.16.1.94 - MAC: 30:13:8b:68:6c:41 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.53 - MAC: 00:0c:29:64:98:e2 - Vendor: VMware, Inc.
+IP: 172.16.1.221 - MAC: 00:0c:29:4d:a6:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.141 - MAC: 00:0c:29:0b:fd:e0 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.174 - MAC: 3c:55:76:c8:0b:97 - Vendor: CLOUD NETWORK TECHNOLOGY SINGAPORE PTE. LTD.
+IP: 172.16.1.174 - MAC: 3c:55:76:c8:0b:97 - Vendor: CLOUD NETWORK TECHNOLOGY SINGAPORE PTE. LTD.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.220 - MAC: 00:0c:29:48:ec:4a - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.8 - MAC: c8:d9:d2:0d:07:b9 - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.94 - MAC: 30:13:8b:68:6c:41 - Vendor: HP Inc.
+IP: 172.16.1.110 - MAC: 00:68:eb:af:a8:40 - Vendor: HP Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.2 - MAC: 00:0c:29:f7:ff:12 - Vendor: VMware, Inc.
+IP: 172.16.1.44 - MAC: 9c:7b:ef:28:54:4e - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.38 - MAC: 00:0c:29:1b:42:42 - Vendor: VMware, Inc.
+IP: 172.16.1.38 - MAC: 00:0c:29:1b:42:42 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.90 - MAC: 00:0c:29:ef:b6:f5 - Vendor: VMware, Inc.
+IP: 172.16.1.15 - MAC: 6e:32:c4:32:5d:ea - Vendor: Vendor non trovato
+IP: 172.16.1.122 - MAC: ec:b1:d7:7a:99:18 - Vendor: Hewlett Packard
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.88 - MAC: 00:0c:29:ed:e2:24 - Vendor: VMware, Inc.
+IP: 172.16.1.14 - MAC: 00:0c:29:97:24:ba - Vendor: VMware, Inc.
+IP: 172.16.1.116 - MAC: 00:0c:29:96:1e:9c - Vendor: VMware, Inc.
+IP: 172.16.1.12 - MAC: 04:7c:16:07:82:6c - Vendor: Micro-Star INTL CO., LTD.
+IP: 172.16.1.189 - MAC: 00:0c:29:09:c7:75 - Vendor: VMware, Inc.
+IP: 172.16.1.20 - MAC: 00:15:65:f3:6b:98 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 172.16.1.196 - MAC: 00:0c:29:bc:a1:1c - Vendor: VMware, Inc.
+IP: 172.16.1.129 - MAC: 00:0c:29:c3:cf:26 - Vendor: VMware, Inc.
+IP: 172.16.1.194 - MAC: 00:0c:29:bc:a1:12 - Vendor: VMware, Inc.
+IP: 172.16.1.179 - MAC: 00:15:65:9e:18:f0 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 172.16.1.181 - MAC: 00:15:65:a4:b0:93 - Vendor: XIAMEN YEALINK NETWORK TECHNOLOGY CO.,LTD
+IP: 172.16.1.42 - MAC: c0:74:ad:5b:cf:1e - Vendor: Grandstream Networks, Inc.
+IP: 172.16.1.51 - MAC: 38:ca:84:35:a1:66 - Vendor: HP Inc.
+IP: 172.16.1.23 - MAC: 6c:93:08:94:18:5f - Vendor: IEEE Registration Authority
+IP: 172.16.1.189 - MAC: 00:0c:29:09:c7:75 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.88 - MAC: 00:0c:29:ed:e2:24 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.14 - MAC: 00:0c:29:97:24:ba - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.90 - MAC: 00:0c:29:ef:b6:f5 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.129 - MAC: 00:0c:29:c3:cf:26 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.12 - MAC: 04:7c:16:07:82:6c - Vendor: Micro-Star INTL CO., LTD.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.194 - MAC: 00:0c:29:bc:a1:12 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.23 - MAC: 6c:93:08:94:18:5f - Vendor: IEEE Registration Authority
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.116 - MAC: 00:0c:29:96:1e:9c - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.128 - MAC: 7c:2a:31:24:2d:7c - Vendor: Intel Corporate
+IP: 172.16.1.128 - MAC: 7c:2a:31:24:2d:7c - Vendor: Intel Corporate
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.38 - MAC: 00:0c:29:1b:42:42 - Vendor: VMware, Inc.
+IP: 172.16.1.38 - MAC: 00:0c:29:1b:42:42 - Vendor: VMware, Inc.
+IP: 172.16.1.1 - MAC: cc:2d:e0:12:b2:23 - Vendor: Routerboard.com
+IP: 172.16.1.3 - MAC: 00:0c:29:8d:46:02 - Vendor: VMware, Inc.
+IP: 172.16.1.236 - MAC: 00:0c:29:03:b6:ed - Vendor: VMware, Inc.

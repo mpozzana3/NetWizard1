@@ -1,14 +1,15 @@
 import mysql.connector
 from scapy.all import ARP, sniff
 import json
-from macaddress import get_mac_vendor  # Assicurati che il modulo macaddress sia importato correttamente
+from macaddress import get_mac_vendor
 import time
+import sys
 
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"  # Host del database
-DB_NAME = "test"  # Nome del database
-DB_USER = "root"  # Nome utente per il database
-DB_PASS = "nuova_password"  # Password per l'utente del database (puoi inserirla qui se necessaria)
+DB_HOST = "localhost"
+DB_NAME = "test"
+DB_USER = "root"
+DB_PASS = "nuova_password"
 
 # File per salvare i risultati
 output_file = "test.txt"
@@ -33,8 +34,8 @@ def connect_db():
             database=DB_NAME,
             user=DB_USER,
             password=DB_PASS,
-            charset="utf8mb4",  # Specifica un charset compatibile
-   	    collation="utf8mb4_general_ci"  # Add this line to specify a compatible collation for the connection
+            charset="utf8mb4",
+            collation="utf8mb4_general_ci"
         )
         return conn
     except mysql.connector.Error as e:
@@ -60,10 +61,9 @@ def create_table(conn):
     cursor.close()
 
 # Funzione per inserire i dati nella tabella, solo se la coppia id_scansione e mac_address non esistono
-def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
+def insert_into_db(conn, id_scansione, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
     """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
     cursor = conn.cursor()
-    id_scansione = 777
     try:
         cursor.execute("""
             INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
@@ -75,7 +75,7 @@ def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
         print(f"Errore nell'inserimento: {e}")
     cursor.close()
 
-def process_packet(packet, vendor_data):
+def process_packet(packet, vendor_data, id_scansione):
     """Elabora i pacchetti ARP per individuare dispositivi attivi e salvarli nel file e nel database."""
     if ARP in packet and packet[ARP].op in (1, 2):  # ARP request (1) o reply (2)
         mac = packet[ARP].hwsrc
@@ -92,10 +92,18 @@ def process_packet(packet, vendor_data):
         # Inserisci nel database
         conn = connect_db()
         if conn:
-            insert_into_db(conn, ip, mac, vendor)
+            insert_into_db(conn, id_scansione, ip, mac, vendor)
             conn.close()
 
 def main():
+    # Verifica che l'ID della scansione sia stato passato come argomento
+    if len(sys.argv) < 2:
+        print("Errore: è necessario fornire l'ID della scansione come argomento.")
+        return
+    
+    # Prendi l'ID della scansione dalla riga di comando
+    id_scansione = sys.argv[1]
+
     # Carica i dati del vendor dal file JSON
     vendor_data = load_vendor_data('mac-vendors-export.json')
 
@@ -112,7 +120,7 @@ def main():
     print("Sniffing ARP packets. Premere Ctrl+C per interrompere.")
     try:
         # Avvia lo sniffing sulla rete per pacchetti ARP
-        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data), store=False, timeout=60)
+        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=60)
     except KeyboardInterrupt:
         print("\nInterrotto dallo user.")
 
