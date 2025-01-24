@@ -109,16 +109,43 @@ def handle_client(client_socket):
             client_socket.send(b"Scansione registrata nel database.\n")
             print(f"Scelta scansione registrata nel database con ID: {id_scansione}")
 
-            # Se la scansione è "ARP_PASSIVA", lancia lo script scan-1.py con l'ID della scansione
-            if scelta_scansione == "ARP_PASSIVA":
-                try:
+            # Lancia il relativo script in base alla scelta
+            try:
+                if scelta_scansione == "ARP_PASSIVA":
                     subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
-                    print(f"Scansione ARP_PASSIVA finita per l'ID {id_scansione}")
-                except subprocess.CalledProcessError as e:
-                    print(f"Errore nell'esecuzione dello script scan-1.py: {e}")
-                    client_socket.send(b"Errore nell'esecuzione della scansione ARP_PASSIVA.\n")
-            else:
-                print("Scansione diversa da ARP_PASSIVA, nessuna esecuzione script.")
+                    print(f"Scansione ARP_PASSIVA avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "ARP_ATTIVA":
+                    subprocess.run(["python3", "scan/scan-2.py", "172.16.1.0/24", str(id_scansione)], check=True)
+                    print(f"Scansione ARP_ATTIVA avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "NMAP":
+                    subprocess.run(["python3", "scan/nmap.py", str(id_scansione)], check=True)
+                    print(f"Scansione NMAP avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "NBTSCAN":
+                    subprocess.run(["python3", "scan/NetBios.py", "172.16.1.0/24", str(id_scansione)], check=True)
+                    print(f"Scansione NBTSCAN avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "ENUM4LINUX":
+                    subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], check=True)
+                    print(f"Scansione ENUM4LINUX avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "SMBMAP":
+                    subprocess.run(["python3", "scan/smbmap.py", str(id_scansione)], check=True)
+                    print(f"Scansione SMBMAP avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "SMBCLIENT":
+                    subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], check=True)
+                    print(f"Scansione SMBCLIENT avviata per l'ID {id_scansione}")
+
+                elif scelta_scansione == "COMPLETA":
+                    subprocess.run(["python3", "scan/main.py", str(id_scansione)], check=True)
+                    print(f"Scansione COMPLETA avviata per l'ID {id_scansione}")
+
+            except subprocess.CalledProcessError as e:
+                print(f"Errore nell'esecuzione della scansione {scelta_scansione}: {e}")
+                client_socket.send(f"Errore nell'esecuzione della scansione {scelta_scansione}.\n".encode())
         else:
             client_socket.send(b"Errore nell'inserimento dei dati della scansione.\n")
 

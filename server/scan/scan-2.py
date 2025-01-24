@@ -37,23 +37,22 @@ def connect_db():
 def create_table(conn):
     with conn.cursor() as cursor:
         cursor.execute("""
-       		 CREATE TABLE IF NOT EXISTS tabella_host (
-            		id_scansione VARCHAR(255),
-            		ip VARCHAR(15),
-            		mac_address VARCHAR(17),
-            		time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            		vendor VARCHAR(255),
-            		tipo_scansione VARCHAR(255) DEFAULT NULL,
-            		PRIMARY KEY (id_scansione, mac_address)
-        );         
+        CREATE TABLE IF NOT EXISTS tabella_host (
+            id_scansione VARCHAR(255),
+            ip VARCHAR(15),
+            mac_address VARCHAR(17),
+            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            vendor VARCHAR(255),
+            tipo_scansione VARCHAR(255) DEFAULT NULL,
+            PRIMARY KEY (id_scansione, mac_address)
+        );
         """)
         conn.commit()
 
 # Funzione per inserire i dati nella tabella, solo se la coppia id_scansione e mac_address non esistono
-def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_ATTIVO"):
+def insert_into_db(conn, ip, mac, vendor, id_scansione, tipo_scansione="ARP_ATTIVO"):
     """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
     cursor = conn.cursor()
-    id_scansione = 777
     try:
         cursor.execute("""
             INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
@@ -65,7 +64,7 @@ def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_ATTIVO"):
         print(f"Errore nell'inserimento: {e}")
     cursor.close()
 
-def arp_scan(target_ip_range, vendor_data):
+def arp_scan(target_ip_range, vendor_data, id_scansione):
     arp_request = ARP(pdst=target_ip_range)
     broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
     arp_request_broadcast = broadcast/arp_request
@@ -86,7 +85,7 @@ def arp_scan(target_ip_range, vendor_data):
     
         conn = connect_db()
         if conn:
-            insert_into_db(conn, ip, mac, vendor)
+            insert_into_db(conn, ip, mac, vendor, id_scansione)
             conn.close()
             
         devices.append((ip, mac, vendor))
@@ -94,7 +93,7 @@ def arp_scan(target_ip_range, vendor_data):
     return devices
 
 # Funzione principale che esegue la scansione ARP (senza avviare Flask)
-def run_scan_directly(target_ip_range):
+def run_scan_directly(target_ip_range, id_scansione):
     vendor_data = load_vendor_data('mac-vendors-export.json')
     if not vendor_data:
         print("Impossibile caricare i dati del vendor")
@@ -105,7 +104,7 @@ def run_scan_directly(target_ip_range):
         create_table(conn)
         conn.close()
 
-    devices = arp_scan(target_ip_range, vendor_data)
+    devices = arp_scan(target_ip_range, vendor_data, id_scansione)
 
     if not devices:
         print("Nessun dispositivo trovato")
@@ -113,8 +112,9 @@ def run_scan_directly(target_ip_range):
         print(f"{len(devices)} dispositivi trovati")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 2:
         target_ip_range = sys.argv[1]
-        run_scan_directly(target_ip_range)  # Esegui la scansione direttamente
+        id_scansione = sys.argv[2]
+        run_scan_directly(target_ip_range, id_scansione)  # Esegui la scansione direttamente con id_scansione
     else:
-        print("Per favore, fornisci un intervallo IP come argomento.")
+        print("Per favore, fornisci un intervallo IP e un ID scansione come argomenti.")

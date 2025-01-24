@@ -3,6 +3,7 @@ from mysql.connector import Error
 import subprocess
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import sys
 
 # Dati per la connessione al database MariaDB
 DB_HOST = "localhost"
@@ -36,7 +37,7 @@ def create_table(conn):
         cursor = conn.cursor()
         create_table_query = """
         CREATE TABLE IF NOT EXISTS nmap (
-            id_scansione INT AUTO_INCREMENT PRIMARY KEY,
+            id_scansione INT,
             ip VARCHAR(45) DEFAULT NULL,
             timestamp TEXT,
             vendor VARCHAR(255) DEFAULT NULL,
@@ -57,9 +58,6 @@ def create_table(conn):
         print(f"Errore nella creazione della tabella: {e}")
     finally:
         cursor.close()
-
-# Parsing dei risultati XML di Nmap
-from datetime import datetime
 
 # Parsing dei risultati XML di Nmap
 def parse_nmap_output(xml_path):
@@ -139,17 +137,17 @@ def parse_nmap_output(xml_path):
         return []
 
 # Inserimento dei dati nel database
-def insert_data(conn, data):
+def insert_data(conn, data, id_scansione):
     """Inserisce i dati nella tabella `nmap`."""
     try:
         cursor = conn.cursor()
         insert_query = """
         INSERT INTO nmap (
-            ip, timestamp, vendor, hostname, extraports_count, extraports_state,
+            id_scansione, ip, timestamp, vendor, hostname, extraports_count, extraports_state,
             port_id, port_script_id, port_state, port_script_output, port_service_name
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
-        cursor.execute(insert_query, data)
+        cursor.execute(insert_query, (id_scansione, *data))
         conn.commit()
     except Error as e:
         print(f"Errore nell'inserimento dei dati: {e}")
@@ -167,6 +165,12 @@ def scan_network(target, output_file="scan.xml"):
 
 # Main
 def main():
+    if len(sys.argv) != 2:
+        print("Uso: python script.py <id_scansione>")
+        sys.exit(1)
+
+    id_scansione = sys.argv[1]
+
     conn = connect_db()
     if conn is None:
         return
@@ -179,7 +183,7 @@ def main():
 
     # Analizza i risultati e inserisci i dati nel database
     for data in parse_nmap_output(output_file):
-        insert_data(conn, data)
+        insert_data(conn, data, id_scansione)
 
     conn.close()
 

@@ -1,6 +1,7 @@
 import subprocess
 import re
 import mysql.connector
+import argparse
 
 # Dati per la connessione al database MariaDB
 DB_HOST = "localhost"
@@ -27,7 +28,7 @@ def create_table_if_not_exists(connection):
     """
     query = """
     CREATE TABLE IF NOT EXISTS smbclient (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_scansione VARCHAR(255) NOT NULL,
         ip VARCHAR(15) NOT NULL,
         login_anonimo VARCHAR(20) NOT NULL
     )
@@ -52,7 +53,6 @@ def parse_nbtscan(file_path):
             if len(parts) > 0:
                 ip = parts[0]  # L'indirizzo IP è nella prima colonna
                 ip_list.append(ip)
-
     return ip_list
 
 def run_smbclient_scan(ip):
@@ -81,19 +81,19 @@ def parse_scan_output(ip, output):
     else:
         return "unknown"
 
-def save_results_to_db(results, connection):
+def save_results_to_db(results, connection, id_scansione):
     """
-    Salva i risultati nel database.
+    Salva i risultati nel database, includendo l'id_scansione.
     """
     cursor = connection.cursor()
     insert_query = """
-    INSERT INTO smbclient (ip, login_anonimo) VALUES (%s, %s)
+    INSERT INTO smbclient (id_scansione, ip, login_anonimo) VALUES (%s, %s, %s)
     """
     for ip, login_anonimo in results.items():
-        cursor.execute(insert_query, (ip, login_anonimo))
+        cursor.execute(insert_query, (id_scansione, ip, login_anonimo))
     connection.commit()
 
-def main(input_file):
+def main(input_file, id_scansione):
     """
     Funzione principale che esegue la scansione SMB e salva i risultati nel database.
     """
@@ -103,7 +103,6 @@ def main(input_file):
 
     ips = parse_nbtscan(input_file)
     results = {}
-
     for ip in ips:
         print(f"Scansionando {ip}...")
         output = run_smbclient_scan(ip)
@@ -111,14 +110,19 @@ def main(input_file):
         results[ip] = login_anonimo
         print(f"Risultato per {ip}: {login_anonimo}")
 
-    save_results_to_db(results, connection)
+    save_results_to_db(results, connection, id_scansione)
     print("Scansione completata. I risultati sono stati salvati nel database.")
 
     # Chiudi la connessione al database
     connection.close()
 
-# Specifica il file di input
-input_file = 'nbtscan.txt'
+# Impostazione dell'argomento della riga di comando
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Esegui la scansione SMB e salva i risultati nel database")
+    parser.add_argument("id_scansione", help="ID della scansione da inserire nel database")
+    args = parser.parse_args()
 
-# Esegui lo script
-main(input_file)
+    input_file = 'nbtscan.txt'
+
+    # Esegui lo script con gli argomenti passati
+    main(input_file, args.id_scansione)

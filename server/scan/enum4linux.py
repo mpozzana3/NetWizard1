@@ -2,6 +2,7 @@ import subprocess
 import json
 import os
 import mysql.connector
+import argparse
 
 # Dati per la connessione al database MariaDB
 DB_HOST = "localhost"  # Host del database
@@ -20,9 +21,29 @@ def connect_to_db():
         collation="utf8mb4_general_ci"
     )
 
+# Funzione per creare la tabella enum4linux se non esiste
+def create_enum4linux_table(connection):
+    cursor = connection.cursor()
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS enum4linux (
+        id_scansione VARCHAR(255) NOT NULL,
+        host VARCHAR(15),
+        credentials TEXT,
+        listeners TEXT,
+        domain TEXT,
+        nmblookup TEXT,
+        errors TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id_scansione, host)
+    );
+    """
+    cursor.execute(create_table_query)
+    connection.commit()
+    cursor.close()
+
 # Funzione per eseguire enum4linux-ng e salvare i risultati nel database e nel file
-def run_enum4linux(ip, output_file, connection):
-    command = f"python3 enum4linux-ng/enum4linux-ng.py -A {ip} -oJ temp_output"
+def run_enum4linux(ip, output_file, connection, id_scansione):
+    command = f"python3 scan/enum4linux-ng/enum4linux-ng.py -A {ip} -oJ temp_output"
     subprocess.run(command, shell=True)
 
     # Verifica se il file JSON di output esiste
@@ -62,13 +83,13 @@ def run_enum4linux(ip, output_file, connection):
         # Per nmblookup, se domain c'è, stampa "more info", altrimenti "null"
         nmblookup_str = "more info" if domain else "null"
 
-        # Inserisci i dati nel database
+        # Inserisci i dati nel database, aggiungendo anche l'id_scansione
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO enum4linux (host, credentials, listeners, domain, nmblookup, errors)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO enum4linux (id_scansione, host, credentials, listeners, domain, nmblookup, errors)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(insert_query, (ip, credentials, listeners, domain_str, nmblookup_str, errors_str))
+        cursor.execute(insert_query, (id_scansione, ip, credentials, listeners, domain_str, nmblookup_str, errors_str))
         connection.commit()
 
         # Scrivi i dati nel file di output, aggiungendo nuovi risultati
@@ -81,12 +102,19 @@ def run_enum4linux(ip, output_file, connection):
 
 # Funzione principale
 def main():
+    # Parsing degli argomenti dalla riga di comando
+    parser = argparse.ArgumentParser(description="Esegui una scansione Enum4Linux e inserisci i dati nel database MariaDB.")
+    parser.add_argument("id_scansione", help="ID della scansione da associare ai dati.")
+    args = parser.parse_args()
+
     output_file = "output_combined.json"  # Nome del file di output finale
     with open('nbtscan.txt', 'r') as file:
         lines = file.readlines()
 
     # Connetti al database
     connection = connect_to_db()
+    create_enum4linux_table(connection)
+
 
     # Itera su ogni linea e esegui enum4linux-ng per ogni IP
     for line in lines:
@@ -95,7 +123,7 @@ def main():
         if len(parts) > 0:
             ip_address = parts[0]  # L'indirizzo IP è nella prima colonna
             # Esegui il comando enum4linux-ng e salva i dati nel database
-            run_enum4linux(ip_address, output_file, connection)
+            run_enum4linux(ip_address, output_file, connection, args.id_scansione)
 
     # Chiudi la connessione al database
     connection.close()
