@@ -51,12 +51,11 @@ def insert_data(cursor, ip_address, netbios_name, server, user, mac_address):
     except Error as e:
         print(f"Errore durante l'inserimento dei dati: {e}")
 
-# Funzione per eseguire nbtscan e processare i risultati
 def run_nbtscan(ip_range):
     print("Inizio scansione...")
 
-    # Esegui il comando nbtscan e salva l'output nel file
-    command = f"nbtscan -r {ip_range} | tee nbtscan.txt"
+    # Esegui il comando nbtscan
+    command = f"nbtscan -s § {ip_range} | tee nbtscan.txt"
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     # Leggi l'output e processa i risultati
@@ -67,9 +66,9 @@ def run_nbtscan(ip_range):
 
     print("Fine scansione.")
 
-    # Estrai i dati dall'output
-    pattern = re.compile(r"(\d+\.\d+\.\d+\.\d+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)")
-    matches = pattern.findall(output.decode())
+    # Splitta l'output in righe e ignora eventuali righe vuote
+    lines = output.decode().strip().split("\n")
+    results = [line.split("§") for line in lines if line.strip()]
 
     # Connessione al database
     connection, cursor = connect_to_db()
@@ -77,14 +76,25 @@ def run_nbtscan(ip_range):
         return
 
     # Inserisci i dati nel database
-    for match in matches:
-        ip_address, netbios_name, server, user, mac_address = match
+    for result in results:
+        # Completa la lista con stringhe vuote se necessario
+        result = [field.strip() for field in result]
+        while len(result) < 5:
+            result.append("<unknown>")
+
+        ip_address = result[0]
+        netbios_name = result[1] if result[1] else "<unknown>"
+        server = result[2] if result[2] else "<unknown>"
+        user = result[3] if result[3] else "<unknown>"
+        mac_address = result[4] if result[4] else "<unknown>"
+
         insert_data(cursor, ip_address, netbios_name, server, user, mac_address)
 
     # Commit e chiusura della connessione
     connection.commit()
     cursor.close()
     connection.close()
+
 
 if __name__ == "__main__":
     # Parsing dell'argomento IP range dalla riga di comando

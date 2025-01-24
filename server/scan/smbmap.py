@@ -7,18 +7,21 @@ from datetime import datetime
 
 def parse_nbtscan(file_path):
     """
-    Legge il file nbtscan.txt ed estrae gli indirizzi IP.
+    Legge il file nbtscan.txt ed estrae gli indirizzi IP dal nuovo formato.
     """
     ip_list = []
     with open(file_path, 'r') as f:
         lines = f.readlines()
 
     for line in lines:
-        # Salta le righe che non contengono indirizzi IP
-        if line.strip() and line[0].isdigit():
-            ip = line.split()[0]  # Estrai il primo elemento della riga (IP address)
-            ip_list.append(ip)
-    
+        # Salta le righe vuote e quelle che non contengono indirizzi IP
+        if line.strip():
+            # Splitta la riga usando il delimitatore '§'
+            parts = line.split('§')
+            if len(parts) > 0:
+                ip = parts[0]  # L'indirizzo IP è nella prima colonna
+                ip_list.append(ip)
+
     return ip_list
 
 def run_smbmap(ip_list, output_file):

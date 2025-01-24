@@ -1,65 +1,124 @@
 import subprocess
 import re
+import mysql.connector
 
-def get_ips_from_file(filename):
+# Dati per la connessione al database MariaDB
+DB_HOST = "localhost"
+DB_NAME = "test"
+DB_USER = "root"
+DB_PASS = "nuova_password"
+
+def connect_to_db():
     """
-    Legge il file e restituisce una lista di IP.
+    Connessione a MariaDB.
     """
-    ips = []
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            # Estrai solo gli IP dalle righe che contengono l'indirizzo IP
-            match = re.match(r"(\d+\.\d+\.\d+\.\d+)", line)
-            if match:
-                ips.append(match.group(1))
-    return ips
+    return mysql.connector.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        charset="utf8mb4",
+        collation="utf8mb4_general_ci"
+    )
+
+def create_table_if_not_exists(connection):
+    """
+    Crea la tabella 'smbclient' se non esiste.
+    """
+    query = """
+    CREATE TABLE IF NOT EXISTS smbclient (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        ip VARCHAR(15) NOT NULL,
+        login_anonimo VARCHAR(20) NOT NULL
+    )
+    """
+    cursor = connection.cursor()
+    cursor.execute(query)
+    connection.commit()
+
+def parse_nbtscan(file_path):
+    """
+    Legge il file nbtscan.txt ed estrae gli indirizzi IP dal nuovo formato.
+    """
+    ip_list = []
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
+
+    for line in lines:
+        # Salta le righe vuote e quelle che non contengono indirizzi IP
+        if line.strip():
+            # Splitta la riga usando il delimitatore '§'
+            parts = line.split('§')
+            if len(parts) > 0:
+                ip = parts[0]  # L'indirizzo IP è nella prima colonna
+                ip_list.append(ip)
+
+    return ip_list
 
 def run_smbclient_scan(ip):
     """
     Esegue il comando smbclient -L su un IP e restituisce l'output.
     """
     try:
-        # Usa -N per il login anonimo (senza password)
         result = subprocess.run(['smbclient', '-L', f'\\\\{ip}', '-N'], capture_output=True, text=True, timeout=60)
         if result.returncode == 0:
             return result.stdout
         else:
-            return f"session setup failed: {result.stderr.strip()}"
+            return f"Errore sconosciuto per {ip}: {result.stderr.strip()}"
     except subprocess.TimeoutExpired:
-        return f"session setup failed: timed out after 60 seconds"
+        return f"Errore sconosciuto per {ip}: timed out after 60 seconds"
     except Exception as e:
-        return f"session setup failed: {str(e)}"
+        return f"Errore sconosciuto per {ip}: {str(e)}"
 
-def save_output(results, output_filename):
+def parse_scan_output(ip, output):
     """
-    Salva i risultati in un file di testo nel formato richiesto.
+    Analizza l'output della scansione e determina lo stato del login anonimo.
     """
-    with open(output_filename, 'w') as file:
-        for ip, output in results.items():
-            file.write(f"Risultato per IP: {ip}\n")
-            file.write(f"{output}\n")
-            file.write("\n" + "="*50 + "\n")
+    if "Anonymous login successful" in output:
+        return "success"
+    elif "session setup failed" in output or "Errore sconosciuto" in output:
+        return "failure"
+    else:
+        return "unknown"
 
-def main(input_file, output_file):
+def save_results_to_db(results, connection):
     """
-    Funzione principale che esegue la scansione SMB per ogni IP e salva i risultati.
+    Salva i risultati nel database.
     """
-    ips = get_ips_from_file(input_file)
+    cursor = connection.cursor()
+    insert_query = """
+    INSERT INTO smbclient (ip, login_anonimo) VALUES (%s, %s)
+    """
+    for ip, login_anonimo in results.items():
+        cursor.execute(insert_query, (ip, login_anonimo))
+    connection.commit()
+
+def main(input_file):
+    """
+    Funzione principale che esegue la scansione SMB e salva i risultati nel database.
+    """
+    # Connetti al database
+    connection = connect_to_db()
+    create_table_if_not_exists(connection)
+
+    ips = parse_nbtscan(input_file)
     results = {}
-    
+
     for ip in ips:
         print(f"Scansionando {ip}...")
         output = run_smbclient_scan(ip)
-        results[ip] = output
-    
-    save_output(results, output_file)
-    print(f"Scansione completata. I risultati sono stati salvati in {output_file}")
+        login_anonimo = parse_scan_output(ip, output)
+        results[ip] = login_anonimo
+        print(f"Risultato per {ip}: {login_anonimo}")
 
-# Specifica il file di input e il file di output
+    save_results_to_db(results, connection)
+    print("Scansione completata. I risultati sono stati salvati nel database.")
+
+    # Chiudi la connessione al database
+    connection.close()
+
+# Specifica il file di input
 input_file = 'nbtscan.txt'
-output_file = 'testsmbc.txt'
 
 # Esegui lo script
-main(input_file, output_file)
-
+main(input_file)

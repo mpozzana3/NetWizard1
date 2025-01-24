@@ -90,9 +90,10 @@ def main():
 
     # Itera su ogni linea e esegui enum4linux-ng per ogni IP
     for line in lines:
-        parts = line.split()
+        # Splitta la linea usando '§' come delimitatore
+        parts = line.split('§')
         if len(parts) > 0:
-            ip_address = parts[0]
+            ip_address = parts[0]  # L'indirizzo IP è nella prima colonna
             # Esegui il comando enum4linux-ng e salva i dati nel database
             run_enum4linux(ip_address, output_file, connection)
 

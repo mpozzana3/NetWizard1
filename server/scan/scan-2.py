@@ -57,7 +57,7 @@ def create_table(conn):
 def insert_into_db(conn, ip, mac, vendor, tipo_scansione="ARP_ATTIVO"):
     """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
     cursor = conn.cursor()
-    id_scansione = str(random.randint(100000, 999999))  # ID scansione random
+    id_scansione = 777
     try:
         cursor.execute("""
             INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
