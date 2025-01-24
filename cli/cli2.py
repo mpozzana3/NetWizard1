@@ -2,7 +2,7 @@ import socket
 
 # Configurazione del client socket
 HOST = "localhost"  # Indirizzo del server
-PORT = 5003  # Porta del server
+PORT = 12345  # Porta del server
 
 def start_cli():
     """Avvia la CLI e comunica con il server."""

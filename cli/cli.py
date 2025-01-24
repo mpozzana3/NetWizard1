@@ -1,141 +1,55 @@
-import click
-import requests
+import socket
 
-# Funzione per inviare un comando di scansione ARP al server
-def start_scan_on_server():
-    """Invia il comando di avvio della scansione ARP al server."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": "start-scan",
-        "args": []
-    }
-    response = requests.post(url, json=data)
+# Parametri del server
+HOST = '127.0.0.1'  # Indirizzo IP del server (localhost per test)
+PORT = 12345         # Porta di connessione
 
-    if response.status_code == 200:
-        print("Scansione ARP avviata con successo.")
-        print(f"Risultati: {response.json().get('result')}")
-    else:
-        print(f"Errore nell'avvio della scansione ARP: {response.json().get('error', 'Errore sconosciuto')}")
+def start_client():
+    """Avvia la CLI del client e comunica con il server."""
+    # Crea un socket per connettersi al server
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect((HOST, PORT))
 
-# Funzione per inviare un comando di scansione ARP con intervallo IP al server
-def start_scan2_on_server(ip_range):
-    """Invia il comando di avvio della scansione ARP con intervallo IP al server."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": "start-scan2",
-        "args": [ip_range]  # Passa l'intervallo IP come argomento
-    }
-    response = requests.post(url, json=data)
+    while True:
+        # Ricevi il messaggio dal server
+        server_message = client_socket.recv(1024).decode()
+        print(server_message)
 
-    if response.status_code == 200:
-        print("Scansione ARP con scan-2.py avviata con successo.")
-        print(f"Risultati: {response.json().get('result')}")
-    else:
-        print(f"Errore nell'avvio della scansione ARP: {response.json().get('error', 'Errore sconosciuto')}")
+        # Inserisci la scelta dell'utente
+        scelta = input("Inserisci la tua scelta (1 o 2): ")
 
-# Funzione per inviare il comando NMAP al server
-def start_nmap_scan_on_server(ip_range):
-    """Invia il comando NMAP al server."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": "start-nmap-scan",
-        "args": [ip_range]  # Passa l'intervallo IP come argomento
-    }
-    response = requests.post(url, json=data)
+        # Controlla che la scelta sia valida
+        while scelta not in {"1", "2"}:
+            print("Scelta non valida. Riprova.")
+            scelta = input("Scegli il tipo di scansione (1 o 2): ")
+        client_socket.send(scelta.encode())
 
-    if response.status_code == 200:
-        print(f"Scansione NMAP avviata per {ip_range}.")
-        print(f"Risultati: {response.json().get('result')}")
-    else:
-        print(f"Errore nell'avvio della scansione NMAP: {response.json().get('error', 'Errore sconosciuto')}")
+        # Se l'utente ha scelto Scansioni
+        if scelta == "1":
+            response = client_socket.recv(1024).decode()
+            print(response)
+            
+            # Chiedi al client il nome dell'azienda e la P.IVA
+            azienda = input("Inserisci il nome dell'azienda: ")
+            p_iva = input("Inserisci la P.IVA dell'azienda: ")
 
-# Funzione per eseguire comandi nel server
-def execute_command(command, args):
-    """Invia un comando al server per l'esecuzione."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": command,
-        "args": args
-    }
+            # Invia i dati al server
+            client_socket.send(azienda.encode())
+            client_socket.send(p_iva.encode())
 
-    try:
-        response = requests.post(url, json=data)
-        if response.status_code == 200:
-            print(f"Risultato: {response.json().get('result')}")
-        else:
-            print(f"Errore: {response.json().get('error')}")
-    except requests.exceptions.RequestException as e:
-        print(f"Errore di connessione: {e}")
+            # Ricevi la risposta dal server
+            response = client_socket.recv(1024).decode()
+            print(response)
 
-# Funzione per inviare il comando "start" al server
-def start_command_on_server():
-    """Invia il comando di avvio al server e richiede azienda e P.IVA."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": "start",
-        "args": []
-    }
-    response = requests.post(url, json=data)
+        # Se l'utente ha scelto Analisi DB
+        elif scelta == "2":
+            response = client_socket.recv(1024).decode()
+            print(response)
 
-    if response.status_code == 200:
-        print(response.json().get('result'))
-        azienda = input("Inserisci il nome dell'azienda: ")
-        piva = input("Inserisci la P.IVA: ")
-        print(f"Azienda: {azienda}, P.IVA: {piva}")
-    else:
-        print(f"Errore nel comando: {response.json().get('error')}")
+        break  # Esci dopo la risposta
 
-
-@click.group()
-def cli():
-    """CLI per gestire la scansione e l'esecuzione di comandi sul server."""
-    pass
-
-@cli.command()
-@click.argument('command')
-@click.argument('args', nargs=-1)
-def execute(command, args):
-    """Esegui un comando sul server."""
-    execute_command(command, args)
-
-@cli.command()
-def start_scan():
-    """Avvia la scansione ARP sulla rete del server."""
-    start_scan_on_server()
-
-@cli.command()
-@click.argument('ip_range', required=True)
-def start_scan2(ip_range):
-    """Avvia la scansione ARP con scan-2.py per un intervallo IP specifico."""
-    start_scan2_on_server(ip_range)
-
-@cli.command()
-@click.argument('ip_range', required=True)
-def start_nmap(ip_range):
-    """Avvia la scansione NMAP per l'intervallo IP specificato."""
-    start_nmap_scan_on_server(ip_range)
-
-@cli.command()
-@click.argument('ip_range', required=True)
-def start_scan_completa(ip_range):
-    """Esegue tutte le scansioni (ARP, ARP con intervallo, NMAP) in sequenza."""
-    url = "http://localhost:5001/execute"
-    data = {
-        "command": "start-scan-completa",
-        "args": [ip_range]
-    }
-    response = requests.post(url, json=data)
-
-    if response.status_code == 200:
-        print("Scansioni complete eseguite con successo.")
-        print(f"Risultati: {response.json().get('result')}")
-    else:
-        print(f"Errore durante l'esecuzione delle scansioni complete: {response.json().get('error', 'Errore sconosciuto')}")
-
-@cli.command()
-def start():
-    """Inizia la connessione con il server e richiede azienda e P.IVA."""
-    start_command_on_server()
+    # Chiudi la connessione
+    client_socket.close()
 
 if __name__ == "__main__":
-    cli()
+    start_client()

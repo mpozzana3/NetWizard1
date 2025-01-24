@@ -3,16 +3,12 @@ import mysql.connector
 from scapy.all import ARP, Ether, srp
 import json
 from macaddress import get_mac_vendor
-from flask import Flask, request, jsonify
-import random
 
 # Dati per la connessione al database PostgreSQL
 DB_HOST = "localhost"
 DB_NAME = "test"
 DB_USER = "root"
 DB_PASS = "nuova_password"
-
-app = Flask(__name__)
 
 def load_vendor_data(json_file):
     try:
@@ -97,31 +93,6 @@ def arp_scan(target_ip_range, vendor_data):
             
     return devices
 
-# Funzione per avviare la scansione ARP tramite API Flask
-@app.route("/start_scan", methods=["POST"])
-def start_scan():
-    data = request.json
-    target_ip_range = data.get("ip_range")
-
-    if not target_ip_range:
-        return jsonify({"error": "Intervallo IP mancante"}), 400
-        
-    vendor_data = load_vendor_data('mac-vendors-export.json')
-    if not vendor_data:
-        return jsonify({"error": "Impossibile caricare i dati del vendor"}), 500
-                
-    conn = connect_db()
-    if conn:
-        create_table(conn)
-        conn.close()
-        
-    devices = arp_scan(target_ip_range, vendor_data)
-
-    if not devices:
-        return jsonify({"message": "Nessun dispositivo trovato"}), 200
-    else:
-        return jsonify({"devices": devices}), 200
-
 # Funzione principale che esegue la scansione ARP (senza avviare Flask)
 def run_scan_directly(target_ip_range):
     vendor_data = load_vendor_data('mac-vendors-export.json')
@@ -146,5 +117,4 @@ if __name__ == "__main__":
         target_ip_range = sys.argv[1]
         run_scan_directly(target_ip_range)  # Esegui la scansione direttamente
     else:
-        app.run(host="0.0.0.0", port=5002)  # Avvia il server Flask per l'API
-
+        print("Per favore, fornisci un intervallo IP come argomento.")
