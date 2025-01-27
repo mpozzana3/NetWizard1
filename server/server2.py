@@ -1,6 +1,5 @@
 import socket
 import subprocess
-import datetime
 import mysql.connector
 
 # Dati per la connessione al database MariaDB
@@ -14,6 +13,7 @@ HOST = "0.0.0.0"  # Ascolta su tutte le interfacce di rete
 PORT = 5003  # Porta per la comunicazione
 P_IVA = "IT12345679810"
 AZIENDA = "GFTECH"
+
 
 def connect_db():
     """Crea una connessione al database MariaDB."""
@@ -31,6 +31,7 @@ def connect_db():
         print(f"Errore nella connessione al database: {e}")
         return None
 
+
 def create_table_if_not_exists():
     """Crea la tabella se non esiste già."""
     conn = connect_db()
@@ -43,15 +44,13 @@ def create_table_if_not_exists():
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 tipo_scansione VARCHAR(255) NOT NULL,
                 stato INT NOT NULL,
-	  	FOREIGN KEY (p_iva) REFERENCES aziende(p_iva) ON DELETE CASCADE
+                FOREIGN KEY (p_iva) REFERENCES aziende(p_iva) ON DELETE CASCADE
             );
         """)
         conn.commit()
         cursor.close()
         conn.close()
 
-
-import subprocess
 
 def insert_scansioni(tipo_scansione):
     """Inserisce i dati della scansione nella tabella scansioni e restituisce l'ID della scansione."""
@@ -76,6 +75,28 @@ def insert_scansioni(tipo_scansione):
             conn.close()
             return None
     return None
+
+
+def update_stato_scansione(id_scansione):
+    """Aggiorna lo stato della scansione a COMPLETATA (0)."""
+    conn = connect_db()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                UPDATE scansioni
+                SET stato = %s
+                WHERE id_scansione = %s
+            """, (0, id_scansione))  # Stato "COMPLETATA" = 0
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"Stato della scansione con ID {id_scansione} aggiornato a COMPLETATA.")
+        except mysql.connector.Error as e:
+            print(f"Errore nell'aggiornamento dello stato della scansione: {e}")
+            cursor.close()
+            conn.close()
+
 
 def handle_client(client_socket):
     """Gestisce la comunicazione con il client."""
@@ -108,60 +129,48 @@ def handle_client(client_socket):
         if id_scansione:
             client_socket.send(b"Scansione registrata nel database.\n")
             print(f"Scelta scansione registrata nel database con ID: {id_scansione}")
-
-            # Lancia il relativo script in base alla scelta
-            try:
-                if scelta_scansione == "ARP_PASSIVA":
-                    subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
-                    print(f"Scansione ARP_PASSIVA terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione ARP_PASSIVA terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "ARP_ATTIVA":
-                    subprocess.run(["python3", "scan/scan-2.py", "172.16.1.0/24", str(id_scansione)], check=True)
-                    print(f"Scansione ARP_ATTIVA terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione ARP_ATTIVA terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "NMAP":
-                    subprocess.run(["python3", "scan/nmap.py", str(id_scansione)], check=True)
-                    print(f"Scansione NMAP terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione NMAP terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "NBTSCAN":
-                    subprocess.run(["python3", "scan/NetBios.py", "172.16.1.0/24", str(id_scansione)], check=True)
-                    print(f"Scansione NBTSCAN terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione NBTSCAN terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "ENUM4LINUX":
-                    subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], check=True)
-                    print(f"Scansione ENUM4LINUX terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione ENUM4LINUX terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "SMBMAP":
-                    subprocess.run(["python3", "scan/smbmap.py", str(id_scansione)], check=True)
-                    print(f"Scansione SMBMAP terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione SMBMAP terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "SMBCLIENT":
-                    subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], check=True)
-                    print(f"Scansione SMBCLIENT terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione SMBCLIENT terminata per l'ID {id_scansione}.\n".encode())
-
-                elif scelta_scansione == "COMPLETA":
-                    subprocess.run(["python3", "scan/main.py", str(id_scansione)], check=True)
-                    print(f"Scansione COMPLETA terminata per l'ID {id_scansione}")
-                    client_socket.send(f"Scansione COMPLETA terminata per l'ID {id_scansione}.\n".encode())
-
-            except subprocess.CalledProcessError as e:
-                print(f"Errore nell'esecuzione della scansione {scelta_scansione}: {e}")
-                client_socket.send(f"Errore nell'esecuzione della scansione {scelta_scansione}.\n".encode())
+            print(f"Lancio una scansione {scelta_scansione} con l'ID: {id_scansione}")
         else:
+            print(f"Errore nell'inserimento della scansione per {scelta_scansione}")
             client_socket.send(b"Errore nell'inserimento dei dati della scansione.\n")
+            client_socket.close()
+            print("Ho chiuso la connessione.")
+            return  # or break if you want to exit the loop
+
+        # Lancia il relativo script in base alla scelta
+        try:
+            if scelta_scansione == "ARP_PASSIVA":
+                subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "ARP_ATTIVA":
+                subprocess.run(["python3", "scan/scan-2.py", "172.16.1.0/24", str(id_scansione)], check=True)
+            elif scelta_scansione == "NMAP":
+                subprocess.run(["python3", "scan/nmap.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "NBTSCAN":
+                subprocess.run(["python3", "scan/NetBios.py", "172.16.1.0/24", str(id_scansione)], check=True)
+            elif scelta_scansione == "ENUM4LINUX":
+                subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "SMBMAP":
+                subprocess.run(["python3", "scan/smbmap.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "SMBCLIENT":
+                subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "COMPLETA":
+                subprocess.run(["python3", "scan/main.py", str(id_scansione)], check=True)
+
+            # Aggiorna lo stato della scansione a COMPLETATA
+            update_stato_scansione(id_scansione)
+            print(f"Scansione {scelta_scansione} terminata per l'ID {id_scansione}")
+            client_socket.send(f"Scansione {scelta_scansione} terminata per l'ID {id_scansione}.\n".encode())
+
+        except subprocess.CalledProcessError as e:
+            print(f"Errore nell'esecuzione della scansione {scelta_scansione}: {e}")
+            client_socket.send(f"Errore nell'esecuzione della scansione {scelta_scansione}.\n".encode())
 
         # Chiudi la connessione
         client_socket.close()
         print("Ho chiuso la connessione.")
-        break
- 
+        break  # Exit the while loop
+
+
 def start_server():
     """Avvia il server per l'ascolto delle connessioni dei client."""
     create_table_if_not_exists()  # Crea la tabella nel DB se non esiste già
@@ -180,6 +189,7 @@ def start_server():
 
         # Gestisce la comunicazione con il client
         handle_client(client_socket)
+
 
 if __name__ == "__main__":
     start_server()
