@@ -27,8 +27,12 @@ def start_client(server_ip, server_port):
             response = client_socket.recv(1024).decode()
             print(response)
 
+            # Ricevi la risposta dal server
+            response = client_socket.recv(1024).decode()
+            print(response)
+
             # Interrompi la comunicazione dopo una scansione
-            if "Scansione registrata" in response or "Errore" in response:
+            if "Scansione " in response or "Errore" in response:
                 print("Chiudo la connessione.")
                 break
 
