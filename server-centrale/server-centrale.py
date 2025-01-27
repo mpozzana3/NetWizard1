@@ -1,6 +1,8 @@
 import socket
 import mysql.connector
 from mysql.connector import Error
+import subprocess
+
 
 # Parametri del server
 HOST = '127.0.0.1'  # Indirizzo IP del server (localhost per test)
@@ -66,21 +68,28 @@ def handle_client(client_socket):
 
                 # Recupera i risultati della query
                 result = cursor.fetchone()
-                
+
                 if result:
                     ip_sonda, porta_sonda = result
                     response = f"IP della sonda: {ip_sonda}, Porta della sonda: {porta_sonda}"
                 else:
                     response = "Azienda non ancora inserita in DB."
-                    
+
                 # Invia la risposta al client
                 client_socket.send(response.encode())
                 cursor.close()
                 db_connection.close()
 
         elif client_choice == '2':
-            response = "Hai scelto Analisi DB."
+            response = "Hai scelto Analisi DB. Verrà avviata l'interfaccia di analisi del database."
             client_socket.send(response.encode())
+
+            # Avvia mariadb_cli.py come sottoprocesso
+            try:
+                subprocess.run(["python3", "mariadbquery.py"])
+            except Exception as e:
+                print(f"Errore durante l'avvio di mariadb_cli.py: {e}")
+                client_socket.send("Errore durante l'avvio dell'interfaccia di analisi.".encode())
 
         else:
             response = "Scelta non valida."

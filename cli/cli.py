@@ -21,7 +21,7 @@ def start_client():
         # Controlla che la scelta sia valida
         while scelta not in {"1", "2"}:
             print("Scelta non valida. Riprova.")
-            scelta = input("Scegli il tipo di scansione (1 o 2): ")
+            scelta = input("Scegli il tipo di operazione (1 o 2): ")
         client_socket.send(scelta.encode())
 
         # Se l'utente ha scelto Scansioni
