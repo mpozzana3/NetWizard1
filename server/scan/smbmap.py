@@ -14,12 +14,10 @@ def parse_nbtscan(file_path):
         lines = f.readlines()
 
     for line in lines:
-        # Salta le righe vuote e quelle che non contengono indirizzi IP
         if line.strip():
-            # Splitta la riga usando il delimitatore '§'
             parts = line.split('§')
             if len(parts) > 0:
-                ip = parts[0]  # L'indirizzo IP è nella prima colonna
+                ip = parts[0]
                 ip_list.append(ip)
 
     return ip_list
@@ -30,26 +28,20 @@ def run_smbmap(ip_list, output_file):
     """
     with open(output_file, 'w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(["IP", "Output"])  # Intestazione CSV
+        csvwriter.writerow(["IP", "Output"])
 
         for ip in ip_list:
             print(f"Eseguo smbmap per l'IP: {ip}")
             try:
-                # Esegui il comando smbmap con sudo
                 result = subprocess.run(
                     ["smbmap", "-H", ip, "--csv", "temp_smbmap.csv"],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True
                 )
-                
-                # Verifica se l'esecuzione è riuscita
                 if result.returncode == 0:
-                    # Leggi il file CSV temporaneo generato da smbmap
                     with open("temp_smbmap.csv", 'r') as temp_csv:
                         output = temp_csv.read()
-                    
-                    # Scrivi il risultato nel CSV finale
                     csvwriter.writerow([ip, output])
                 else:
                     print(f"Errore con smbmap per l'IP {ip}: {result.stderr}")
@@ -58,7 +50,6 @@ def run_smbmap(ip_list, output_file):
                 print(f"Errore durante l'esecuzione per l'IP {ip}: {e}")
                 csvwriter.writerow([ip, f"Errore: {str(e)}"])
 
-    # Rimuovi il file temporaneo se esiste
     if os.path.exists("temp_smbmap.csv"):
         os.remove("temp_smbmap.csv")
 
@@ -69,10 +60,10 @@ def connect_to_db():
     try:
         connection = mysql.connector.connect(
             host="localhost",
-            user="root",  # Cambia con il tuo utente
+            user="root",
             password="nuova_password",
-            database="test",  
-	    charset="utf8mb4",
+            database="test",
+            charset="utf8mb4",
             collation="utf8mb4_general_ci"
         )
         if connection.is_connected():
@@ -88,12 +79,13 @@ def create_table_if_not_exists(connection):
     """
     create_table_query = """
     CREATE TABLE IF NOT EXISTS smbmap (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_scansione INT NOT NULL,
         Host VARCHAR(255) NOT NULL,
         Share VARCHAR(255),
         Privs VARCHAR(255),
         Comment TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id_scansione, Host, Share)
     );
     """
     cursor = connection.cursor()
@@ -101,14 +93,14 @@ def create_table_if_not_exists(connection):
     connection.commit()
     print("Tabella smbmap verificata o creata con successo.")
 
-def insert_data_from_csv(connection, csv_file):
+def insert_data_from_csv(connection, csv_file, id_scansione):
     """
     Inserisce i dati dal file smbmap.csv nella tabella smbmap.
     """
     with open(csv_file, 'r') as csvfile:
         csvreader = csv.reader(csvfile)
-        next(csvreader)  # Salta l'intestazione
-        
+        next(csvreader)
+
         cursor = connection.cursor()
         for row in csvreader:
             ip, output = row
@@ -121,32 +113,36 @@ def insert_data_from_csv(connection, csv_file):
                         timestamp = datetime.now()
                         cursor.execute(
                             """
-                            INSERT INTO smbmap (Host, Share, Privs, Comment, timestamp)
-                            VALUES (%s, %s, %s, %s, %s);
+                            INSERT INTO smbmap (id_scansione, Host, Share, Privs, Comment, timestamp)
+                            VALUES (%s, %s, %s, %s, %s, %s);
                             """,
-                            (host, share, privs, comment, timestamp)
+                            (id_scansione, host, share, privs, comment, timestamp)
                         )
         connection.commit()
     print("Dati inseriti nel database con successo.")
 
 if __name__ == "__main__":
+    import sys
+    if len(sys.argv) != 2:
+        print("Uso: python3 smbmap.py <id_scansione>")
+        sys.exit(1)
+
+    id_scansione = int(sys.argv[1])  # Legge l'argomento id_scansione
     input_file = "nbtscan.txt"
     output_file = "smbmap.csv"
 
     if not os.path.exists(input_file):
         print(f"Errore: Il file {input_file} non esiste.")
     else:
-        # Estrai gli IP dal file
         ip_addresses = parse_nbtscan(input_file)
         print(f"Trovati {len(ip_addresses)} indirizzi IP.")
 
-        # Esegui smbmap e salva i risultati
         run_smbmap(ip_addresses, output_file)
         print(f"Risultati salvati in {output_file}.")
 
-        # Connessione al database e operazioni
         db_connection = connect_to_db()
         if db_connection:
             create_table_if_not_exists(db_connection)
-            insert_data_from_csv(db_connection, output_file)
+            insert_data_from_csv(db_connection, output_file, id_scansione)
             db_connection.close()
+

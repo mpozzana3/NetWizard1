@@ -1,9 +1,0 @@
-172.16.1.2§FS02           §<server>§FS02           §00:00:00:00:00:00
-172.16.1.3§DC01           §<server>§<unknown>§00:0c:29:8d:46:02
-172.16.1.44§GF-TEO-OFFICE  §<server>§<unknown>§9c:7b:ef:28:54:4e
-172.16.1.8§GFTECH-MI      §<server>§<unknown>§c8:d9:d2:0d:07:b9
-172.16.1.32§SARA-PC        §<server>§<unknown>§38:ca:84:44:5e:58
-172.16.1.77§GF-NAS         §<server>§GF-NAS         §00:00:00:00:00:00
-172.16.1.94§GF-PCLUCA      §<server>§<unknown>§30:13:8b:68:6c:41
-172.16.1.110§GF-CIUCHINO    §<server>§<unknown>§00:68:eb:af:a8:40
-172.16.1.131§MACBOOKAIR-E8D9§§<unknown>§fe:00:71:42:6e:d5

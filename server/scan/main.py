@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 def run_script(script_name, *args):
     """
@@ -20,17 +21,26 @@ def run_script(script_name, *args):
         print(f"Errore nell'esecuzione di {script_name}: {e}")
 
 def main():
+    # Controlla se l'id_scansione è passato come argomento
+    if len(sys.argv) < 2:
+        print("Errore: Devi specificare un id_scansione come argomento.")
+        sys.exit(1)
+    
+    # Ottieni l'id_scansione dagli argomenti
+    id_scansione = sys.argv[1]
+    
     # Indirizzo IP o subnet da passare solo a scan-2.py
     target = "172.16.1.0/24"
     
-    # Esegui gli script in ordine, passando la subnet solo a scan-2.py
-    run_script("scan-1.py")
-    run_script("scan-2.py", target)  # Passa la subnet solo a scan-2.py
-    run_script("nmap.py")
-    run_script("NetBios.py", target)
-    run_script("enum4linux.py")
-    run_script("smbclient.py")
-    run_script("smbmap.py")
+    # Esegui gli script in ordine, passando id_scansione e altri argomenti se necessario
+    run_script("scan/scan-1.py", id_scansione)
+    run_script("scan/scan-2.py", target, id_scansione)  # Passa anche la subnet a scan-2.py
+    run_script("scan/nmap.py", id_scansione)
+    run_script("scan/NetBios.py", target, id_scansione)
+    run_script("scan/enum4linux.py", id_scansione)
+    run_script("scan/smbclient.py", id_scansione)
+    run_script("scan/smbmap.py", id_scansione)
 
 if __name__ == "__main__":
     main()
+
