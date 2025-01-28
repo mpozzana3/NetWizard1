@@ -33,7 +33,7 @@ def create_enum4linux_table(connection):
     create_table_query = """
     CREATE TABLE IF NOT EXISTS enum4linux (
         id_scansione VARCHAR(255) NOT NULL,
-        host VARCHAR(15),
+        ip VARCHAR(15),
         credentials TEXT,
         listeners TEXT,
         domain TEXT,
@@ -92,7 +92,7 @@ def run_enum4linux(ip, output_file, connection, id_scansione):
         # Inserisci i dati nel database, aggiungendo anche l'id_scansione
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO enum4linux (id_scansione, host, credentials, listeners, domain, nmblookup, errors)
+        INSERT INTO enum4linux (id_scansione, ip, credentials, listeners, domain, nmblookup, errors)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(insert_query, (id_scansione, ip, credentials, listeners, domain_str, nmblookup_str, errors_str))

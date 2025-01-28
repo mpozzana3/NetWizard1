@@ -32,7 +32,7 @@ def connect_to_db():
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS Scansioni_NetBios (
                     id_scansione VARCHAR(255),
-                    ip_address VARCHAR(15) NOT NULL,
+                    ip VARCHAR(15) NOT NULL,
                     netbios_name VARCHAR(255),
                     server VARCHAR(255),
                     user VARCHAR(255),
@@ -50,7 +50,7 @@ def connect_to_db():
 def insert_data(cursor, id_scansione, ip_address, netbios_name, server, user, mac_address):
     try:
         cursor.execute("""
-            INSERT INTO Scansioni_NetBios (id_scansione, ip_address, netbios_name, server, user, mac_address)
+            INSERT INTO Scansioni_NetBios (id_scansione, ip, netbios_name, server, user, mac_address)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (id_scansione, ip_address, netbios_name, server, user, mac_address))
     except Error as e:

@@ -152,14 +152,12 @@ def handle_client(client_socket, subnet):
         )
         print("Messaggio di scansione inviato.")
 
-
         # Ricevi la scelta di scansione dal client
         try:
             scelta_scansione = client_socket.recv(1024).decode().strip()
         except Exception as e:
             print(f"Errore durante la ricezione della scelta: {e}")
             scelta_scansione = None
-
 
         # Controlla se la connessione si è interrotta
         if not scelta_scansione:
@@ -168,6 +166,18 @@ def handle_client(client_socket, subnet):
             return  # Termina l'elaborazione per questo client
 
         print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
+
+        # Verifica se la scelta è valida
+        scansioni_valide = [
+            "ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA"
+        ]
+
+        if scelta_scansione not in scansioni_valide:
+            print(f"Scelta scansione non valida: {scelta_scansione}")
+            client_socket.send(b"Errore: Scelta di scansione non valida. Connessione chiusa.\n")
+            client_socket.close()
+            print("Ho chiuso la connessione per scelta non valida.")
+            return  # Termina l'elaborazione per questo client
 
         # Inserisci la scansione nel database e ottieni l'ID della scansione
         id_scansione = insert_scansioni(scelta_scansione)
@@ -214,7 +224,6 @@ def handle_client(client_socket, subnet):
         client_socket.close()
         print("Ho chiuso la connessione.")
         break  # Exit the while loop
-
 
 def start_server():
     """Avvia il server per l'ascolto delle connessioni dei client."""

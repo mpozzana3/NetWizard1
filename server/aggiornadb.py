@@ -1,5 +1,15 @@
 import mysql.connector
 import logging
+import json
+
+# Carica il file di configurazione
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+# Estrai le informazioni dalla configurazione
+db_config = config['db']
+server_config = config['server']
+azienda_config = config['azienda']
 
 # Configurazione logging
 logging.basicConfig(
@@ -11,10 +21,10 @@ try:
     # Connessione al primo database
     logging.info("Connessione al primo database...")
     conn1 = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nuova_password",
-        database="test",
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database=db_config['name'],
         charset="utf8mb4",
         collation="utf8mb4_general_ci"
     )
@@ -24,10 +34,10 @@ try:
     # Connessione al secondo database
     logging.info("Connessione al secondo database...")
     conn2 = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nuova_password",
-        database="server_centrale",
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        database="server_centrale",  # Si suppone che il secondo DB sia "server_centrale"
         charset="utf8mb4",
         collation="utf8mb4_general_ci"
     )

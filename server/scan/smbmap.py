@@ -92,7 +92,7 @@ def create_table_if_not_exists(connection):
     create_table_query = """
     CREATE TABLE IF NOT EXISTS smbmap (
         id_scansione INT NOT NULL,
-        Host VARCHAR(255) NOT NULL,
+        ip VARCHAR(255) NOT NULL,
         Share VARCHAR(255),
         Privs VARCHAR(255),
         Comment TEXT,
@@ -125,7 +125,7 @@ def insert_data_from_csv(connection, csv_file, id_scansione):
                         timestamp = datetime.now()
                         cursor.execute(
                             """
-                            INSERT INTO smbmap (id_scansione, Host, Share, Privs, Comment, timestamp)
+                            INSERT INTO smbmap (id_scansione, ip, Share, Privs, Comment, timestamp)
                             VALUES (%s, %s, %s, %s, %s, %s);
                             """,
                             (id_scansione, host, share, privs, comment, timestamp)
