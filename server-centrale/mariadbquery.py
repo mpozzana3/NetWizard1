@@ -28,8 +28,12 @@ def execute_query(connection, query):
         cursor.execute(query)
         if query.strip().lower().startswith("select"):
             results = cursor.fetchall()
-            for row in results:
-                print(row)
+            if results:
+                print("Risultati della query:")
+                for row in results:
+                    print(row)
+            else:
+                print("Nessun risultato trovato.")
         else:
             connection.commit()
             print(f"Query eseguita con successo. {cursor.rowcount} record interessati.")
@@ -40,17 +44,19 @@ def execute_query(connection, query):
 
 def main():
     """
-    Entry point principale della CLI.
+    Entry point principale della CLI. Legge la query dalla riga di comando.
     """
-    connection = connect_to_db()
-    print("Connesso al database. Inserisci una query oppure digita 'exit' per uscire.")
+    if len(sys.argv) < 2:
+        print("Errore: Devi fornire una query SQL come argomento.")
+        sys.exit(1)
 
-    while True:
-        query = input("SQL> ")
-        if query.strip().lower() == "exit":
-            print("Chiusura connessione al database. Arrivederci!")
-            break
-        execute_query(connection, query)
+    query = sys.argv[1]  # La query è il primo argomento della riga di comando
+
+    connection = connect_to_db()
+    print("Connesso al database.")
+
+    print(f"Eseguendo la query: {query}")
+    execute_query(connection, query)
 
     connection.close()
 

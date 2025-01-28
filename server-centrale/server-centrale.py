@@ -1,8 +1,8 @@
 import socket
 import mysql.connector
-from mysql.connector import Error
 import subprocess
-
+import signal
+import sys
 
 # Parametri del server
 HOST = '127.0.0.1'  # Indirizzo IP del server (localhost per test)
@@ -13,6 +13,12 @@ DB_HOST = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = 'nuova_password'
 DB_NAME = 'server_centrale'
+
+def handle_exit_signal(signal, frame):
+    print("\nServer chiuso.")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handle_exit_signal)  # Gestisce CTRL+C
 
 def create_db_connection():
     """Crea una connessione al database MariaDB."""
@@ -28,7 +34,7 @@ def create_db_connection():
         if connection.is_connected():
             print("Connessione al database riuscita!")
             return connection
-    except Error as e:
+    except mysql.connector.Error as e:
         print(f"Errore nella connessione al database: {e}")
         return None
 
@@ -48,7 +54,7 @@ def handle_client(client_socket):
             response = "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?"
             client_socket.send(response.encode())
 
-            # Ricevi il nome dell'azienda e la P.IVA da parte del client
+            # Ricevi il nome dell'azienda e la P.IVA dal client
             azienda_choice = client_socket.recv(1024).decode()
             p_iva_choice = client_socket.recv(1024).decode()
             print(f"Azienda scelta per la scansione: {azienda_choice}, P.IVA: {p_iva_choice}")
@@ -81,15 +87,25 @@ def handle_client(client_socket):
                 db_connection.close()
 
         elif client_choice == '2':
-            response = "Hai scelto Analisi DB. Verrà avviata l'interfaccia di analisi del database."
+            response = "Hai scelto Analisi DB. Inserisci una query SQL."
             client_socket.send(response.encode())
 
-            # Avvia mariadb_cli.py come sottoprocesso
+            # Ricevi la query dal client
+            query = client_socket.recv(1024).decode()
+            print(f"Query ricevuta dal client: {query}")
+
+            if query.strip().lower() == 'exit':
+                print("Chiusura connessione.")
+                client_socket.send("Connessione chiusa.".encode())
+                return
+
+            # Esegui il file mariadbquery.py con la query ricevuta
             try:
-                subprocess.run(["python3", "mariadbquery.py"])
-            except Exception as e:
-                print(f"Errore durante l'avvio di mariadb_cli.py: {e}")
-                client_socket.send("Errore durante l'avvio dell'interfaccia di analisi.".encode())
+                result = subprocess.run(["python3", "mariadbquery.py", query], capture_output=True, text=True, check=True)
+                client_socket.send(result.stdout.encode())  # Invia l'output della query al client
+            except subprocess.CalledProcessError as e:
+                print(f"Errore nell'esecuzione del sottoprocesso: {e}")
+                client_socket.send("Errore nell'esecuzione della query.".encode())
 
         else:
             response = "Scelta non valida."

@@ -47,7 +47,15 @@ def start_client():
             response = client_socket.recv(1024).decode()
             print(response)
 
-        break  # Esci dopo la risposta
+            # Chiedi all'utente di inserire la query SQL
+            query = input("Inserisci una query SQL: ")
+            client_socket.send(query.encode())
+
+            # Ricevi la risposta dal server
+            server_response = client_socket.recv(1024).decode()
+            print("Risultato della query:\n", server_response)
+
+        break  # Esci dopo aver ricevuto la risposta
 
     # Chiudi la connessione
     client_socket.close()

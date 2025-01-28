@@ -1,6 +1,7 @@
 import socket
 import subprocess
 import mysql.connector
+import re
 
 # Dati per la connessione al database MariaDB
 DB_HOST = "localhost"
@@ -14,6 +15,27 @@ PORT = 5003  # Porta per la comunicazione
 P_IVA = "IT12345679810"
 AZIENDA = "GFTECH"
 
+def subnet_extract():
+    """Estrae la subnet dalla tabella di routing utilizzando il comando 'ip route'."""
+    try:
+        # Esegui il comando 'ip route'
+        output = subprocess.check_output(["ip", "route"], text=True)
+        
+        # Cerca una riga con 'src' che contenga una subnet valida
+        match = re.search(r"(\d+\.\d+\.\d+\.\d+/\d+)", output)
+        if match:
+            subnet = match.group(1)
+            print(f"Subnet estratta: {subnet}")
+            return subnet
+        else:
+            print("Nessuna subnet trovata nell'output.")
+            return None
+    except subprocess.CalledProcessError as e:
+        print(f"Errore nell'esecuzione del comando 'ip route': {e}")
+        return None
+    except Exception as e:
+        print(f"Errore generico: {e}")
+        return None
 
 def connect_db():
     """Crea una connessione al database MariaDB."""
@@ -98,7 +120,7 @@ def update_stato_scansione(id_scansione):
             conn.close()
 
 
-def handle_client(client_socket):
+def handle_client(client_socket, subnet):
     """Gestisce la comunicazione con il client."""
     while True:
         # Invia il messaggio di benvenuto
@@ -142,11 +164,11 @@ def handle_client(client_socket):
             if scelta_scansione == "ARP_PASSIVA":
                 subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
             elif scelta_scansione == "ARP_ATTIVA":
-                subprocess.run(["python3", "scan/scan-2.py", "172.16.1.0/24", str(id_scansione)], check=True)
+                subprocess.run(["python3", "scan/scan-2.py", subnet, str(id_scansione)], check=True)
             elif scelta_scansione == "NMAP":
                 subprocess.run(["python3", "scan/nmap.py", str(id_scansione)], check=True)
             elif scelta_scansione == "NBTSCAN":
-                subprocess.run(["python3", "scan/NetBios.py", "172.16.1.0/24", str(id_scansione)], check=True)
+                subprocess.run(["python3", "scan/NetBios.py", subnet, str(id_scansione)], check=True)
             elif scelta_scansione == "ENUM4LINUX":
                 subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], check=True)
             elif scelta_scansione == "SMBMAP":
@@ -181,6 +203,8 @@ def start_server():
     server_socket.listen(5)  # Può gestire fino a 5 connessioni simultanee
 
     print(f"Server in ascolto su {HOST}:{PORT}...")
+    subnet = subnet_extract();
+	
 
     while True:
         # Accetta una connessione in ingresso
@@ -188,7 +212,7 @@ def start_server():
         print(f"Connessione ricevuta da {client_address}")
 
         # Gestisce la comunicazione con il client
-        handle_client(client_socket)
+        handle_client(client_socket, subnet)
 
 
 if __name__ == "__main__":

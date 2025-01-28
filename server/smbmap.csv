@@ -1,0 +1,24 @@
+IP,Output
+172.16.1.2,"Host,Share,Privs,Comment
+172.16.1.2,amministrazione,NO_ACCESS,Amministrazione GFTech
+172.16.1.2,commerciale,NO_ACCESS,Commerciale GFTech
+172.16.1.2,personale,NO_ACCESS,Personale GFTech
+172.16.1.2,varie,NO_ACCESS,Varie GFTech
+172.16.1.2,scansioni,NO_ACCESS,Varie GFTech
+172.16.1.2,tecnici,NO_ACCESS,Tecnici GFTech
+172.16.1.2,IPC$,NO_ACCESS,IPC Service (Samba 4.21.2-git.382.df546a2d31bSUSE-oS16.9-x86_64)
+"
+172.16.1.8,"Host,Share,Privs,Comment
+"
+172.16.1.32,"Host,Share,Privs,Comment
+"
+172.16.1.44,"Host,Share,Privs,Comment
+"
+172.16.1.110,"Host,Share,Privs,Comment
+"
+172.16.1.3,"Host,Share,Privs,Comment
+"
+172.16.1.77,"Host,Share,Privs,Comment
+"
+172.16.1.131,"Host,Share,Privs,Comment
+"
