@@ -1,5 +1,28 @@
 import subprocess
 import sys
+import re 
+
+def subnet_extract():
+    """Estrae la subnet dalla tabella di routing utilizzando il comando 'ip route'."""
+    try:
+        # Esegui il comando 'ip route'
+        output = subprocess.check_output(["ip", "route"], text=True)
+        
+        # Cerca una riga con 'src' che contenga una subnet valida
+        match = re.search(r"(\d+\.\d+\.\d+\.\d+/\d+)", output)
+        if match:
+            subnet = match.group(1)
+            print(f"Subnet estratta: {subnet}")
+            return subnet
+        else:
+            print("Nessuna subnet trovata nell'output.")
+            return None
+    except subprocess.CalledProcessError as e:
+        print(f"Errore nell'esecuzione del comando 'ip route': {e}")
+        return None
+    except Exception as e:
+        print(f"Errore generico: {e}")
+        return None
 
 def run_script(script_name, *args):
     """
@@ -29,8 +52,8 @@ def main():
     # Ottieni l'id_scansione dagli argomenti
     id_scansione = sys.argv[1]
     
-    # Indirizzo IP o subnet da passare solo a scan-2.py
-    target = "172.16.1.0/24"
+    # Indirizzo IP o subnet
+    target = subnet_extract()
     
     # Esegui gli script in ordine, passando id_scansione e altri argomenti se necessario
     run_script("scan/scan-1.py", id_scansione)
