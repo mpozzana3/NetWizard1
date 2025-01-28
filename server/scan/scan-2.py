@@ -4,11 +4,16 @@ from scapy.all import ARP, Ether, srp
 import json
 from macaddress import get_mac_vendor
 
-# Dati per la connessione al database PostgreSQL
-DB_HOST = "localhost"
-DB_NAME = "test"
-DB_USER = "root"
-DB_PASS = "nuova_password"
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
+
+# Dati per la connessione al database MariaDB
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 def load_vendor_data(json_file):
     try:

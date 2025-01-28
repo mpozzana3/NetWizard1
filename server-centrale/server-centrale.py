@@ -3,16 +3,21 @@ import mysql.connector
 import subprocess
 import signal
 import sys
+import json
+
+# Carica la configurazione da file JSON
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 # Parametri del server
-HOST = '127.0.0.1'  # Indirizzo IP del server (localhost per test)
-PORT = 12345         # Porta di connessione
+HOST = config['server']['host']
+PORT = config['server']['port']
 
 # Parametri DB MariaDB
-DB_HOST = 'localhost'
-DB_USER = 'root'
-DB_PASSWORD = 'nuova_password'
-DB_NAME = 'server_centrale'
+DB_HOST = config['database']['db_host']
+DB_USER = config['database']['db_user']
+DB_PASSWORD = config['database']['db_password']
+DB_NAME = config['database']['db_name']
 
 def handle_exit_signal(signal, frame):
     print("\nServer chiuso.")

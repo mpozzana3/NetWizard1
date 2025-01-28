@@ -2,12 +2,18 @@ import subprocess
 import mysql.connector
 from mysql.connector import Error
 import argparse
+import json
+
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
 
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"
-DB_NAME = "test"
-DB_USER = "root"
-DB_PASS = "nuova_password"
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 # Funzione per connettersi al database e creare la tabella se non esiste
 def connect_to_db():

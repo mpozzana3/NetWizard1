@@ -2,18 +2,28 @@ import socket
 import subprocess
 import mysql.connector
 import re
+import json
+
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
 
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"
-DB_NAME = "test"
-DB_USER = "root"
-DB_PASS = "nuova_password"
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 # Configurazione del server socket
-HOST = "0.0.0.0"  # Ascolta su tutte le interfacce di rete
-PORT = 5003  # Porta per la comunicazione
-P_IVA = "IT12345679810"
-AZIENDA = "GFTECH"
+SERVER_CONFIG = config["server"]
+HOST = SERVER_CONFIG["host"]
+PORT = SERVER_CONFIG["port"]
+
+# Dati dell'azienda
+AZIENDA_CONFIG = config["azienda"]
+P_IVA = AZIENDA_CONFIG["p_iva"]
+AZIENDA = AZIENDA_CONFIG["nome"]
 
 def subnet_extract():
     """Estrae la subnet dalla tabella di routing utilizzando il comando 'ip route'."""
@@ -142,8 +152,21 @@ def handle_client(client_socket, subnet):
         )
         print("Messaggio di scansione inviato.")
 
+
         # Ricevi la scelta di scansione dal client
-        scelta_scansione = client_socket.recv(1024).decode().strip()
+        try:
+            scelta_scansione = client_socket.recv(1024).decode().strip()
+        except Exception as e:
+            print(f"Errore durante la ricezione della scelta: {e}")
+            scelta_scansione = None
+
+
+        # Controlla se la connessione si è interrotta
+        if not scelta_scansione:
+            print("Connessione interrotta dal client prima della scelta della scansione.")
+            client_socket.close()
+            return  # Termina l'elaborazione per questo client
+
         print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
 
         # Inserisci la scansione nel database e ottieni l'ID della scansione

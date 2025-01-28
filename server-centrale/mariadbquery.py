@@ -1,5 +1,16 @@
 import mysql.connector
 import sys
+import json
+
+# Carica la configurazione da file JSON
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
+# Parametri DB MariaDB
+DB_HOST = config['database']['db_host']
+DB_USER = config['database']['db_user']
+DB_PASSWORD = config['database']['db_password']
+DB_NAME = config['database']['db_name']
 
 def connect_to_db():
     """
@@ -7,10 +18,10 @@ def connect_to_db():
     """
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="nuova_password",
-            database="server_centrale",
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME,
             charset="utf8mb4",
             collation="utf8mb4_general_ci"
         )

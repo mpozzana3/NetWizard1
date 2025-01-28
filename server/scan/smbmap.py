@@ -4,6 +4,18 @@ import subprocess
 import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
+import json
+
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
+
+# Dati per la connessione al database MariaDB
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 def parse_nbtscan(file_path):
     """
@@ -59,10 +71,10 @@ def connect_to_db():
     """
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="nuova_password",
-            database="test",
+            host=DB_HOST,
+            user="DB_USER,
+            password=DB_PASS,
+            database=DB_NAME,
             charset="utf8mb4",
             collation="utf8mb4_general_ci"
         )

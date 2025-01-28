@@ -4,12 +4,19 @@ import subprocess
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import sys
+import json
+
+
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
 
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"
-DB_NAME = "test"
-DB_USER = "root"
-DB_PASS = "nuova_password"
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 # Connessione al database MariaDB
 def connect_db():

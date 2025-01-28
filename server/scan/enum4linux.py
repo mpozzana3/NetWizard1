@@ -4,11 +4,17 @@ import os
 import mysql.connector
 import argparse
 
+
+# Leggere la configurazione dal file JSON
+with open("config.json", "r") as config_file:
+    config = json.load(config_file)
+
 # Dati per la connessione al database MariaDB
-DB_HOST = "localhost"  # Host del database
-DB_NAME = "test"  # Nome del database
-DB_USER = "root"  # Nome utente per il database
-DB_PASS = "nuova_password"  # Password del database
+DB_CONFIG = config["db"]
+DB_HOST = DB_CONFIG["host"]
+DB_NAME = DB_CONFIG["name"]
+DB_USER = DB_CONFIG["user"]
+DB_PASS = DB_CONFIG["password"]
 
 # Funzione per connettersi al database
 def connect_to_db():
