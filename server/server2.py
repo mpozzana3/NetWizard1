@@ -220,9 +220,15 @@ def handle_client(client_socket, subnet):
             print(f"Errore nell'esecuzione della scansione {scelta_scansione}: {e}")
             client_socket.send(f"Errore nell'esecuzione della scansione {scelta_scansione}.\n".encode())
 
+
         # Chiudi la connessione
         client_socket.close()
         print("Ho chiuso la connessione.")
+
+        # Esegui lo script aggiornadb.py
+        subprocess.run(["python3", "aggiornadb.py"], check=True)
+        print("Script aggiornadb.py eseguito.")
+
         break  # Exit the while loop
 
 def start_server():
