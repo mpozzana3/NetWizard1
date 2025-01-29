@@ -1,1 +1,9 @@
 myenv/
+gemini.py
+nbtscan.txt
+output_combined.json
+scan.xml
+scan/__pycache__/openai.cpython-311.pyc
+scan/my_venv/
+scan/openai_integration.py
+test.txt
