@@ -5,7 +5,7 @@ setup(
     version="1.0.0",                   # Versione del progetto
     author="Matteo Pozz",              # Tuo nome
     author_email="tuo_email@example.com",
-    description="Un CLI che comunica con un server remoto.",
+    description="Un CLI che comunica con un server sonda remoto e un server centrale. La CLI fa partire una scansione di sicurezza sulla rete del server remoto il quale salverà i dati sul suo DB e li invierà anche al DB centrale",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/tuo-username/cli_project",  # URL del repository
