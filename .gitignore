@@ -3,7 +3,8 @@ gemini.py
 nbtscan.txt
 output_combined.json
 scan.xml
-scan/__pycache__/openai.cpython-311.pyc
+server/scan/__pycache__/openai.cpython-311.pyc
 scan/my_venv/
-scan/openai_integration.py
+server/scan/openai_integration.py
 test.txt
+server/scan/__pycache__
