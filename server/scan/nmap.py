@@ -172,11 +172,12 @@ def scan_network(target, output_file="scan.xml"):
 
 # Main
 def main():
-    if len(sys.argv) != 2:
-        print("Uso: python script.py <id_scansione>")
+    if len(sys.argv) != 3:
+        print("Uso: python nmap.py <id_scansione> <target>")
         sys.exit(1)
 
     id_scansione = sys.argv[1]
+    target = sys.argv[2]
 
     conn = connect_db()
     if conn is None:
@@ -184,7 +185,6 @@ def main():
     create_table(conn)
 
     # Esegui scansione
-    target = "172.16.1.131"  # Modifica con l'intervallo di rete desiderato
     output_file = "scan.xml"
     scan_network(target, output_file)
 
