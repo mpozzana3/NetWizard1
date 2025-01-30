@@ -1,6 +1,0 @@
-172.16.1.8§GFTECH-MI      §<server>§<unknown>§c8:d9:d2:0d:07:b9
-172.16.1.2§FS02           §<server>§FS02           §00:00:00:00:00:00
-172.16.1.110§GF-CIUCHINO    §<server>§<unknown>§00:68:eb:af:a8:40
-172.16.1.77§GF-NAS         §<server>§GF-NAS         §00:00:00:00:00:00
-172.16.1.3§DC01           §<server>§<unknown>§00:0c:29:8d:46:02
-172.16.1.131§MACBOOKAIR-E8D9§§<unknown>§fe:00:71:42:6e:d5
