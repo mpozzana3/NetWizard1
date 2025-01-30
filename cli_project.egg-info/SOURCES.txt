@@ -1,0 +1,10 @@
+README.md
+setup.py
+cli_project.egg-info/PKG-INFO
+cli_project.egg-info/SOURCES.txt
+cli_project.egg-info/dependency_links.txt
+cli_project.egg-info/entry_points.txt
+cli_project.egg-info/requires.txt
+cli_project.egg-info/top_level.txt
+server/__init__.py
+server/server.py
