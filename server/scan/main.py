@@ -57,8 +57,8 @@ def main():
     
     # Esegui gli script in ordine, passando id_scansione e altri argomenti se necessario
     run_script("scan/scan-1.py", id_scansione)
-    run_script("scan/scan-2.py", target, id_scansione)  # Passa anche la subnet a scan-2.py
-    run_script("scan/nmap.py", id_scansione)
+    run_script("scan/scan-2.py", target, id_scansione)
+    run_script("scan/nmap.py", id_scansione, target)
     run_script("scan/NetBios.py", target, id_scansione)
     run_script("scan/enum4linux.py", id_scansione)
     run_script("scan/smbclient.py", id_scansione)

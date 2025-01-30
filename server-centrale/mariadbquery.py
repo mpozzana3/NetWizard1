@@ -3,7 +3,7 @@ import sys
 import json
 
 # Carica la configurazione da file JSON
-with open('config.json', 'r') as f:
+with open('config2.json', 'r') as f:
     config = json.load(f)
 
 # Parametri DB MariaDB

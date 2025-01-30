@@ -199,7 +199,7 @@ def handle_client(client_socket, subnet):
             elif scelta_scansione == "ARP_ATTIVA":
                 subprocess.run(["python3", "scan/scan-2.py", subnet, str(id_scansione)], check=True)
             elif scelta_scansione == "NMAP":
-                subprocess.run(["python3", "scan/nmap.py", str(id_scansione)], check=True)
+                subprocess.run(["python3", "scan/nmap.py", str(id_scansione), subnet], check=True)
             elif scelta_scansione == "NBTSCAN":
                 subprocess.run(["python3", "scan/NetBios.py", subnet, str(id_scansione)], check=True)
             elif scelta_scansione == "ENUM4LINUX":

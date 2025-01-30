@@ -6,7 +6,7 @@ import sys
 import json
 
 # Carica la configurazione da file JSON
-with open('config.json', 'r') as f:
+with open('config2.json', 'r') as f:
     config = json.load(f)
 
 # Parametri del server
@@ -36,89 +36,70 @@ def create_db_connection():
             charset="utf8mb4",
             collation="utf8mb4_general_ci"
         )
-        if connection.is_connected():
-            print("Connessione al database riuscita!")
-            return connection
+        return connection
     except mysql.connector.Error as e:
         print(f"Errore nella connessione al database: {e}")
         return None
 
+def send_message(client_socket, message):
+    """Invia un messaggio al client usando sendall() per evitare troncamenti."""
+    client_socket.sendall(message.encode())
+
+def execute_query(query):
+    """Esegue mariadbquery.py con una query e restituisce il risultato."""
+    try:
+        process = subprocess.Popen(["python3", "mariadbquery.py", query], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        stdout, stderr = process.communicate()
+        return stdout if stdout else stderr
+    except Exception as e:
+        return f"Errore nell'esecuzione della query: {e}"
+
 def handle_client(client_socket):
     """Gestisce la comunicazione con il client."""
     try:
-        # Invia il messaggio di benvenuto al client
-        welcome_message = "Collegamento riuscito, cosa vuoi fare?\n1. Scansioni\n2. Analisi DB"
-        client_socket.send(welcome_message.encode())
-
-        # Ricevi la risposta dal client
+        send_message(client_socket, "Collegamento riuscito, cosa vuoi fare?\n1. Scansioni\n2. Analisi DB")
         client_choice = client_socket.recv(1024).decode()
         print(f"Scelta del client: {client_choice}")
 
-        # In base alla scelta del client, esegui un'azione
-        if client_choice == '1':
-            response = "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?"
-            client_socket.send(response.encode())
 
-            # Ricevi il nome dell'azienda e la P.IVA dal client
+        if client_choice == '1':
+            send_message(client_socket, "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?")
             azienda_choice = client_socket.recv(1024).decode()
             p_iva_choice = client_socket.recv(1024).decode()
             print(f"Azienda scelta per la scansione: {azienda_choice}, P.IVA: {p_iva_choice}")
 
-            # Connessione al database
             db_connection = create_db_connection()
             if db_connection:
                 cursor = db_connection.cursor()
-
-                # Esegui la query per cercare l'azienda nel database
                 query = """
-                SELECT IP_sonda, Porta_sonda
-                FROM aziende
-                WHERE azienda = %s AND p_iva = %s
+                SELECT IP_sonda, Porta_sonda FROM aziende WHERE azienda = %s AND p_iva = %s
                 """
                 cursor.execute(query, (azienda_choice, p_iva_choice))
-
-                # Recupera i risultati della query
                 result = cursor.fetchone()
-
-                if result:
-                    ip_sonda, porta_sonda = result
-                    response = f"IP della sonda: {ip_sonda}, Porta della sonda: {porta_sonda}"
-                else:
-                    response = "Azienda non ancora inserita in DB."
-
-                # Invia la risposta al client
-                client_socket.send(response.encode())
+                response = f"IP della sonda: {result[0]}, Porta della sonda: {result[1]}" if result else "Azienda non ancora inserita in DB."
+                send_message(client_socket, response)
                 cursor.close()
                 db_connection.close()
-
+        
         elif client_choice == '2':
-            response = "Hai scelto Analisi DB. Inserisci una query SQL."
-            client_socket.send(response.encode())
-
-            # Ricevi la query dal client
+            send_message(client_socket, "Hai scelto Analisi DB. Inserisci una query SQL.")
             query = client_socket.recv(1024).decode()
             print(f"Query ricevuta dal client: {query}")
 
+
             if query.strip().lower() == 'exit':
-                print("Chiusura connessione.")
-                client_socket.send("Connessione chiusa.".encode())
+                send_message(client_socket, "Connessione chiusa.")
                 return
 
-            # Esegui il file mariadbquery.py con la query ricevuta
-            try:
-                result = subprocess.run(["python3", "mariadbquery.py", query], capture_output=True, text=True, check=True)
-                client_socket.send(result.stdout.encode())  # Invia l'output della query al client
-            except subprocess.CalledProcessError as e:
-                print(f"Errore nell'esecuzione del sottoprocesso: {e}")
-                client_socket.send("Errore nell'esecuzione della query.".encode())
-
+            result = execute_query(query)
+            send_message(client_socket, result)
+        
         else:
-            response = "Scelta non valida."
-            client_socket.send(response.encode())
-
+            send_message(client_socket, "Scelta non valida.")
+    
     except Exception as e:
-        print(f"Errore nella gestione del client: {e}")
-        client_socket.send("Errore durante la comunicazione.".encode())
+        send_message(client_socket, f"Errore: {e}")
+    
     finally:
         client_socket.close()
 
@@ -130,13 +111,9 @@ def start_server():
     print(f"Server in ascolto su {HOST}:{PORT}...")
 
     while True:
-        # Accetta una connessione da un client
         client_socket, client_address = server_socket.accept()
         print(f"Connessione stabilita con {client_address}")
-
-        # Gestisci la comunicazione con il client
         handle_client(client_socket)
 
 if __name__ == "__main__":
     start_server()
-

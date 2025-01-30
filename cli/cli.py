@@ -28,7 +28,7 @@ def start_client():
         if scelta == "1":
             response = client_socket.recv(1024).decode()
             print(response)
-            
+
             # Chiedi al client il nome dell'azienda e la P.IVA
             azienda = input("Inserisci il nome dell'azienda: ")
             p_iva = input("Inserisci la P.IVA dell'azienda: ")
@@ -40,7 +40,7 @@ def start_client():
             # Ricevi la risposta dal server
             response = client_socket.recv(1024).decode()
             print(response)
-            print("Ora digita cli2.py <ip> <porta>")
+            print("Ora digita python3 cli2.py <ip> <porta>")
 
         # Se l'utente ha scelto Analisi DB
         elif scelta == "2":
@@ -52,7 +52,14 @@ def start_client():
             client_socket.send(query.encode())
 
             # Ricevi la risposta dal server
-            server_response = client_socket.recv(1024).decode()
+            data = []
+            while True:
+                chunk = client_socket.recv(8192).decode()  # Buffer più grande
+                if not chunk:  # Se non riceve più dati, esce
+                    break
+                data.append(chunk)
+
+            server_response = "".join(data)
             print("Risultato della query:\n", server_response)
 
         break  # Esci dopo aver ricevuto la risposta
