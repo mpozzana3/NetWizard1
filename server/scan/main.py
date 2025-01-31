@@ -63,6 +63,8 @@ def main():
     run_script("scan/enum4linux.py", id_scansione)
     run_script("scan/smbclient.py", id_scansione)
     run_script("scan/smbmap.py", id_scansione)
+    run_script("scan/masscan.py", id_scansione)
+
 
 if __name__ == "__main__":
     main()

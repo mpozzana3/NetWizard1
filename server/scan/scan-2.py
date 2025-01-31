@@ -75,7 +75,7 @@ def arp_scan(target_ip_range, vendor_data, id_scansione):
     arp_request_broadcast = broadcast/arp_request
     
     print(f"Scansione ARP in corso su {target_ip_range}...")
-    answered_list = srp(arp_request_broadcast, timeout=2, verbose=False)[0]
+    answered_list = srp(arp_request_broadcast, timeout=10, verbose=False)[0]
     
     devices = []
         

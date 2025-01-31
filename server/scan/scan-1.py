@@ -126,7 +126,7 @@ def main():
     print("Sniffing ARP packets. Premere Ctrl+C per interrompere.")
     try:
         # Avvia lo sniffing sulla rete per pacchetti ARP
-        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=60)
+        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=200)
     except KeyboardInterrupt:
         print("\nInterrotto dallo user.")
 
