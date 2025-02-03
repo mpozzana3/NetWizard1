@@ -61,7 +61,6 @@ def handle_client(client_socket):
         client_choice = client_socket.recv(1024).decode()
         print(f"Scelta del client: {client_choice}")
 
-
         if client_choice == '1':
             send_message(client_socket, "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?")
             azienda_choice = client_socket.recv(1024).decode()
@@ -76,32 +75,144 @@ def handle_client(client_socket):
                 """
                 cursor.execute(query, (azienda_choice, p_iva_choice))
                 result = cursor.fetchone()
-                response = f"IP della sonda: {result[0]}, Porta della sonda: {result[1]}" if result else "Azienda non ancora inserita in DB."
-                send_message(client_socket, response)
+                if result:
+                    ip_sonda = result[0]
+                    porta_sonda = result[1]
+
+                    # Connessione al server sonda
+                    try:
+                        sonda_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        sonda_socket.connect((ip_sonda, porta_sonda))
+                        socket_conn = sonda_socket.recv(1024).decode()
+                        print(f"{socket_conn}")
+
+                        # Invia il messaggio di scansione al client
+                        client_socket.send(
+                            b"Che tipo di scansione vuoi fare?\n"
+                            b"ARP_PASSIVA\n"
+                            b"ARP_ATTIVA\n"
+                            b"NMAP\n"
+                            b"NBTSCAN\n"
+                            b"ENUM4LINUX (solo dopo NBTSCAN)\n"
+                            b"SMBMAP (solo dopo NBTSCAN)\n"
+                            b"SMBCLIENT (solo dopo NBTSCAN)\n"
+                            b"COMPLETA\n"
+                        )
+                        print("Messaggio di scansione inviato.")
+
+                        # Ricevi la scelta di scansione dal client
+                        try:
+                            scelta_scansione = client_socket.recv(1024).decode().strip()
+                        except Exception as e:
+                            print(f"Errore durante la ricezione della scelta: {e}")
+                            client_socket.send(b"Errore: Scelta di scansione non ricevuta. Connessione chiusa.\n")
+                            scelta_scansione = None
+
+                        # Controlla se la connessione si è interrotta
+                        if not scelta_scansione:
+                            print("Connessione interrotta dal client prima della scelta della scansione.")
+                            client_socket.close()
+                            return  # Termina l'elaborazione per questo client
+
+                        print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
+
+                        # Verifica se la scelta è valida
+                        scansioni_valide = [
+                            "ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA"
+                        ]
+
+                        if scelta_scansione not in scansioni_valide:
+                            print(f"Scelta scansione non valida: {scelta_scansione}")
+                            client_socket.send(b"Errore: Scelta di scansione non valida. Connessione chiusa.\n")
+                            client_socket.close()
+                            print("Ho chiuso la connessione per scelta non valida.")
+                            return  # Termina l'elaborazione per questo client
+
+                        # Invia il comando di scansione al server sonda
+                        client_socket.send(b"Scelta di scansione valida. Richiesta inviata al server-sonda.\n")
+                        sonda_socket.sendall(scelta_scansione.encode())
+                        print(f"Comando di scansione inviato al server sonda: {scelta_scansione}")
+
+                        # Ricevi la risposta dal server sonda
+                        risposta_sonda = sonda_socket.recv(1024).decode()
+                        print(f"Risposta dal server sonda: {risposta_sonda}")
+                        send_message(client_socket, f"Risposta dal server sonda: {risposta_sonda}")
+
+                        # Ricevi la risposta dal server sonda
+                        risposta_sonda = sonda_socket.recv(1024).decode()
+                        print(f"Risposta dal server sonda: {risposta_sonda}")
+                        send_message(client_socket, f"{risposta_sonda}")
+                        client_socket.close()
+
+                        # Chiudi la connessione con il server sonda
+                        sonda_socket.close()
+
+                    except Exception as e:
+                        print(f"Errore nella connessione al server sonda: {e}")
+                        send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
+                else:
+                    send_message(client_socket, "Azienda non trovata o non valida.")
+                    client_socket.close()
+                
                 cursor.close()
                 db_connection.close()
-        
+
         elif client_choice == '2':
-            send_message(client_socket, "Hai scelto Analisi DB. Inserisci una query SQL.")
-            query = client_socket.recv(1024).decode()
-            print(f"Query ricevuta dal client: {query}")
+            try:
+                # Manda le tabelle al client
+                send_message(client_socket, f"Hai scelto Analisi DB.\nTabelle disponibili:\n1 tabella_host\n2.nbtscan\n3.smbclient\n4.nmap\n5.extended_enum\n6.smbmap\n7.scansioni\n8.masscan\nSeleziona una tabella (o usa '*' per tutte le colonne):")
 
+                # Ricevi la tabella scelta dal client
+                tab = client_socket.recv(1024).decode().strip()
+                print(f"Tabella scelta dal client: {tab}")
 
-            if query.strip().lower() == 'exit':
-                send_message(client_socket, "Connessione chiusa.")
-                return
+                # Ottieni l'elenco delle colonne della tabella scelta
+                columns_query = f"SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'server_centrale' AND table_name = '{tab}'"
+                columns_result = execute_query(columns_query)
 
-            result = execute_query(query)
-            send_message(client_socket, result)
-        
-        else:
-            send_message(client_socket, "Scelta non valida.")
-    
+                # Manda le colonne al client, e informa che '*' è una scelta valida per tutte le colonne
+                send_message(client_socket, f"Colonne della tabella '{tab}':\n{columns_result}\nUsa '*' per tutte le colonne o seleziona specifiche colonne.")
+
+                # Ricevi la selezione delle colonne (o '*' per tutte le colonne)
+                col = client_socket.recv(1024).decode().strip()
+                print(f"Colonne selezionate dal client: {col}")
+
+                if col.lower() == '*':
+                    col = '*'  # Se l'utente ha scelto '*', usiamo '*' per tutte le colonne
+
+                # Ora invia un messaggio per chiedere se desidera un vincolo opzionale
+                send_message(client_socket, f"Se vuoi applicare un vincolo (opzionale) su una colonna, indicamelo ora. Ad esempio, 'colonna = valore', altrimenti 'NO'.")
+
+                # Ricevi il vincolo opzionale dal client
+                vincolo = client_socket.recv(1024).decode().strip()
+                print(f"Vincolo ricevuto dal client: {vincolo}")
+
+                # Costruisci la parte della query con il vincolo, se presente
+                if vincolo == 'NO':
+                    where_clause = ""
+                else:
+                    where_clause = f" WHERE {vincolo}"
+
+                if vincolo.lower() == 'exit':
+                    send_message(client_socket, "Connessione chiusa.")
+                    return
+
+                # Costruisci la query completa
+                complete_query = f"SELECT {col} FROM {tab}{where_clause}"
+                print(f"Eseguo la query: {complete_query}")
+                # Esegui la query del client
+                result = execute_query(complete_query)
+                send_message(client_socket, result)
+                print(f"Risultato: {result}")
+
+            except Exception as e:
+                send_message(client_socket, f"Errore: {e}")
+
+            finally:
+                client_socket.close()
+
     except Exception as e:
-        send_message(client_socket, f"Errore: {e}")
-    
-    finally:
-        client_socket.close()
+        print(f"Errore: {e}")    
 
 def start_server():
     """Avvia il server e accoglie le connessioni."""

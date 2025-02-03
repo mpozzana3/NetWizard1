@@ -138,59 +138,29 @@ def handle_client(client_socket, subnet):
             f"Collegamento riuscito.\nTi sei collegato alla sonda dell'azienda {AZIENDA}.\n".encode()
         )
 
-        # Invia il messaggio di scansione al client
-        client_socket.send(
-            b"Che tipo di scansione vuoi fare?\n"
-            b"ARP_PASSIVA\n"
-            b"ARP_ATTIVA\n"
-            b"NMAP\n"
-            b"NBTSCAN\n"
-            b"ENUM4LINUX (solo dopo NBTSCAN)\n"
-            b"SMBMAP (solo dopo NBTSCAN)\n"
-            b"SMBCLIENT (solo dopo NBTSCAN)\n"
-            b"COMPLETA\n"
-        )
-        print("Messaggio di scansione inviato.")
-
         # Ricevi la scelta di scansione dal client
         try:
             scelta_scansione = client_socket.recv(1024).decode().strip()
+            print(f"Scelta scansione ricevuta: {scelta_scansione}")
+            
+            # Inserisci la scansione nel database
+            id_scansione = insert_scansioni(scelta_scansione)
+            
+            if id_scansione:
+                print(f"Scelta scansione registrata nel database con ID: {id_scansione}")
+                print(f"Lancio una scansione {scelta_scansione} con l'ID: {id_scansione}")
+                client_socket.send(f"Lancio una scansione {scelta_scansione} con l'ID: {id_scansione}".encode())
+            else:
+                print(f"Errore nell'inserimento della scansione per {scelta_scansione}")
+                client_socket.send(b"Errore nell'inserimento dei dati della scansione.\n")
+                client_socket.close()
+                print("Ho chiuso la connessione.")
+                return  # Interrompi la connessione
         except Exception as e:
             print(f"Errore durante la ricezione della scelta: {e}")
-            scelta_scansione = None
-
-        # Controlla se la connessione si è interrotta
-        if not scelta_scansione:
-            print("Connessione interrotta dal client prima della scelta della scansione.")
+            client_socket.send(b"Errore durante la ricezione della scelta di scansione.\n")
             client_socket.close()
-            return  # Termina l'elaborazione per questo client
-
-        print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
-
-        # Verifica se la scelta è valida
-        scansioni_valide = [
-            "ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA"
-        ]
-
-        if scelta_scansione not in scansioni_valide:
-            print(f"Scelta scansione non valida: {scelta_scansione}")
-            client_socket.send(b"Errore: Scelta di scansione non valida. Connessione chiusa.\n")
-            client_socket.close()
-            print("Ho chiuso la connessione per scelta non valida.")
-            return  # Termina l'elaborazione per questo client
-
-        # Inserisci la scansione nel database e ottieni l'ID della scansione
-        id_scansione = insert_scansioni(scelta_scansione)
-        if id_scansione:
-            client_socket.send(b"Scansione registrata nel database.\n")
-            print(f"Scelta scansione registrata nel database con ID: {id_scansione}")
-            print(f"Lancio una scansione {scelta_scansione} con l'ID: {id_scansione}")
-        else:
-            print(f"Errore nell'inserimento della scansione per {scelta_scansione}")
-            client_socket.send(b"Errore nell'inserimento dei dati della scansione.\n")
-            client_socket.close()
-            print("Ho chiuso la connessione.")
-            return  # or break if you want to exit the loop
+            return  # Interrompi la connessione in caso di errore
 
         # Lancia il relativo script in base alla scelta
         try:
