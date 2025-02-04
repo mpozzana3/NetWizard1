@@ -15,10 +15,18 @@
             .then(data => {
                 document.getElementById("server-response").innerText = data.response2;
 
+                // Mostra il form per la scansione se la scelta è "1"
                 if (data.choice === "1") {
                     document.getElementById("scan-form").style.display = "block";
                 } else {
                     document.getElementById("scan-form").style.display = "none";
+                }
+
+                // Mostra il form per l'invio del messaggio solo se c'è un extra_message
+                if (data.extra_message) {
+                    document.getElementById("text-form").style.display = "block";
+                } else {
+                    document.getElementById("text-form").style.display = "none";
                 }
             });
         }
@@ -35,6 +43,26 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById("scan-response").innerText = data.response3;
+                document.getElementById("extra-message").innerText = data.extra_message;
+
+                // Mostra il form per il messaggio se c'è un extra_message
+                if (data.extra_message) {
+                    document.getElementById("text-form").style.display = "block";
+                }
+            });
+        }
+
+        function sendMessage() {
+            let userMessage = document.getElementById("user-message").value;
+
+            fetch("/send_message", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: "user_message=" + userMessage
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("server-response-message").innerText = data.server_response;
             });
         }
     </script>
@@ -61,5 +89,16 @@
     </div>
 
     <p id="scan-response"></p>
+
+    <p id="extra-message"></p>
+
+    <!-- Form per inserire un messaggio -->
+    <div id="text-form" style="display: none;">
+        <h3>Inserisci un messaggio:</h3>
+        <textarea id="user-message" name="user-message" rows="4" cols="50"></textarea><br>
+        <button onclick="sendMessage()">Invia</button>
+    </div>
+
+    <p id="server-response-message"></p>
 </body>
 </html>

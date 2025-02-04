@@ -101,26 +101,33 @@ def handle_client(client_socket):
                             b"COMPLETA\n"
                         )
                         print("Messaggio di scansione inviato.")
-                        # Ricevi la scelta di scansione dal client
+
+
                         try:
-                            scelta_scansione = client_socket.recv(1024).decode().strip()
+                           print("In attesa della scelta della scansione...")
+                           scelta_scansione = client_socket.recv(1024).decode().strip()
+                           print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
+
+                           if not scelta_scansione:
+                                print("In attesa della scelta della scansione...")
+                                scelta_scansione = client_socket.recv(1024).decode().strip()
+                                print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
+                                if not scelta_scansione:
+                                    print("⚠️ Connessione interrotta dal client prima della scelta della scansione.")
+                                else:
+                                    send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
+                           else:
+                              send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
+
                         except Exception as e:
-                            print(f"Errore durante la ricezione della scelta: {e}")
-                            scelta_scansione = None
-
-                        # Controlla se la connessione si è interrotta
-                        if not scelta_scansione:
-                            print("Connessione interrotta dal client prima della scelta della scansione.")
-                            client_socket.close()
-                            return  # Termina l'elaborazione per questo client
-
-                        print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
-
+                           print(f"❌ Errore durante la ricezione della scelta: {e}")
+ 
                     except Exception as e:
                         print(f"Errore nella connessione al server sonda: {e}")
                         send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
                 else:
                     client_socket.send(b"Azienda non trovata")
+            print("Chiusura della connessione con il client.")
             client_socket.close()
 
         elif client_choice == '2':
