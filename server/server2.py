@@ -74,7 +74,7 @@ def create_table_if_not_exists():
                 id_scansione INT AUTO_INCREMENT PRIMARY KEY,
                 p_iva VARCHAR(255) NOT NULL,
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                tipo_scansione VARCHAR(255) NOT NULL,
+                tipo_scansione VARCHAR(255) NOT NULL CHECK (tipo_scansione <> ''),
                 stato INT NOT NULL,
                 FOREIGN KEY (p_iva) REFERENCES aziende(p_iva) ON DELETE CASCADE
             );
@@ -143,8 +143,9 @@ def handle_client(client_socket, subnet):
             scelta_scansione = client_socket.recv(1024).decode().strip()
             print(f"Scelta scansione ricevuta: {scelta_scansione}")
             
+            if scelta_scansione != "":
             # Inserisci la scansione nel database
-            id_scansione = insert_scansioni(scelta_scansione)
+               id_scansione = insert_scansioni(scelta_scansione)
             
             if id_scansione:
                 print(f"Scelta scansione registrata nel database con ID: {id_scansione}")

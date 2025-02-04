@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaccia Server</title>
+    <script>
+        function sendChoice(choice) {
+            fetch("/send_choice", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: "choice=" + choice
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("server-response").innerText = data.response2;
+
+                if (data.choice === "1") {
+                    document.getElementById("scan-form").style.display = "block";
+                } else {
+                    document.getElementById("scan-form").style.display = "none";
+                }
+            });
+        }
+
+        function sendScan() {
+            let azienda = document.getElementById("azienda").value;
+            let p_iva = document.getElementById("p_iva").value;
+
+            fetch("/send_scan", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: "azienda=" + azienda + "&p_iva=" + p_iva
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("scan-response").innerText = data.response3;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Benvenuto nel Server</h1>
+    <p id="welcome-msg">{{ response }}</p>
+
+    <p>Scegli un'opzione:</p>
+    <button onclick="sendChoice('1')">Scansioni</button>
+    <button onclick="sendChoice('2')">Analisi DB</button>
+
+    <p id="server-response"></p>
+
+    <div id="scan-form" style="display: none;">
+        <h3>Inserisci i dati per la scansione:</h3>
+        <label for="azienda">Nome Azienda:</label>
+        <input type="text" id="azienda" name="azienda">
+        
+        <label for="p_iva">Partita IVA:</label>
+        <input type="text" id="p_iva" name="p_iva">
+        
+        <button onclick="sendScan()">Invia</button>
+    </div>
+
+    <p id="scan-response"></p>
+</body>
+</html>
