@@ -10,3 +10,5 @@ scan/my_venv/
 server/scan/openai_integration.py
 test.txt
 server/scan/__pycache__
+masscan.xml
+masscanu.xml 
