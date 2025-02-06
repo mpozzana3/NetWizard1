@@ -2,8 +2,6 @@ import csv
 import os
 import subprocess
 import mysql.connector
-from mysql.connector import Error
-from datetime import datetime
 import json
 
 # Leggere la configurazione dal file JSON

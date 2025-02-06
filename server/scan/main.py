@@ -1,3 +1,4 @@
+# script per lanciare tutte le scansioni in sequenza
 import subprocess
 import sys
 import re 

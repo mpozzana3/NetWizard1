@@ -63,13 +63,13 @@ def handle_client(client_socket):
         if client_choice == '1':
             print("Scelto scansioni")
             send_message(client_socket, "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?")
-            
+    
             dati_ricevuti = client_socket.recv(1024).decode().strip()
             if '|' in dati_ricevuti:  # Controlla se il delimitatore è presente
                 azienda_choice, p_iva_choice = dati_ricevuti.split('|')
             else:
                 azienda_choice, p_iva_choice = dati_ricevuti, "N/A"  # Caso di errore
-            
+    
             print(f"Azienda scelta per la scansione: {azienda_choice}, P.IVA: {p_iva_choice}")
             db_connection = create_db_connection()
             if db_connection:
@@ -79,63 +79,64 @@ def handle_client(client_socket):
                 """
                 cursor.execute(query, (azienda_choice, p_iva_choice))
                 result = cursor.fetchone()
-                if result:
-                    ip_sonda = result[0]
-                    porta_sonda = result[1]
+            
+            if result:
+                ip_sonda = result[0]
+                porta_sonda = result[1]
+                try:
+                    sonda_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sonda_socket.connect((ip_sonda, porta_sonda))
+                    socket_conn = sonda_socket.recv(1024).decode()
+                    print(f"{socket_conn}")
+                    send_message(client_socket, f"Azienda trovata: {socket_conn}")
+                    # Invia il messaggio di scansione al client
+                    client_socket.send(
+                        b"Che tipo di scansione vuoi fare?\n"
+                        b"ARP_PASSIVA\n"
+                        b"ARP_ATTIVA\n"
+                        b"NMAP\n"
+                        b"NBTSCAN\n"
+                        b"ENUM4LINUX (solo dopo NBTSCAN)\n"
+                        b"SMBMAP (solo dopo NBTSCAN)\n"
+                        b"SMBCLIENT (solo dopo NBTSCAN)\n"
+                        b"COMPLETA\n"
+                    )
+                    print("Messaggio di scansione inviato.")
+
                     try:
-                        sonda_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                        sonda_socket.connect((ip_sonda, porta_sonda))
-                        socket_conn = sonda_socket.recv(1024).decode()
-                        print(f"{socket_conn}")
-                        send_message(client_socket, f"Azienda trovata: {socket_conn}")
-                        # Invia il messaggio di scansione al client
-                        client_socket.send(
-                            b"Che tipo di scansione vuoi fare?\n"
-                            b"ARP_PASSIVA\n"
-                            b"ARP_ATTIVA\n"
-                            b"NMAP\n"
-                            b"NBTSCAN\n"
-                            b"ENUM4LINUX (solo dopo NBTSCAN)\n"
-                            b"SMBMAP (solo dopo NBTSCAN)\n"
-                            b"SMBCLIENT (solo dopo NBTSCAN)\n"
-                            b"COMPLETA\n"
-                        )
-                        print("Messaggio di scansione inviato.")
-
-
-                        try:
-                           print("In attesa della scelta della scansione...")
-                           scelta_scansione = client_socket.recv(1024).decode().strip()
-                           print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
-
-                           if not scelta_scansione:
-                                print("In attesa della scelta della scansione...")
-                                scelta_scansione = client_socket.recv(1024).decode().strip()
-                                print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
-                                if not scelta_scansione:
-                                    print("⚠️ Connessione interrotta dal client prima della scelta della scansione.")
-                                else:
-                                    send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
-                           else:
-                              send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
-
-                        except Exception as e:
-                           print(f"❌ Errore durante la ricezione della scelta: {e}")
- 
+                        print("In attesa della scelta della scansione...")
+                        scelta_scansione = client_socket.recv(1024).decode().strip()
+                        if not scelta_scansione:  # Se non arriva una scelta valida, chiedi di nuovo
+                            print("Nessuna scelta ricevuta, aspetto...")
+                            send_message(client_socket, "Per favore, seleziona un tipo di scansione.")
+                            scelta_scansione = client_socket.recv(1024).decode().strip()  # Riprova
+                            print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
+                            if not scelta_scansione:  # Ancora nulla? Gestisci errore
+                                print("⚠️ Connessione interrotta dal client prima della scelta della scansione.")
+                            else:
+                                send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
+                        else:
+                            send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
+                        
                     except Exception as e:
-                        print(f"Errore nella connessione al server sonda: {e}")
-                        send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
-                else:
-                    client_socket.send(b"Azienda non trovata")
-            print("Chiusura della connessione con il client.")
+                        print(f"❌ Errore durante la ricezione della scelta: {e}")
+
+                except Exception as e:
+                    print(f"Errore nella connessione al server sonda: {e}")
+                    send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
+            else:
+                client_socket.send(b"Azienda non trovata")
+        
+        elif client_choice == '2':
+            send_message(client_socket, f"Hai scelto Analisi DB.\nTabelle disponibili:\n1 tabella_host\n2.nbtscan\n3.smbclient\n4.nmap\n5.extended_enum\n6.smbmap\n7.scansioni\n8.masscan\nSeleziona una tabella (o usa '*' per tutte le colonne):")
+            print("Scelto analisi DB")
+            tabella = client_socket.recv(1024).decode().strip()
+            print(f"tabella scelta:  {tabella}")
             client_socket.close()
 
-        elif client_choice == '2':
-            print("Scelto analisi DB")
-            client_socket.send(b"Hai scelto analisi DB.\n")
-            client_socket.close()
     except Exception as e:
         print(f"Errore: {e}")
+
 
 def start_server():
     """Avvia il server e accoglie le connessioni."""

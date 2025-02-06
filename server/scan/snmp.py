@@ -90,8 +90,8 @@ def insert_snmp_results(conn, parsed_data):
 
 def main():
     config = load_config()
-    target_ip = "172.16.1.131"  # Modifica con l'IP target
-    community = "public"  # Modifica se necessario
+    target_ip = "172.16.1.131"
+    community = "public"  
 
     output = run_snmp_check(target_ip, community)
     parsed_data = parse_snmp_output(output)

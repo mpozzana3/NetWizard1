@@ -65,7 +65,7 @@ def connect_db():
 
 
 def create_table_if_not_exists():
-    """Crea la tabella se non esiste già."""
+    """Crea la tabella scansioni se non esiste già."""
     conn = connect_db()
     if conn:
         cursor = conn.cursor()
@@ -196,7 +196,7 @@ def handle_client(client_socket, subnet):
         client_socket.close()
         print("Ho chiuso la connessione.")
 
-        # Esegui lo script aggiornadb.py
+        # Esegui lo script aggiornadb.py per aggiornare il database centrale con i valori del server sonda
         subprocess.run(["python3", "aggiornadb.py"], check=True)
         print("Script aggiornadb.py eseguito.")
 

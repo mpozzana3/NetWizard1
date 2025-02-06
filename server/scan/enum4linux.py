@@ -114,6 +114,7 @@ def run_enum4linux(ip, output_file, connection, id_scansione):
             out_file.write(json.dumps(data, indent=4))
             out_file.write("\n---\n")
 
+        # se nmblookup diverso da null, è ricco di informazioni, allora inseriamo in un'altra tabella tutto il file json
         if nmblookup != "null":
             insert_into_extended_enum(connection, id_scansione, ip, json.dumps(data))
 

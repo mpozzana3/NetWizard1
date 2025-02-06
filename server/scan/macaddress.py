@@ -28,7 +28,7 @@ vendor_data = load_vendor_data('mac-vendors-export.json')
 
 if vendor_data:
     # Esempio di utilizzo
-    mac_address = "00:0c:29:8d:46:02"  # Sostituisci con il MAC address che desideri testare
+    mac_address = "00:0c:29:8d:46:02"
     vendor = get_mac_vendor(mac_address, vendor_data)
     print(f"MAC: {mac_address} - Vendor: {vendor}")
 

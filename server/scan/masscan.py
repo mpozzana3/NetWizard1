@@ -8,6 +8,7 @@ def load_config():
     with open("config.json", "r") as f:
         return json.load(f)
 
+# Lancia masscan sia per porte TCP sia per porte UDP
 def run_masscan(target_ip):
     commands = [
         ["masscan", "-oX", "masscan.xml", "--ports", "0-500", target_ip],
@@ -47,6 +48,7 @@ def create_table(conn):
     conn.commit()
     cursor.close()
 
+#Estrae i valori di interesse dai file xml risultanti dalle scansioni
 def parse_masscan_xml(file_path, id_scansione):
     tree = ET.parse(file_path)
     root = tree.getroot()

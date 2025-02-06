@@ -46,7 +46,7 @@ def create_table_if_not_exists(connection):
 
 def parse_nbtscan(file_path):
     """
-    Legge il file nbtscan.txt ed estrae gli indirizzi IP dal nuovo formato.
+    Legge il file nbtscan.txt ed estrae gli indirizzi IP.
     """
     ip_list = []
     with open(file_path, 'r') as f:
@@ -123,7 +123,6 @@ def main(input_file, id_scansione):
     # Chiudi la connessione al database
     connection.close()
 
-# Impostazione dell'argomento della riga di comando
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Esegui la scansione SMB e salva i risultati nel database")
     parser.add_argument("id_scansione", help="ID della scansione da inserire nel database")

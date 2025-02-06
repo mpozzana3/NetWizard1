@@ -55,13 +55,13 @@ def execute_query(connection, query):
 
 def main():
     """
-    Entry point principale della CLI. Legge la query dalla riga di comando.
+    Entry point principale. Legge la query dalla riga di comando.
     """
     if len(sys.argv) < 2:
         print("Errore: Devi fornire una query SQL come argomento.")
         sys.exit(1)
 
-    query = sys.argv[1]  # La query è il primo argomento della riga di comando
+    query = sys.argv[1]  
 
     connection = connect_to_db()
     print("Connesso al database.")

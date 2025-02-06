@@ -3,102 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaccia Server</title>
+    <title>Benvenuto</title>
     <script>
-        function sendChoice(choice) {
-            fetch("/send_choice", {
-                method: "POST",
-                headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                body: "choice=" + choice
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("server-response").innerText = data.response2;
-
-                // Mostra il form per la scansione se la scelta è "1"
-                if (data.choice === "1") {
-                    document.getElementById("scan-form").style.display = "block";
-                } else {
-                    document.getElementById("scan-form").style.display = "none";
-                }
-
-                // Mostra il form per l'invio del messaggio solo se c'è un extra_message
-                if (data.extra_message) {
-                    document.getElementById("text-form").style.display = "block";
-                } else {
-                    document.getElementById("text-form").style.display = "none";
-                }
-            });
-        }
-
-        function sendScan() {
-            let azienda = document.getElementById("azienda").value;
-            let p_iva = document.getElementById("p_iva").value;
-
-            fetch("/send_scan", {
-                method: "POST",
-                headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                body: "azienda=" + azienda + "&p_iva=" + p_iva
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("scan-response").innerText = data.response3;
-                document.getElementById("extra-message").innerText = data.extra_message;
-
-                // Mostra il form per il messaggio se c'è un extra_message
-                if (data.extra_message) {
-                    document.getElementById("text-form").style.display = "block";
-                }
-            });
-        }
-
-        function sendMessage() {
-            let userMessage = document.getElementById("user-message").value;
-
-            fetch("/send_message", {
-                method: "POST",
-                headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                body: "user_message=" + userMessage
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("server-response-message").innerText = data.server_response;
-            });
+        function mostraForm() {
+            document.getElementById('scanForm').style.display = 'block';
         }
     </script>
 </head>
 <body>
-    <h1>Benvenuto nel Server</h1>
-    <p id="welcome-msg">{{ response }}</p>
+    <h1>{{ response }}</h1>
+    
+    <button onclick="mostraForm()">Scansioni</button>
+    <button onclick="window.location.href='/analisi_db'">Analisi DB</button>
 
-    <p>Scegli un'opzione:</p>
-    <button onclick="sendChoice('1')">Scansioni</button>
-    <button onclick="sendChoice('2')">Analisi DB</button>
-
-    <p id="server-response"></p>
-
-    <div id="scan-form" style="display: none;">
-        <h3>Inserisci i dati per la scansione:</h3>
-        <label for="azienda">Nome Azienda:</label>
-        <input type="text" id="azienda" name="azienda">
-        
-        <label for="p_iva">Partita IVA:</label>
-        <input type="text" id="p_iva" name="p_iva">
-        
-        <button onclick="sendScan()">Invia</button>
+    <div id="scanForm" style="display:none; margin-top: 20px;">
+        <form action="/send_scan" method="post">
+            <label for="azienda">Azienda:</label>
+            <input type="text" id="azienda" name="azienda" required>
+            <br>
+            <label for="p_iva">P. IVA:</label>
+            <input type="text" id="p_iva" name="p_iva" required>
+            <br>
+            <button type="submit">Invia</button>
+        </form>
     </div>
-
-    <p id="scan-response"></p>
-
-    <p id="extra-message"></p>
-
-    <!-- Form per inserire un messaggio -->
-    <div id="text-form" style="display: none;">
-        <h3>Inserisci un messaggio:</h3>
-        <textarea id="user-message" name="user-message" rows="4" cols="50"></textarea><br>
-        <button onclick="sendMessage()">Invia</button>
-    </div>
-
-    <p id="server-response-message"></p>
 </body>
 </html>

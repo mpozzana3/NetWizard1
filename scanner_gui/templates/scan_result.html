@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risultati Scansione</title>
+    <script>
+        function sendScanType(event) {
+            event.preventDefault();  // Evita il ricaricamento della pagina
+            
+            let scanType = document.getElementById('scan_type').value;
+            
+            fetch('/send_scan_type', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `scan_type=${scanType}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('log').innerText = data.log_message;
+            })
+            .catch(error => console.error('Errore:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Risultati della Scansione</h1>
+    <p>{{ response3 }}</p>
+    <p>{{ extra_message }}</p>
+
+    <form onsubmit="sendScanType(event)">
+        <label for="scan_type">Tipo di scansione:</label>
+        <input type="text" id="scan_type" name="scan_type" required>
+        <button type="submit">Invia</button>
+    </form>
+
+    <p id="log"></p> <!-- Qui comparirà il messaggio di log -->
+</body>
+</html>

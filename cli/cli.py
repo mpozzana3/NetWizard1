@@ -1,8 +1,8 @@
 import sys
 import socket
 
-HOST = 'localhost'  # Indirizzo del server
-PORT = 12345         # Porta del server
+HOST = 'localhost'  # Indirizzo del server-centrale
+PORT = 12345         # Porta del server-centrale
 
 def recv_message(sock):
     """Riceve un messaggio dal server gestendo errori di connessione."""
@@ -26,18 +26,18 @@ def start_client():
     # Inserisci la scelta dell'utente
     scelta = input("Inserisci la tua scelta (1 o 2): ")
 
-    # Controlla che la scelta sia valida
+    # Controlla che la scelta sia valida se no loop
     while scelta not in {"1", "2"}:
         print("Scelta non valida. Riprova.")
         scelta = input("Scegli il tipo di operazione (1 o 2): ")
     client_socket.send(scelta.encode())
 
-    # Se l'utente ha scelto Scansioni
+    # Se viene scelto Scansioni
     if scelta == "1":
             response = recv_message(client_socket)
             print(response)
 
-            # Chiedi al client il nome dell'azienda e la P.IVA
+            # Chiedi al client il nome dell'azienda e la P.IVA, .strip() per eliminare spazzi
             azienda = input("Inserisci il nome dell'azienda: ").strip()
             p_iva = input("Inserisci la P.IVA dell'azienda: ").strip()
 
@@ -57,7 +57,7 @@ def start_client():
 
             # Inserisci la scelta della scansione
             print("A questo punto dovrebbe arrivare la richiesta per inserire la scelta.")
-            sys.stdout.flush()  # Forza il flush dell'output
+            sys.stdout.flush() 
             scelta_scansione = input("Inserisci la tua scelta: ").strip()
 
             print(f"Scelta inserita: {scelta_scansione}")
@@ -73,15 +73,17 @@ def start_client():
             response = recv_message(client_socket)
             print(response)
 
+            # Ricevi stato finale scansione
             response = recv_message(client_socket)
             print(response)
 
-    # Se l'utente ha scelto Analisi DB
+    # Se viene scelto Analisi DB
     elif scelta == "2":
+        # Ricevi messaggio con lista tabelle disponibili
         tables_message = client_socket.recv(1024).decode()
         print(tables_message)
 
-        # Chiedi all'utente di scegliere una tabella
+        # Chiedi di scegliere una tabella
         tab = input("Seleziona una tabella: ").strip()
         client_socket.send(tab.encode())
 
@@ -89,7 +91,7 @@ def start_client():
         columns_message = client_socket.recv(1024).decode()
         print(columns_message)
 
-        # Chiedi all'utente di selezionare le colonne
+        # Chiedi di selezionare le colonne
         col = input("Seleziona le colonne da includere (o '*' per tutte): ").strip()
         client_socket.send(col.encode())
 
@@ -97,15 +99,15 @@ def start_client():
         constraint_message = client_socket.recv(1024).decode()
         print(constraint_message)
 
-        # Chiedi se l'utente vuole applicare un vincolo opzionale
+        # Chiedi se si vuole applicare un vincolo opzionale
         vincolo = input("Indica un vincolo opzionale: ").strip()
         client_socket.send(vincolo.encode())
 
-        # Ricevi il risultato della query dal server
+        # Ricevi il risultato della query dal server, buffer più grande per ricevere molti dati 
         data = []
         while True:
-            chunk = client_socket.recv(8192).decode()  # Buffer più grande
-            if not chunk:  # Se non riceve più dati, esce
+            chunk = client_socket.recv(8192).decode() 
+            if not chunk:  
                 break
             data.append(chunk)
 

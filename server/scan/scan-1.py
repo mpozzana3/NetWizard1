@@ -2,7 +2,6 @@ import mysql.connector
 from scapy.all import ARP, sniff
 import json
 from macaddress import get_mac_vendor
-import time
 import sys
 
 
@@ -66,7 +65,6 @@ def create_table(conn):
     conn.commit()
     cursor.close()
 
-# Funzione per inserire i dati nella tabella, solo se la coppia id_scansione e mac_address non esistono
 def insert_into_db(conn, id_scansione, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
     """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
     cursor = conn.cursor()

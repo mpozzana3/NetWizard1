@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rispondi all'Analisi DB</title>
+</head>
+<body>
+    <h1>Analisi DB</h1>
+    <p>{{ message }}</p>  <!-- Mostra il messaggio dal server -->
+    
+    <form action="/input_response" method="post">
+        <label for="user_response">Inserisci la tua risposta (seleziona la tabella):</label>
+        <textarea id="user_response" name="user_response" required></textarea>
+        <br>
+        <button type="submit">Invia Risposta</button>
+    </form>
+</body>
+</html>
