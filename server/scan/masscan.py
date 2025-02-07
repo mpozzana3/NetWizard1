@@ -42,7 +42,8 @@ def create_table(conn):
             state VARCHAR(10),
             reason VARCHAR(50),
             reason_ttl INT,
-            timestamp INT
+            timestamp INT,
+            PRIMARY KEY (id_scansione, ip, portid)
         )
     """)
     conn.commit()

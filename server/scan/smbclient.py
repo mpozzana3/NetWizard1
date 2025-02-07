@@ -37,7 +37,8 @@ def create_table_if_not_exists(connection):
     CREATE TABLE IF NOT EXISTS smbclient (
         id_scansione VARCHAR(255) NOT NULL,
         ip VARCHAR(15) NOT NULL,
-        login_anonimo VARCHAR(20) NOT NULL
+        login_anonimo VARCHAR(20) NOT NULL,
+        PRIMARY KEY (id_scansione, ip)
     )
     """
     cursor = connection.cursor()

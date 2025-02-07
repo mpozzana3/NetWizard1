@@ -7,10 +7,31 @@ def load_config():
     with open("config.json", "r") as f:
         return json.load(f)
 
+def parse_nbtscan(file_path):
+    """
+    Legge il file nbtscan.txt ed estrae gli indirizzi IP dal nuovo formato.
+    """
+    ip_list = []
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
+
+    for line in lines:
+        if line.strip():
+            parts = line.split('§')
+            if len(parts) > 0:
+                ip = parts[0].strip()
+                ip_list.append(ip)
+
+    return ip_list
+
 def run_snmp_check(target_ip, community="public"):
     cmd = ["snmpwalk", "-v", "2c", "-c", community, target_ip]
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-    return result.stdout
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        return result.stdout
+    except subprocess.CalledProcessError:
+        print(f"Errore SNMP su {target_ip}")
+        return None
 
 def parse_snmp_output(output):
     parsed_data = {
@@ -20,20 +41,19 @@ def parse_snmp_output(output):
         "processes": []
     }
 
-    # Estrai il nome host
+    if not output:
+        return parsed_data
+
     hostname_match = re.search(r"SNMPv2-MIB::sysName.0 = STRING: (.+)", output)
     if hostname_match:
         parsed_data["hostname"] = hostname_match.group(1)
 
-    # Estrai le interfacce di rete
     interfaces = re.findall(r"IF-MIB::ifDescr\.(\d+) = STRING: (\w+)", output)
     parsed_data["interfaces"] = [{"name": i[1]} for i in interfaces]
 
-    # Estrai le porte aperte (se sono nel formato snmpwalk per i servizi)
     ports = re.findall(r"NET-SNMP-EXTEND-MIB::nsExtendOutLine\.\d+ = STRING: (\d+)", output)
     parsed_data["open_ports"] = [{"port": int(p)} for p in ports]
 
-    # Estrai i processi (se sono visibili tramite snmpwalk)
     processes = re.findall(r"HOST-RESOURCES-MIB::hrSWRunName\.(\d+) = STRING: ([^\n]+)", output)
     parsed_data["processes"] = [{"pid": int(p[0]), "command": p[1]} for p in processes]
 
@@ -41,13 +61,14 @@ def parse_snmp_output(output):
 
 def connect_db(config):
     db_config = config["db"]
-    conn = mysql.connector.connect(
+    return mysql.connector.connect(
         host=db_config["host"],
         user=db_config["user"],
         password=db_config["password"],
-        database=db_config["name"]
+        database=db_config["name"],
+        charset="utf8mb4",
+        collation="utf8mb4_general_ci"
     )
-    return conn
 
 def create_table(conn):
     cursor = conn.cursor()
@@ -58,7 +79,8 @@ def create_table(conn):
             interface_name VARCHAR(50),
             port INT,
             pid INT,
-            process_cmd TEXT
+            process_cmd TEXT,
+            PRIMARY KEY (id, hostname, port)
         )
     """)
     conn.commit()
@@ -90,15 +112,17 @@ def insert_snmp_results(conn, parsed_data):
 
 def main():
     config = load_config()
-    target_ip = "172.16.1.131"
-    community = "public"  
-
-    output = run_snmp_check(target_ip, community)
-    parsed_data = parse_snmp_output(output)
+    ip_list = parse_nbtscan("nbtscan.txt")
+    community = "public"
 
     conn = connect_db(config)
     create_table(conn)
-    insert_snmp_results(conn, parsed_data)
+
+    for target_ip in ip_list:
+        print(f"Eseguo SNMP scan su {target_ip}")
+        output = run_snmp_check(target_ip, community)
+        parsed_data = parse_snmp_output(output)
+        insert_snmp_results(conn, parsed_data)
 
     conn.close()
     print("Dati SNMP salvati nel database.")

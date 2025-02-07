@@ -108,7 +108,7 @@ try:
         row_with_piva = row + (azienda_config['p_iva'],)
         try:
             cursor2.execute(
-                "INSERT INTO nmap (id_scansione, ip, timestamp, vendor, hostname, extraports_count, extraports_state, port_id, port_script_id, port_state, port_script_output, port_service_name, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO nmap (id_scansione, ip, timestamp, vendor, hostname, extraports_count, extraports_state, port_id, port_state, port_service_name, port_product, port_script_id, port_script_output, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                 row_with_piva
             )
             new_rows_count += 1

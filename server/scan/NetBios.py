@@ -37,7 +37,8 @@ def connect_to_db():
                     server VARCHAR(255),
                     user VARCHAR(255),
                     mac_address VARCHAR(17),
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (id_scansione, ip)
                 );
             """)
             connection.commit()
