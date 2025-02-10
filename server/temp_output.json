@@ -1,0 +1,89 @@
+{
+    "target": {
+        "host": "172.16.1.2"
+    },
+    "credentials": {
+        "auth_method": "null",
+        "user": "",
+        "password": "",
+        "domain": "",
+        "ticket_file": "",
+        "nthash": "",
+        "random_user": "tyvmrlmq"
+    },
+    "listeners": {
+        "LDAP": {
+            "port": 389,
+            "accessible": false
+        },
+        "LDAPS": {
+            "port": 636,
+            "accessible": false
+        },
+        "SMB": {
+            "port": 445,
+            "accessible": true
+        },
+        "SMB over NetBIOS": {
+            "port": 139,
+            "accessible": true
+        }
+    },
+    "domain": "GFTECH",
+    "nmblookup": [
+        "FS02            <00> -         B <ACTIVE>  Workstation Service",
+        "FS02            <03> -         B <ACTIVE>  Messenger Service",
+        "FS02            <20> -         B <ACTIVE>  File Server Service",
+        "..__MSBROWSE__. <01> - <GROUP> B <ACTIVE>  Master Browser",
+        "GFTECH          <00> - <GROUP> B <ACTIVE>  Domain/Workgroup Name",
+        "GFTECH          <1d> -         B <ACTIVE>  Master Browser",
+        "GFTECH          <1e> - <GROUP> B <ACTIVE>  Browser Service Elections",
+        "MAC Address = 00-00-00-00-00-00"
+    ],
+    "smb_dialects": {
+        "Supported dialects": {
+            "SMB 1.0": false,
+            "SMB 2.02": true,
+            "SMB 2.1": true,
+            "SMB 3.0": true,
+            "SMB 3.1.1": true
+        },
+        "Preferred dialect": "SMB 3.0",
+        "SMB1 only": false,
+        "SMB signing required": false
+    },
+    "smb_domain_info": {
+        "NetBIOS computer name": "FS02",
+        "NetBIOS domain name": "GFTECH",
+        "DNS domain": "",
+        "FQDN": "localhost",
+        "Derived membership": "workgroup member",
+        "Derived domain": "unknown"
+    },
+    "sessions": {
+        "sessions_possible": true,
+        "null": true,
+        "password": false,
+        "kerberos": false,
+        "nthash": false,
+        "random_user": false
+    },
+    "rpc_domain_info": {
+        "Domain": "GFTECH",
+        "Domain SID": "S-1-5-21-2857987910-2622034082-2940064511",
+        "Membership": "domain member"
+    },
+    "errors": {
+        "listeners": {
+            "enum_listeners": [
+                "Could not connect to LDAP on 389/tcp: connection refused",
+                "Could not connect to LDAPS on 636/tcp: connection refused"
+            ]
+        },
+        "sessions": {
+            "enum_sessions": [
+                "Could not establish random user session: STATUS_LOGON_FAILURE"
+            ]
+        }
+    }
+}

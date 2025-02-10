@@ -26,7 +26,7 @@ def format_element(elem, level=0):
 
 @app.route("/")
 def home():
-    return render_template("index.html", content=xml_to_html("test.xml"))
+    return render_template("index.html", content=xml_to_html("nmap_advanced_portscan.xml"))
 
 if __name__ == "__main__":
    app.run(debug=True, host='0.0.0.0', port=5005)

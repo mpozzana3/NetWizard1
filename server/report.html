@@ -115,8 +115,8 @@
 </div></nav><div class="container" style="width: 94%">
 <div class="jumbotron" style="margin-top: 80px; padding-top: 5px; padding-bottom: 30px; padding-left: 30px; padding-right: 30px">
 <h2>Nmap Port Scanning Results</h2>
-<h2><small>Nmap Version 7.95<br>Mon Feb 10 11:11:56 2025 – Mon Feb 10 11:11:57 2025</small></h2>
-<pre style="white-space:pre-wrap; word-wrap:break-word;"><a target="_blank" href="https://explainshell.com/explain?cmd=nmap%20-sV%20--stylesheet%20https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl%20-oA%20nmap_advanced_portscan%20172.16.1.141">nmap -sV --stylesheet https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl -oA nmap_advanced_portscan 172.16.1.141</a></pre>
+<h2><small>Nmap Version 7.95<br>Mon Feb 10 12:24:18 2025 – Mon Feb 10 12:24:46 2025</small></h2>
+<pre style="white-space:pre-wrap; word-wrap:break-word;"><a target="_blank" href="https://explainshell.com/explain?cmd=nmap%20-sC%20-sV%20--stats-every%201m%20--stylesheet%20https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl%20-oX%20scan.xml%20172.16.1.131">nmap -sC -sV --stats-every 1m --stylesheet https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl -oX scan.xml 172.16.1.131</a></pre>
 <p class="lead">1 hosts scanned.
               1 hosts up.
               0 hosts down.
@@ -148,9 +148,9 @@
 </tr></thead>
 <tbody><tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-141">172.16.1.141</a></td>
+<td><a href="#onlinehosts-172-16-1-131">172.16.1.131</a></td>
 <td></td>
-<td>1</td>
+<td>3</td>
 <td>0</td>
 </tr></tbody>
 </table></div>
@@ -169,19 +169,47 @@
 <th title="Title of HTTP services">Title</th>
 <th>CPE</th>
 </tr></thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-141">172.16.1.141</a></td>
-<td><a href="#port-172-16-1-141-22">22</a></td>
+<td><a href="#onlinehosts-172-16-1-131">172.16.1.131</a></td>
+<td><a href="#port-172-16-1-131-80">80</a></td>
 <td>tcp</td>
-<td>ssh</td>
-<td>OpenSSH</td>
-<td>9.9</td>
-<td>protocol 2.0</td>
+<td>http</td>
+<td>Apache httpd</td>
+<td>2.4.62</td>
+<td>(Unix)</td>
+<td></td>
+<td><i>Site doesn't have a title (text/html).</i></td>
+<td>cpe:/a:apache:http_server:2.4.62</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-131">172.16.1.131</a></td>
+<td><a href="#port-172-16-1-131-5000">5000</a></td>
+<td>tcp</td>
+<td>rtsp</td>
 <td></td>
 <td></td>
-<td>cpe:/a:openbsd:openssh:9.9</td>
-</tr></tbody>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-131">172.16.1.131</a></td>
+<td><a href="#port-172-16-1-131-7000">7000</a></td>
+<td>tcp</td>
+<td>rtsp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table></div>
 <h2 id="webservices" class="target">Web Services</h2>
 <div class="table-responsive"><table id="web-services" class="table table-striped dataTable" role="grid">
@@ -196,12 +224,22 @@
 <th>SSL Certificate</th>
 <th>URL</th>
 </tr></thead>
-<tbody></tbody>
+<tbody><tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-131">172.16.1.131</a></td>
+<td><a href="#port-172-16-1-131-80">80</a></td>
+<td>http</td>
+<td>Apache httpd</td>
+<td>2.4.62</td>
+<td><i>Site doesn't have a title (text/html).</i></td>
+<td></td>
+<td><a target="_blank" href="http://172.16.1.131:80">http://172.16.1.131:80</a></td>
+</tr></tbody>
 </table></div>
 <h2 id="onlinehosts" class="target">Online Hosts</h2>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-141" data-target="#172-16-1-141"><h3 class="panel-title">172.16.1.141</h3></div>
-<div class="panel-body collapse in" id="172-16-1-141">
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-131" data-target="#172-16-1-131"><h3 class="panel-title">172.16.1.131</h3></div>
+<div class="panel-body collapse in" id="172-16-1-131">
 <h4>Ports</h4>
 <div class="table-responsive"><table class="table table-bordered">
 <thead><tr>
@@ -215,15 +253,114 @@
 </tr></thead>
 <tbody>
 <tr class="success">
-<td title="Port" id="port-172-16-1-141-22">22</td>
+<td title="Port" id="port-172-16-1-131-80">80</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ssh</td>
-<td title="Product">OpenSSH</td>
-<td title="Version">9.9</td>
-<td title="Extra Info">protocol 2.0</td>
+<td title="Service">http</td>
+<td title="Product">Apache httpd</td>
+<td title="Version">2.4.62</td>
+<td title="Extra Info">(Unix)</td>
 </tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openbsd:openssh:9.9">cpe:/a:openbsd:openssh:9.9</a></td></tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.62">cpe:/a:apache:http_server:2.4.62</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.62 (Unix)</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-131-5000">5000</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">rtsp</td>
+<td title="Product"></td>
+<td title="Version"></td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>rtsp-methods</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
+<h5>fingerprint-strings</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  FourOhFourRequest: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864517
+  GetRequest: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43859359
+  HTTPOptions: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864497
+  RTSPRequest: 
+    RTSP/1.0 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43859492
+  SIPOptions: 
+    RTSP/1.0 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    CSeq: 42 OPTIONS
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864537</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-131-7000">7000</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">rtsp</td>
+<td title="Product"></td>
+<td title="Version"></td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>rtsp-methods</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
+<h5>fingerprint-strings</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  FourOhFourRequest: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 0
+    X-Apple-RequestReceivedTimestamp: 43864448
+  GetRequest: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864401
+  HTTPOptions: 
+    HTTP/1.1 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864426
+  RTSPRequest: 
+    RTSP/1.0 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    X-Apple-ProcessingTime: 9
+    X-Apple-RequestReceivedTimestamp: 43859347
+  SIPOptions: 
+    RTSP/1.0 403 Forbidden
+    Content-Length: 0
+    Server: AirTunes/830.10.1
+    CSeq: 42 OPTIONS
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 43864470</pre>
+<h5>irc-info</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Unable to open connection</pre>
+</td></tr>
 </tbody>
 </table></div>
 </div>

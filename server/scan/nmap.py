@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 import sys
 import json
+import os
 
 # Leggere la configurazione dal file JSON
 
@@ -134,7 +135,6 @@ def parse_nmap_output(xml_path):
 
 def insert_data(conn, data, id_scansione):
     try:
-        print(f"provo a inserire {id_scansione}, {data}")
         cursor = conn.cursor()
         insert_query = """
         INSERT INTO nmap (
@@ -143,7 +143,6 @@ def insert_data(conn, data, id_scansione):
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
         final_data = (id_scansione, *data)
-        print(f"Inserting: {final_data}, Length: {len(final_data)}")
         cursor.execute(insert_query, (id_scansione, *data))
         conn.commit()
     except Error as e:
@@ -151,13 +150,29 @@ def insert_data(conn, data, id_scansione):
     finally:
         cursor.close()
 
-
 def scan_network(target, output_file="scan.xml"):
     try:
-        subprocess.run(["nmap","-sC", "-sV", "--stats-every ", "1m", "-oX", output_file, target], check=True)
+        subprocess.run(
+            ["nmap", "-sC", "-sV", "--stats-every", "1m", "--stylesheet", "https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl", "-oX", output_file, target],
+            check=True
+        )
         print(f"Scansione completata. Risultati salvati in {output_file}")
     except subprocess.CalledProcessError as e:
         print(f"Errore durante l'esecuzione di Nmap: {e}")
+
+def generate_html_report(output_file="scan.xml"):
+    try:
+        # Scarica il foglio di stile XSLT localmente
+        xslt_file = "nmap-bootstrap.xsl"
+        if not os.path.exists(xslt_file):
+            subprocess.run(["wget", "https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl", "-O", xslt_file], check=True)
+        
+        # Genera il file HTML usando xsltproc
+        html_file = "report.html"
+        subprocess.run(["xsltproc", "-o", html_file, xslt_file, output_file], check=True)
+        print(f"File HTML generato con successo: {html_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"Errore durante la generazione del report HTML: {e}")
 
 def main():
     if len(sys.argv) != 3:
@@ -175,6 +190,9 @@ def main():
     output_file = "scan.xml"
     scan_network(target, output_file)
 
+    # Genera il report HTML dopo la scansione
+    generate_html_report(output_file)
+
     for data in parse_nmap_output(output_file):
         insert_data(conn, data, id_scansione)
 
@@ -182,3 +200,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
