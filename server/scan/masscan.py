@@ -3,12 +3,30 @@ import json
 import mysql.connector
 import sys
 import xml.etree.ElementTree as ET
+import requests
+
+def get_cidr():
+    """Ottiene il CIDR dell'IP pubblico usando ipinfo.io."""
+    try:
+        response = requests.get("https://ipinfo.io/json", timeout=5)
+        data = response.json()
+        
+        ip = data.get("ip")
+        netmask = data.get("netmask", "24")  # Default a /24 se mancante
+
+        if ip and netmask:
+            return f"{ip}/{netmask}"
+        else:
+            print("Errore: Subnet non disponibile")
+            return None
+    except requests.RequestException as e:
+        print(f"Errore nel recupero del CIDR: {e}")
+        return None
 
 def load_config():
     with open("config.json", "r") as f:
         return json.load(f)
 
-# Lancia masscan sia per porte TCP sia per porte UDP
 def run_masscan(target_ip):
     commands = [
         ["masscan", "-oX", "masscan.xml", "--ports", "0-500", target_ip],
@@ -49,7 +67,6 @@ def create_table(conn):
     conn.commit()
     cursor.close()
 
-#Estrae i valori di interesse dai file xml risultanti dalle scansioni
 def parse_masscan_xml(file_path, id_scansione):
     tree = ET.parse(file_path)
     root = tree.getroot()
@@ -69,9 +86,8 @@ def parse_masscan_xml(file_path, id_scansione):
             reason = state_element.get("reason")
             reason_ttl = int(state_element.get("reason_ttl"))
 
-            # Aggiungi l'ID della scansione ai risultati
             scan_results.append((id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp))
-
+    
     return scan_results
 
 def insert_scan_results(conn, scan_results):
@@ -84,16 +100,17 @@ def insert_scan_results(conn, scan_results):
     cursor.close()
 
 def main():
-    # Verifica che l'ID della scansione sia stato passato come argomento
     if len(sys.argv) < 2:
         print("Errore: è necessario fornire l'ID della scansione come argomento.")
         return
     
-    # Prendi l'ID della scansione dalla riga di comando
     id_scansione = sys.argv[1]
-
     config = load_config()
-    target_ip = "31.156.174.90/30"
+    
+    target_ip = get_cidr()
+    if not target_ip:
+        print("Errore: impossibile determinare la subnet pubblica.")
+        return
     
     run_masscan(target_ip)
     

@@ -53,8 +53,7 @@ def create_table(conn):
             port_service_name VARCHAR(255) DEFAULT NULL,
             port_product VARCHAR(255) DEFAULT NULL,
             port_script_id VARCHAR(255) DEFAULT NULL,
-            port_script_output TEXT DEFAULT NULL,
-            PRIMARY KEY (id_scansione, ip, port_id, port_script_id)
+            port_script_output TEXT DEFAULT NULL
         ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
         """
         cursor.execute(create_table_query)
@@ -155,7 +154,7 @@ def insert_data(conn, data, id_scansione):
 
 def scan_network(target, output_file="scan.xml"):
     try:
-        subprocess.run(["nmap","-sC", "-sV",  "-oX", output_file, target], check=True)
+        subprocess.run(["nmap","-sC", "-sV", "--stats-every ", "1m", "-oX", output_file, target], check=True)
         print(f"Scansione completata. Risultati salvati in {output_file}")
     except subprocess.CalledProcessError as e:
         print(f"Errore durante l'esecuzione di Nmap: {e}")

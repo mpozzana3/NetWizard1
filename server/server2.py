@@ -181,6 +181,8 @@ def handle_client(client_socket, subnet):
                 subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], check=True)
             elif scelta_scansione == "COMPLETA":
                 subprocess.run(["python3", "scan/main.py", str(id_scansione)], check=True)
+            elif scelta_scansione == "MASSCAN":
+                subprocess.run(["python3", "scan/masscan.py", str(id_scansione)], check=True)
 
             # Aggiorna lo stato della scansione a COMPLETATA
             update_stato_scansione(id_scansione)
