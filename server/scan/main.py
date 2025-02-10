@@ -33,7 +33,8 @@ def run_script(script_name, *args):
     try:
         # Costruisci il comando per eseguire lo script
         command = ["python3", script_name] + list(args)
-        
+        print(f"Lancio {script_name}...")        
+
         # Esegui lo script
         result = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         

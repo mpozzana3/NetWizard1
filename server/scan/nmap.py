@@ -152,13 +152,29 @@ def insert_data(conn, data, id_scansione):
 
 def scan_network(target, output_file="scan.xml"):
     try:
-        subprocess.run(
+        # Esegui il comando Nmap e cattura l'output e gli errori
+        result = subprocess.run(
             ["nmap", "-sC", "-sV", "--stats-every", "1m", "--stylesheet", "https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl", "-oX", output_file, target],
-            check=True
+            check=True, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE, 
+            text=True
         )
+        
+        # Stampa l'output standard
         print(f"Scansione completata. Risultati salvati in {output_file}")
+        print("Output della scansione Nmap:")
+        print(result.stdout)
+        
+        # Stampa eventuali errori
+        if result.stderr:
+            print("Errori durante la scansione Nmap:")
+            print(result.stderr)
+            
     except subprocess.CalledProcessError as e:
         print(f"Errore durante l'esecuzione di Nmap: {e}")
+        if e.stderr:
+            print(f"Errori: {e.stderr}")
 
 def generate_html_report(output_file="scan.xml"):
     try:

@@ -34,7 +34,29 @@ def run_masscan(target_ip):
     ]
     
     for cmd in commands:
-        subprocess.run(cmd, check=True)
+        try:
+            # Esegui il comando e cattura l'output e gli errori
+            result = subprocess.run(
+                cmd, 
+                check=True, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                text=True
+            )
+            
+            # Stampa l'output standard
+            print(f"Output del comando {cmd}:")
+            print(result.stdout)
+            
+            # Stampa eventuali errori
+            if result.stderr:
+                print(f"Errori del comando {cmd}:")
+                print(result.stderr)
+                
+        except subprocess.CalledProcessError as e:
+            print(f"Errore durante l'esecuzione di Masscan: {e}")
+            if e.stderr:
+                print(f"Errori: {e.stderr}")
 
 def connect_db(config):
     db_config = config["db"]

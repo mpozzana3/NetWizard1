@@ -3,6 +3,7 @@ import os
 import subprocess
 import mysql.connector
 import json
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
