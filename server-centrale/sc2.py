@@ -44,99 +44,63 @@ def send_message(client_socket, message):
     """Invia un messaggio al client usando sendall() per evitare troncamenti."""
     client_socket.sendall(message.encode())
 
-def execute_query(query):
-    """Esegue mariadbquery.py con una query e restituisce il risultato."""
-    try:
-        process = subprocess.Popen(["python3", "mariadbquery.py", query], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        stdout, stderr = process.communicate()
-        return stdout if stdout else stderr
-    except Exception as e:
-        return f"Errore nell'esecuzione della query: {e}"
-
 def handle_client(client_socket):
     """Gestisce la comunicazione con il client."""
     try:
-        send_message(client_socket, "Collegamento riuscito, cosa vuoi fare?\n1. Scansioni\n2. Analisi DB")
-        client_choice = client_socket.recv(1024).decode().strip()
-        print(f"Scelta del client: {client_choice}")
-
-        if client_choice == '1':
-            print("Scelto scansioni")
-            send_message(client_socket, "Hai scelto Scansioni. Su quale azienda vuoi fare la scansione?")
-    
-            dati_ricevuti = client_socket.recv(1024).decode().strip()
-            if '|' in dati_ricevuti:  # Controlla se il delimitatore è presente
-                azienda_choice, p_iva_choice = dati_ricevuti.split('|')
-            else:
-                azienda_choice, p_iva_choice = dati_ricevuti, "N/A"  # Caso di errore
-    
-            print(f"Azienda scelta per la scansione: {azienda_choice}, P.IVA: {p_iva_choice}")
-            db_connection = create_db_connection()
-            if db_connection:
-                cursor = db_connection.cursor()
-                query = """
-                SELECT IP_sonda, Porta_sonda FROM aziende WHERE azienda = %s AND p_iva = %s
-                """
-                cursor.execute(query, (azienda_choice, p_iva_choice))
-                result = cursor.fetchone()
-            
-            if result:
-                ip_sonda = result[0]
-                porta_sonda = result[1]
-                try:
-                    sonda_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    sonda_socket.connect((ip_sonda, porta_sonda))
-                    socket_conn = sonda_socket.recv(1024).decode()
-                    print(f"{socket_conn}")
-                    send_message(client_socket, f"Azienda trovata: {socket_conn}")
-                    # Invia il messaggio di scansione al client
-                    client_socket.send(
-                        b"Che tipo di scansione vuoi fare?\n"
-                        b"ARP_PASSIVA\n"
-                        b"ARP_ATTIVA\n"
-                        b"NMAP\n"
-                        b"NBTSCAN\n"
-                        b"ENUM4LINUX (solo dopo NBTSCAN)\n"
-                        b"SMBMAP (solo dopo NBTSCAN)\n"
-                        b"SMBCLIENT (solo dopo NBTSCAN)\n"
-                        b"COMPLETA\n"
-                    )
-                    print("Messaggio di scansione inviato.")
-
-                    try:
-                        print("In attesa della scelta della scansione...")
-                        scelta_scansione = client_socket.recv(1024).decode().strip()
-                        if not scelta_scansione:  # Se non arriva una scelta valida, chiedi di nuovo
-                            print("Nessuna scelta ricevuta, aspetto...")
-                            send_message(client_socket, "Per favore, seleziona un tipo di scansione.")
-                            scelta_scansione = client_socket.recv(1024).decode().strip()  # Riprova
-                            print(f"Scelta scansione ricevuta dal client: {scelta_scansione}")
-                            if not scelta_scansione:  # Ancora nulla? Gestisci errore
-                                print("⚠️ Connessione interrotta dal client prima della scelta della scansione.")
-                            else:
-                                send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
-                        else:
-                            send_message(client_socket, f"Scansione {scelta_scansione} avviata.")
-                        
-                    except Exception as e:
-                        print(f"❌ Errore durante la ricezione della scelta: {e}")
-
-                except Exception as e:
-                    print(f"Errore nella connessione al server sonda: {e}")
-                    send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
-            else:
-                client_socket.send(b"Azienda non trovata")
+        dati_ricevuti = client_socket.recv(1024).decode().strip()
+        print(f"📩 Dati ricevuti: {dati_ricevuti}")  # Debug
         
-        elif client_choice == '2':
-            send_message(client_socket, f"Hai scelto Analisi DB.\nTabelle disponibili:\n1 tabella_host\n2.nbtscan\n3.smbclient\n4.nmap\n5.extended_enum\n6.smbmap\n7.scansioni\n8.masscan\nSeleziona una tabella (o usa '*' per tutte le colonne):")
-            print("Scelto analisi DB")
-            tabella = client_socket.recv(1024).decode().strip()
-            print(f"tabella scelta:  {tabella}")
-            client_socket.close()
+        if '|' in dati_ricevuti:
+            azienda_choice, p_iva_choice, tipo_scansione = dati_ricevuti.split('|')
+        elif dati_ricevuti == '1':
+            print("Scelto scansioni, attendo dati successivi...")
+            dati_ricevuti = client_socket.recv(1024).decode().strip()
+            print(f"📩 Seconda ricezione: {dati_ricevuti}")  # Debug
+            
+            if '|' in dati_ricevuti:
+                azienda_choice, p_iva_choice, tipo_scansione = dati_ricevuti.split('|')
+            else:
+                send_message(client_socket, "Errore: dati non validi")
+                return
+        else:
+            send_message(client_socket, "Errore: dati non validi")
+            return
 
+        print(f"✅ Azienda: {azienda_choice}, P.IVA: {p_iva_choice}, Tipo: {tipo_scansione}")
+        
+        # --- Ricerca database ---
+        db_connection = create_db_connection()
+        if db_connection:
+            cursor = db_connection.cursor()
+            query = "SELECT IP_sonda, Porta_sonda FROM aziende WHERE azienda = %s AND p_iva = %s"
+            cursor.execute(query, (azienda_choice, p_iva_choice))
+            result = cursor.fetchone()
+            db_connection.close()
+
+        if not result:
+            send_message(client_socket, "Errore: Azienda non trovata")
+            return
+
+        ip_sonda, porta_sonda = result
+        print(f"🔄 Connessione alla sonda {ip_sonda}:{porta_sonda}")
+
+        # --- Connessione alla sonda ---
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sonda_socket:
+                sonda_socket.connect((ip_sonda, porta_sonda))
+                sonda_socket.sendall(tipo_scansione.encode())
+
+                for _ in range(3):
+                    response = sonda_socket.recv(1024).decode()
+                    print(f"📩 Ricevuto dalla sonda: {response}")
+                    send_message(client_socket, response)
+        except Exception as e:
+            send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
+    
     except Exception as e:
-        print(f"Errore: {e}")
-
+        print(f"❌ Errore: {e}")
+    finally:
+        client_socket.close()
 
 def start_server():
     """Avvia il server e accoglie le connessioni."""

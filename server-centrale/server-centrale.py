@@ -98,6 +98,7 @@ def handle_client(client_socket):
                             b"ENUM4LINUX (solo dopo NBTSCAN)\n"
                             b"SMBMAP (solo dopo NBTSCAN)\n"
                             b"SMBCLIENT (solo dopo NBTSCAN)\n"
+                            b"MASSCAN\n"
                             b"COMPLETA\n"
                         )
                         print("Messaggio di scansione inviato.")
@@ -120,7 +121,7 @@ def handle_client(client_socket):
 
                         # Verifica se la scelta è valida
                         scansioni_valide = [
-                            "ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA"
+                            "ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA", "MASSCAN"
                         ]
 
                         if scelta_scansione not in scansioni_valide:
