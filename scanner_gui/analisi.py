@@ -1,51 +1,83 @@
-import socket
 from flask import Flask, render_template, request, jsonify
+import json
+import socket
+import time
 
 app = Flask(__name__)
 
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 12346
 
-def send_message(msg):
-    """Invia un messaggio al server e riceve la risposta."""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        try:
-            s.connect((SERVER_HOST, SERVER_PORT))
-            s.sendall(msg.encode())
-            response = s.recv(4096).decode()
-            return response
-        except Exception as e:
-            return f"Errore: {e}"
+def load_db_schema():
+    with open('db_schema.json') as f:
+        return json.load(f)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    """Pagina principale che invia '2' al server e mostra la GUI."""
-    response = send_message("2|")
-    tabelle = response.split("\n")[1:]  # Estraggo solo i nomi delle tabelle
+    schema = load_db_schema()
+    tabelle = list(schema['server_centrale'].keys())
     return render_template('index2.html', tabelle=tabelle)
 
 @app.route('/get_columns', methods=['POST'])
-def scegli_tabella():
-    """Invia la tabella scelta e riceve le colonne disponibili."""
-    data = request.json
-    tabella = data.get("tabella")
-    response = send_message(f"2|{tabella}||")  # Invia tabella scelta
-    colonne = response.split("\n")[1:]  # Estraggo i nomi delle colonne
-    print(f"colonne ricevute:{colonne}")
-    return render_template('index2.html', tabelle=[], colonne=colonne, tabella=tabella)
+def get_columns():
+    table_name = request.form.get('table_name')
+    schema = load_db_schema()
+    
+    if table_name in schema['server_centrale']:
+        columns = schema['server_centrale'][table_name]
+        column_names = [col['column_name'] for col in columns]
+    else:
+        column_names = []
 
-@app.route('/scegli_colonne', methods=['POST'])
-def scegli_colonne():
-    """Invia la scelta delle colonne e il vincolo al server."""
-    tabella = request.form['tabella']
-    colonne = request.form.getlist('colonne')  # Lista colonne selezionate
-    vincolo = request.form['vincolo']
+    return jsonify(column_names)
 
-    colonne_str = ",".join(colonne) if colonne else "*"
-    messaggio = f"2|{tabella}|{colonne_str}|{vincolo}"
-    risultato = send_message(messaggio)
+@app.route('/submit_query', methods=['POST'])
+def submit_query():
+    table = request.form.get('table')
+    columns = request.form.getlist('column')
+    constraint = request.form.get('constraint')
 
-    return render_template('index2.html', tabelle=[], colonne=[], tabella=tabella, risultato=risultato)
+    print(f"Received data: table={table}, columns={columns}, constraint={constraint}")
 
-if __name__ == "__main__":
+    if not columns:
+        columns = ['*']
+    
+    query = f"SELECT {', '.join(columns)} FROM {table}"
+    if constraint:
+        query += f" WHERE {constraint}"
+    
+    response = send_query_to_server(query)
+    return render_template('index2.html', query=query, response=response)
+
+def send_query_to_server(query):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(5)  # Set a timeout to avoid hanging indefinitely
+            s.connect((SERVER_HOST, SERVER_PORT))
+            
+            # Send the initial message '2'
+            s.sendall(b"2\n")  # Send the first message
+            print("Initial message sent")
+
+            time.sleep(0.1)
+
+            # Send the actual query
+            s.sendall(query.encode('utf-8') + b'\n')  # Send the query with a newline
+            print(f"Query sent: {query}")
+
+            # Receive response from the server
+            response = ''
+            while True:
+                chunk = s.recv(4096).decode('utf-8')
+                response += chunk
+                if len(chunk) < 4096:
+                    break
+
+            print(f"Received response: {response}")
+            return response
+    except Exception as e:
+        print(f"Error in send_query_to_server: {e}")
+        return f"Errore nella connessione al server: {e}"
+
+if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5006)

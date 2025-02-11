@@ -1,73 +1,76 @@
-<!DOCTYPE html>
++<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisi Database</title>
-    <script>
-        function getColumns() {
-            let tabella = document.getElementById("tabella").value;
-
-            fetch('/get_columns', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tabella: tabella })
-            })
-            .then(response => response.json())
-            .then(data => {
-                let colonneSelect = document.getElementById("colonne");
-                colonneSelect.innerHTML = "";
-                data.colonne.forEach(col => {
-                    let option = document.createElement("option");
-                    option.value = col;
-                    option.textContent = col;
-                    colonneSelect.appendChild(option);
-                });
-            });
-        }
-
-        function queryDatabase() {
-            let tabella = document.getElementById("tabella").value;
-            let colonne = Array.from(document.getElementById("colonne").selectedOptions).map(opt => opt.value);
-            let vincolo = document.getElementById("vincolo").value || "NO";
-
-            fetch('/query_db', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tabella: tabella, colonne: colonne, vincolo: vincolo })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("risultato").textContent = data.risultato;
-            });
-        }
-    </script>
+    <title>Analisi Dati</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Analisi Database</h1>
-    
-    <label for="tabella">Seleziona una tabella:</label>
-    <select id="tabella" onchange="getColumns()">
-        {% for tabella in tabelle %}
-        <option value="{{ tabella }}">{{ tabella }}</option>
-        {% endfor %}
-    </select>
+    <h1>Seleziona i parametri per l'analisi</h1>
 
-    <br><br>
+    <form action="/submit_query" method="POST">
+        <label for="table">Seleziona la Tabella:</label>
+        <select name="table" id="table">
+            <option value="">-- Seleziona Tabella --</option>
+            {% for table in tabelle %}
+                <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select><br><br>
 
-    <label for="colonne">Seleziona colonne:</label>
-    <select id="colonne" multiple></select>
+        <label>Seleziona le Colonne (puoi selezionarne più di una):</label><br>
+        <div id="column-container">
+            <!-- Le checkbox verranno aggiunte dinamicamente -->
+        </div><br>
 
-    <br><br>
+        <label for="constraint">Inserisci un vincolo (opzionale):</label><br>
+        <input type="text" id="constraint" name="constraint" placeholder="Es. id_scansione='1'"><br>
+        <small>Ad esempio: id_scansione='1'</small><br><br>
 
-    <label for="vincolo">Vincolo opzionale (es. `colonna = 'valore'`):</label>
-    <input type="text" id="vincolo">
+        <button type="submit">Invia</button>
+    </form>
 
-    <br><br>
+    {% if query %}
+        <h2>Query Eseguita:</h2>
+        <pre>{{ query }}</pre>
+    {% endif %}
 
-    <button onclick="queryDatabase()">Esegui Query</button>
+    {% if response %}
+        <h2>Risultato:</h2>
+        <pre>{{ response }}</pre>
+    {% endif %}
 
-    <h2>Risultato:</h2>
-    <pre id="risultato"></pre>
+    <script>
+        $(document).ready(function() {
+            $('#table').change(function() {
+                var tableName = $(this).val();
+                if (tableName) {
+                    $.ajax({
+                        url: '/get_columns',
+                        method: 'POST',
+                        data: {table_name: tableName},
+                        success: function(data) {
+                            // Pulisci il contenitore delle checkbox
+                            $('#column-container').empty();
+
+                            // Aggiungi checkbox per ciascuna colonna
+                            $('#column-container').append('<input type="checkbox" id="select-all" value="*" /> Seleziona tutte le colonne<br>');
+                            data.forEach(function(column) {
+                                $('#column-container').append(
+                                    `<input type="checkbox" name="column" value="${column}" /> ${column}<br>`
+                                );
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Funzionalità per selezionare/deselezionare tutte le colonne
+            $('#column-container').on('change', '#select-all', function() {
+                var isChecked = $(this).prop('checked');
+                $('#column-container input[type="checkbox"]').not('#select-all').prop('checked', isChecked);
+            });
+        });
+    </script>
 </body>
 </html>
