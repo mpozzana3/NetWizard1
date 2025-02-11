@@ -135,7 +135,8 @@ def handle_client(client_socket, subnet):
     while True:
         # Invia il messaggio di benvenuto
         client_socket.send(
-            f"Collegamento riuscito.\nTi sei collegato alla sonda dell'azienda {AZIENDA}.\n".encode()
+            f"Collegamento riuscito.
+              Ti sei collegato alla sonda dell'azienda {AZIENDA}.".encode()
         )
 
         # Ricevi la scelta di scansione dal client
