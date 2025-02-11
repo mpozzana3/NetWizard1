@@ -1,0 +1,236 @@
+{
+    "server_centrale": {
+        "aziende": [
+            {
+                "column_name": "id",
+                "data_type": "int",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "azienda",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "UNI"
+            },
+            {
+                "column_name": "IP_sonda",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": ""
+            },
+            {
+                "column_name": "Porta_sonda",
+                "data_type": "int",
+                "is_nullable": "NO",
+                "column_key": ""
+            }
+        ],
+        "nbtscan": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "ip",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "netbios_name",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "server",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "user",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "mac_address",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "timestamp",
+                "data_type": "timestamp",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ],
+        "enum4linux": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "ip",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "credentials",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "listeners",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "domain",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "nmblookup",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "errors",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "timestamp",
+                "data_type": "timestamp",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ],
+        "extended_enum": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "ip",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "json_data",
+                "data_type": "text",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "timestamp",
+                "data_type": "timestamp",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ],
+        "masscan": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "int",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "ip",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "addrtype",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "port_protocol",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "portid",
+                "data_type": "int",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "state",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "reason",
+                "data_type": "varchar",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "reason_ttl",
+                "data_type": "int",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "timestamp",
+                "data_type": "int",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ]
+    }
+}
