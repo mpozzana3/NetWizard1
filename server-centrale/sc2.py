@@ -100,36 +100,19 @@ def handle_client(client_socket):
             except Exception as e:
                 send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
 
-        elif client_choice.startswith('2|'):
-            send_message(client_socket, "Hai scelto Analisi DB.\nTabelle disponibili:\ntabella_host\nnbtscan\nsmbclient\nnmap\nextended_enum\nsmbmap\nscansioni\nmasscan\n")
-            print("invio messaggio lista tabelle e aspetto scelta\n")
-            try:
-               _, tabella, colonne, vincolo = client_choice.split("|")
-               print(f"tabella scelta: {tabella}, colonne scelte: {colonne}, vincolo: {vincolo}")
+        elif client_choice == '2':
+           print("✅ Scelto analisi DB, attendo query...\n")
 
-               if not tabella:
-                  send_message(client_socket, "Errore: tabella non specificata")
-                  return
+    # Dopo aver ricevuto "2", attende un altro messaggio, che sarà la query
+           query = client_socket.recv(1024).decode().strip()
 
-               if not colonne:  # Prima ricezione, invia colonne disponibili
-                  print(f"faccio partire query: SELECTCLUMN_NAME FROM information_schema.columns WHERE table_schema = 'server_centrale' AND table_name = '{tabella}'")
-                  columns_query = f"SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = 'server_centrale' AND table_name = '{tabella}'"
-                  columns_result = execute_query(columns_query)
-                  print(f"invio messaggio con lista colonne:\n {columns_result}")
-                  send_message(client_socket, f"Colonne disponibili:\n{columns_result}")
-                  return
-        
-               # Se ha ricevuto anche colonne e vincolo, esegue la query finale
-               where_clause = f" WHERE {vincolo}" if vincolo else ""
-               complete_query = f"SELECT {colonne} FROM {tabella}{where_clause}"
-               result = execute_query(complete_query)
-               send_message(client_socket, result)
+           print(f"📩 Query ricevuta: {query}")
 
-            except Exception as e:
-               send_message(client_socket, f"Errore: {e}")
-
+           result = execute_query(query)  # Usa la query correttamente
+           send_message(client_socket, result)
+    
     finally:
-               client_socket.close()
+        client_socket.close()
 
 def start_server():
     """Avvia il server e accoglie le connessioni."""
