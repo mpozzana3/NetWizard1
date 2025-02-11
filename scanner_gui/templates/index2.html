@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Database</title>
+    <script>
+        function getColumns() {
+            let tabella = document.getElementById("tabella").value;
+
+            fetch('/get_columns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tabella: tabella })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let colonneSelect = document.getElementById("colonne");
+                colonneSelect.innerHTML = "";
+                data.colonne.forEach(col => {
+                    let option = document.createElement("option");
+                    option.value = col;
+                    option.textContent = col;
+                    colonneSelect.appendChild(option);
+                });
+            });
+        }
+
+        function queryDatabase() {
+            let tabella = document.getElementById("tabella").value;
+            let colonne = Array.from(document.getElementById("colonne").selectedOptions).map(opt => opt.value);
+            let vincolo = document.getElementById("vincolo").value || "NO";
+
+            fetch('/query_db', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tabella: tabella, colonne: colonne, vincolo: vincolo })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("risultato").textContent = data.risultato;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Analisi Database</h1>
+    
+    <label for="tabella">Seleziona una tabella:</label>
+    <select id="tabella" onchange="getColumns()">
+        {% for tabella in tabelle %}
+        <option value="{{ tabella }}">{{ tabella }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label for="colonne">Seleziona colonne:</label>
+    <select id="colonne" multiple></select>
+
+    <br><br>
+
+    <label for="vincolo">Vincolo opzionale (es. `colonna = 'valore'`):</label>
+    <input type="text" id="vincolo">
+
+    <br><br>
+
+    <button onclick="queryDatabase()">Esegui Query</button>
+
+    <h2>Risultato:</h2>
+    <pre id="risultato"></pre>
+</body>
+</html>

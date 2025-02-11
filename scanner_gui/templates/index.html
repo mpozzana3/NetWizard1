@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benvenuto</title>
+    <title>Scansioni di rete</title>
     <script>
-        function mostraForm() {
-            document.getElementById('scanForm').style.display = 'block';
+        function sendData() {
+            let azienda = document.getElementById("azienda").value;
+            let p_iva = document.getElementById("p_iva").value;
+            let scan_type = document.getElementById("scan_type").value;
+            
+            fetch("/send_data", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ azienda, p_iva, scan_type })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").innerText = JSON.stringify(data.responses, null, 2);
+            })
+            .catch(error => console.error("Errore:", error));
         }
     </script>
 </head>
 <body>
-    <h1>{{ response }}</h1>
-    
-    <button onclick="mostraForm()">Scansioni</button>
-    <button onclick="window.location.href='/analisi_db'">Analisi DB</button>
-
-    <div id="scanForm" style="display:none; margin-top: 20px;">
-        <form action="/send_scan" method="post">
-            <label for="azienda">Azienda:</label>
-            <input type="text" id="azienda" name="azienda" required>
-            <br>
-            <label for="p_iva">P. IVA:</label>
-            <input type="text" id="p_iva" name="p_iva" required>
-            <br>
-            <button type="submit">Invia</button>
-        </form>
-    </div>
+    <h3>Che tipo di scansione vuoi fare?</h3>
+    <pre>
+ARP_PASSIVA
+ARP_ATTIVA
+NMAP
+NBTSCAN
+ENUM4LINUX (solo dopo NBTSCAN)
+SMBMAP (solo dopo NBTSCAN)
+SMBCLIENT (solo dopo NBTSCAN)
+COMPLETA
+    </pre>
+    <input type="text" id="azienda" placeholder="Azienda">
+    <input type="text" id="p_iva" placeholder="P. IVA">
+    <input type="text" id="scan_type" placeholder="Tipo Scansione">
+    <button onclick="sendData()">Invia</button>
+    <pre id="response"></pre>
 </body>
 </html>
