@@ -1,22 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 import socket
+import time
 
 app = Flask(__name__)
 
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 12346
 
-# Invia un messaggio iniziale al server
-def send_initial_message():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        try:
-            s.connect((SERVER_HOST, SERVER_PORT))
-            print("📡 Connessione al server stabilita, invio segnale iniziale...")
-            s.sendall(b"1")
-        except Exception as e:
-            print(f"❌ Errore di connessione: {e}")
-
-send_initial_message()
 
 @app.route('/')
 def index():
@@ -33,6 +23,11 @@ def send_data():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print(f"📡 Connessione al server {SERVER_HOST}:{SERVER_PORT}...")
             s.connect((SERVER_HOST, SERVER_PORT))
+
+            s.sendall(b"1\n")  # Send the first message
+            print("Initial message sent")
+
+            time.sleep(0.1)
             
             # Formatta correttamente i dati
             dati_da_inviare = f"{azienda}|{p_iva}|{scan_type}"
