@@ -1,13 +1,106 @@
-+<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analisi Dati</title>
+    
+    <!-- jQuery e DataTables -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    
+    <!-- Stile personalizzato -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        /* Stile della tabella */
+        th, td {
+           padding: 8px;
+           border-bottom: 1px solid #ddd;
+           text-align: center;
+           word-wrap: break-word; /* Permette il wrapping del testo nelle celle */
+           max-width: 150px; /* Impedisce che le colonne si allarghino troppo */
+           overflow: hidden; /* Nasconde il testo che supera la larghezza */
+           text-overflow: ellipsis; /* Mostra "..." se il testo è troppo lungo */
+           white-space: nowrap; /* Impedisce che il testo vada a capo */
+        }
+
+        th {
+           background: #007bff;
+           color: white;
+           padding: 10px;
+           text-align: center;
+           border-bottom: 2px solid #ddd;
+           white-space: nowrap; /* Impedisce che il testo dell'intestazione vada a capo */
+        }
+
+        table {
+           width: 100%;
+           table-layout: fixed;  /* Distribuisce uniformemente le colonne */
+           border-collapse: collapse;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
-    <h1>Seleziona i parametri per l'analisi</h1>
+    <h1>Analisi Dati</h1>
 
     <form action="/submit_query" method="POST">
         <label for="table">Seleziona la Tabella:</label>
@@ -16,16 +109,13 @@
             {% for table in tabelle %}
                 <option value="{{ table }}">{{ table }}</option>
             {% endfor %}
-        </select><br><br>
+        </select>
 
-        <label>Seleziona le Colonne (puoi selezionarne più di una):</label><br>
-        <div id="column-container">
-            <!-- Le checkbox verranno aggiunte dinamicamente -->
-        </div><br>
+        <label>Seleziona le Colonne:</label>
+        <div id="column-container"></div>
 
-        <label for="constraint">Inserisci un vincolo (opzionale):</label><br>
-        <input type="text" id="constraint" name="constraint" placeholder="Es. id_scansione='1'"><br>
-        <small>Ad esempio: id_scansione='1'</small><br><br>
+        <label for="constraint">Inserisci un vincolo (opzionale):</label>
+        <input type="text" id="constraint" name="constraint" placeholder="Es. id_scansione='1'">
 
         <button type="submit">Invia</button>
     </form>
@@ -35,26 +125,42 @@
         <pre>{{ query }}</pre>
     {% endif %}
 
-    {% if response %}
-        <h2>Risultato:</h2>
-        <pre>{{ response }}</pre>
+    {% if results %}
+        <h2>Risultati</h2>
+        <table id="queryResults" class="display">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" id="new-analysis-btn">Nuova Analisi</button>
     {% endif %}
 
     <script>
         $(document).ready(function() {
+            // Popolamento colonne dinamico
             $('#table').change(function() {
                 var tableName = $(this).val();
                 if (tableName) {
                     $.ajax({
                         url: '/get_columns',
                         method: 'POST',
-                        data: {table_name: tableName},
+                        data: { table_name: tableName },
                         success: function(data) {
-                            // Pulisci il contenitore delle checkbox
                             $('#column-container').empty();
-
-                            // Aggiungi checkbox per ciascuna colonna
-                            $('#column-container').append('<input type="checkbox" id="select-all" value="*" /> Seleziona tutte le colonne<br>');
+                            $('#column-container').append('<input type="checkbox" id="select-all" value="*" /> Seleziona tutte<br>');
                             data.forEach(function(column) {
                                 $('#column-container').append(
                                     `<input type="checkbox" name="column" value="${column}" /> ${column}<br>`
@@ -65,11 +171,25 @@
                 }
             });
 
-            // Funzionalità per selezionare/deselezionare tutte le colonne
+            // Selezione/Deselezione di tutte le colonne
             $('#column-container').on('change', '#select-all', function() {
                 var isChecked = $(this).prop('checked');
                 $('#column-container input[type="checkbox"]').not('#select-all').prop('checked', isChecked);
             });
+
+            $('#new-analysis-btn').click(function() {
+                window.location.href = '/';
+            });
+
+            // Inizializza DataTables se i risultati sono presenti
+            if ($('#queryResults').length) {
+                $('#queryResults').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "info": true,
+                    "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]]
+                });
+            }
         });
     </script>
 </body>

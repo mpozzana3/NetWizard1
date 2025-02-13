@@ -22,6 +22,72 @@
             .catch(error => console.error("Errore:", error));
         }
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        pre {
+            background: #222;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            display: inline-block;
+            width: 80%;
+            max-width: 600px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        input {
+            width: 80%;
+            max-width: 400px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #response {
+            background: black;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+            margin-top: 20px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
     <h3>Che tipo di scansione vuoi fare?</h3>
@@ -33,12 +99,16 @@ NBTSCAN
 ENUM4LINUX (solo dopo NBTSCAN)
 SMBMAP (solo dopo NBTSCAN)
 SMBCLIENT (solo dopo NBTSCAN)
+MASSCAN
 COMPLETA
     </pre>
+
     <input type="text" id="azienda" placeholder="Azienda">
     <input type="text" id="p_iva" placeholder="P. IVA">
     <input type="text" id="scan_type" placeholder="Tipo Scansione">
+    
     <button onclick="sendData()">Invia</button>
+
     <pre id="response"></pre>
 </body>
 </html>
