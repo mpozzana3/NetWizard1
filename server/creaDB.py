@@ -10,10 +10,10 @@ def create_db_connection(config):
     """Crea una connessione al database MariaDB."""
     try:
         connection = mysql.connector.connect(
-            host=config['database']['db_host'],
-            user=config['database']['db_user'],
-            password=config['database']['db_password'],
-            database=config['database']['db_name'],
+            host=config['db']['host'],
+            user=config['db']['user'],
+            password=config['db']['password'],
+            database=config['db']['name'],
             charset="utf8mb4",
             collation="utf8mb4_general_ci"
         )
@@ -33,15 +33,15 @@ def create_tables(connection):
             server VARCHAR(255),
             user VARCHAR(255),
             mac_address VARCHAR(17),
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip)
         )
         """,
         """
         CREATE TABLE IF NOT EXISTS scansioni (
-            id_scansione INT PRIMARY KEY,
+            id_scansione INT AUTO_INCREMENT,
             p_iva VARCHAR(255) NOT NULL,
-            timestamp VARCHAR(255) NOT NULL,
+            timestamp TEXT NOT NULL,
             tipo_scansione VARCHAR(255) NOT NULL,
             stato INT NOT NULL,
             PRIMARY KEY (id_scansione)
@@ -56,7 +56,7 @@ def create_tables(connection):
             domain TEXT,
             nmblookup TEXT,
             errors TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip)
         )
         """,
@@ -65,7 +65,7 @@ def create_tables(connection):
             id_scansione VARCHAR(255) NOT NULL,
             ip VARCHAR(15) NOT NULL,
             json_data TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip)
         )
         """,
@@ -79,7 +79,7 @@ def create_tables(connection):
             state VARCHAR(10),
             reason VARCHAR(50),
             reason_ttl INT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip, portid)
         )
         """,
@@ -97,7 +97,7 @@ def create_tables(connection):
             port_service_name VARCHAR(255) DEFAULT NULL,
             port_product VARCHAR(255) DEFAULT NULL,
             port_script_id VARCHAR(255) DEFAULT NULL,
-            port_script_output TEXT DEFAULT NULL,
+            port_script_output TEXT DEFAULT NULL
         )
         """,
         """
@@ -105,7 +105,7 @@ def create_tables(connection):
             id_scansione VARCHAR(255),
             ip VARCHAR(15),
             mac_address VARCHAR(17),
-            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             vendor VARCHAR(255),
             tipo_scansione VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id_scansione, mac_address)
@@ -116,16 +116,17 @@ def create_tables(connection):
             id_scansione VARCHAR(255) NOT NULL,
             ip VARCHAR(15) NOT NULL,
             login_anonimo VARCHAR(20) NOT NULL,
-            PRIMARY KEY (id_scansione, ip)
+            timestamp TEXT,
+            PRIMARY KEY (id_scansione, ip)            
         )
         """,
         """
-        CREATE TABLE file_scansioni (
+        CREATE TABLE IF NOT EXISTS file_scansioni (
             id_scansione INT,
-            nmapxml TEXT,
-            enum4json TEXT,
-            masscanxml TEXT,
-            smbmapcsv TEXT,
+            nmapxml LONGTEXT,
+            enum4json LONGTEXT,
+            masscanxml LONGTEXT,
+            nmaphtml LONGTEXT,
             PRIMARY KEY (id_scansione)
         )
         """,
@@ -136,7 +137,7 @@ def create_tables(connection):
             Share VARCHAR(255),
             Privs VARCHAR(255),
             Comment TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip, Share)
         )
         """,

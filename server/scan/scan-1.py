@@ -3,7 +3,7 @@ from scapy.all import ARP, sniff
 import json
 from macaddress import get_mac_vendor
 import sys
-
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -56,7 +56,7 @@ def create_table(conn):
             id_scansione VARCHAR(255),
             ip VARCHAR(15),
             mac_address VARCHAR(17),
-            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             vendor VARCHAR(255),
             tipo_scansione VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id_scansione, mac_address)
@@ -65,14 +65,14 @@ def create_table(conn):
     conn.commit()
     cursor.close()
 
-def insert_into_db(conn, id_scansione, ip, mac, vendor, tipo_scansione="ARP_PASSIVO"):
+def insert_into_db(conn, id_scansione, ip, mac, timestamp, vendor, tipo_scansione="ARP_PASSIVO"):
     """Inserisce i dati ARP nella tabella del database solo se la coppia id_scansione e mac_address non esistono."""
     cursor = conn.cursor()
     try:
         cursor.execute("""
-            INSERT INTO tabella_host (id_scansione, ip, mac_address, vendor, tipo_scansione)
-            VALUES (%s, %s, %s, %s, %s);
-        """, (id_scansione, ip, mac, vendor, tipo_scansione))
+            INSERT INTO tabella_host (id_scansione, ip, mac_address, timestamp, vendor, tipo_scansione)
+            VALUES (%s, %s, %s, %s, %s, %s);
+        """, (id_scansione, ip, mac, timestamp, vendor, tipo_scansione))
         conn.commit()
         print(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} inserito nel database.")
     except mysql.connector.Error as e:
@@ -89,14 +89,16 @@ def process_packet(packet, vendor_data, id_scansione):
         # Recupera il vendor del MAC usando la funzione dal modulo macaddress.py
         vendor = get_mac_vendor(mac, vendor_data)
 
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         # Salva nel file
         with open(output_file, "a") as f:
-            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor}\n")
+            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} - {timestamp}\n")
 
         # Inserisci nel database
         conn = connect_db()
         if conn:
-            insert_into_db(conn, id_scansione, ip, mac, vendor)
+            insert_into_db(conn, id_scansione, ip, mac, timestamp, vendor)
             conn.close()
 
 def main():

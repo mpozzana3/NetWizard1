@@ -3,6 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 import argparse
 import json
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -37,7 +38,7 @@ def connect_to_db():
                     server VARCHAR(255),
                     user VARCHAR(255),
                     mac_address VARCHAR(17),
-                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    timestamp TEXT,
                     PRIMARY KEY (id_scansione, ip)
                 );
             """)
@@ -48,12 +49,12 @@ def connect_to_db():
         return None, None
 
 # Funzione per inserire i dati nel database
-def insert_data(cursor, id_scansione, ip_address, netbios_name, server, user, mac_address):
+def insert_data(cursor, id_scansione, ip_address, netbios_name, server, user, mac_address, timestamp):
     try:
         cursor.execute("""
-            INSERT INTO nbtscan (id_scansione, ip, netbios_name, server, user, mac_address)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (id_scansione, ip_address, netbios_name, server, user, mac_address))
+            INSERT INTO nbtscan (id_scansione, ip, netbios_name, server, user, mac_address, timestamp)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (id_scansione, ip_address, netbios_name, server, user, mac_address, timestamp))
     except Error as e:
         print(f"Errore durante l'inserimento dei dati: {e}")
 
@@ -94,9 +95,10 @@ def run_nbtscan(ip_range, id_scansione):
         server = result[2] if result[2] else "<unknown>"
         user = result[3] if result[3] else "<unknown>"
         mac_address = result[4] if result[4] else "<unknown>"
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # Inserisci i dati
-        insert_data(cursor, id_scansione, ip_address, netbios_name, server, user, mac_address)
+        insert_data(cursor, id_scansione, ip_address, netbios_name, server, user, mac_address, timestamp)
 
     # Commit e chiusura della connessione
     connection.commit()

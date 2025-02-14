@@ -4,6 +4,7 @@ import mysql.connector
 import sys
 import xml.etree.ElementTree as ET
 import requests
+from datetime import datetime
 
 def get_cidr():
     """Ottiene il CIDR dell'IP pubblico usando ipinfo.io."""
@@ -12,7 +13,7 @@ def get_cidr():
         data = response.json()
         
         ip = data.get("ip")
-        netmask = data.get("netmask", "24")  # Default a /24 se mancante
+        netmask = data.get("netmask", "24") 
 
         if ip and netmask:
             return f"{ip}/{netmask}"
@@ -29,8 +30,8 @@ def load_config():
 
 def run_masscan(target_ip):
     commands = [
-        ["masscan", "-oX", "masscan.xml", "--ports", "0-500", target_ip],
-        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-500", target_ip]
+        ["masscan", "-oX", "masscan.xml", "--ports", "0-5000", target_ip],
+        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-5000", target_ip]
     ]
     
     for cmd in commands:
@@ -58,6 +59,25 @@ def run_masscan(target_ip):
             if e.stderr:
                 print(f"Errori: {e.stderr}")
 
+def insert_into_file_scansioni(connection, file_xml,id_scansione):
+    try:
+        with open(file_xml, "rb") as xml_file:
+            xml_content = xml_file.read()
+
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO file_scansioni (id_scansione, masscanxml)
+        VALUES (%s, %s)
+        ON DUPLICATE KEY UPDATE 
+           masscanxml = VALUES(masscanxml)
+        """
+        cursor.execute(insert_query, (id_scansione, xml_content))
+        connection.commit()
+        cursor.close()
+        print("File salvati nel database con successo.")
+    except FileNotFoundError as e:
+        print(f"Errore: {e}")
+
 def connect_db(config):
     db_config = config["db"]
     conn = mysql.connector.connect(
@@ -82,7 +102,7 @@ def create_table(conn):
             state VARCHAR(10),
             reason VARCHAR(50),
             reason_ttl INT,
-            timestamp INT,
+            timestamp TEXT,
             PRIMARY KEY (id_scansione, ip, portid)
         )
     """)
@@ -98,7 +118,7 @@ def parse_masscan_xml(file_path, id_scansione):
         ip_element = host.find("address")
         ip = ip_element.get("addr")
         addrtype = ip_element.get("addrtype")
-        timestamp = int(host.get("endtime"))
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         for port in host.findall("ports/port"):
             port_protocol = port.get("protocol")
@@ -125,20 +145,25 @@ def main():
     if len(sys.argv) < 2:
         print("Errore: è necessario fornire l'ID della scansione come argomento.")
         return
-    
+
+    print(f"Argomenti ricevuti: {sys.argv}")    
     id_scansione = sys.argv[1]
     config = load_config()
-    
+    print(f"configurazione ok")
+    print(f"Cerco ip pubblico...")
+
     target_ip = get_cidr()
     if not target_ip:
         print("Errore: impossibile determinare la subnet pubblica.")
         return
-    
+
+    print(f"Lancio masscan su {target_ip}")    
     run_masscan(target_ip)
     
     conn = connect_db(config)
     create_table(conn)
     
+    insert_into_file_scansioni(conn, "masscan.xml", id_scansione)
     scan_results = parse_masscan_xml("masscan.xml", id_scansione)
     insert_scan_results(conn, scan_results)
     

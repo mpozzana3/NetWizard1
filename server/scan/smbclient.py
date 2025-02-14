@@ -3,7 +3,7 @@ import re
 import mysql.connector
 import argparse
 import json
-
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -38,6 +38,7 @@ def create_table_if_not_exists(connection):
         id_scansione VARCHAR(255) NOT NULL,
         ip VARCHAR(15) NOT NULL,
         login_anonimo VARCHAR(20) NOT NULL,
+        timestamp TEXT,
         PRIMARY KEY (id_scansione, ip)
     )
     """
@@ -95,10 +96,11 @@ def save_results_to_db(results, connection, id_scansione):
     """
     cursor = connection.cursor()
     insert_query = """
-    INSERT INTO smbclient (id_scansione, ip, login_anonimo) VALUES (%s, %s, %s)
+    INSERT INTO smbclient (id_scansione, ip, login_anonimo, timestamp) VALUES (%s, %s, %s, %s)
     """
     for ip, login_anonimo in results.items():
-        cursor.execute(insert_query, (id_scansione, ip, login_anonimo))
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        cursor.execute(insert_query, (id_scansione, ip, login_anonimo, timestamp))
     connection.commit()
 
 def main(input_file, id_scansione):

@@ -82,7 +82,7 @@ try:
         row_with_piva = row + (azienda_config['p_iva'],)
         try:
             cursor2.execute(
-                "INSERT INTO tabella_host (id_scansione, ip, mac_address, time_stamp, vendor, tipo_scansione, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO tabella_host (id_scansione, ip, mac_address, timestamp, vendor, tipo_scansione, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 row_with_piva
             )
             new_rows_count += 1
@@ -186,7 +186,7 @@ try:
         row_with_piva = row + (azienda_config['p_iva'],)
         try:
             cursor2.execute(
-                "INSERT INTO smbclient (id_scansione, ip, login_anonimo, p_iva) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO smbclient (id_scansione, ip, login_anonimo, timestamp, p_iva) VALUES (%s, %s, %s,  %s, %s)",
                 row_with_piva
             )
             new_rows_count += 1
@@ -224,6 +224,32 @@ try:
                 raise
 
     logging.info(f"Inserite {new_rows_count} nuove righe in 'smbmap'.")
+
+    # Trasferimento dati dalla tabella file_scansioni
+    logging.info("Lettura dati dalla tabella 'file_scansioni'...")
+    cursor1.execute("SELECT * FROM file_scansioni")
+    rows = cursor1.fetchall()
+    logging.info(f"{len(rows)} record letti dalla tabella 'file_scansioni'.")
+
+    logging.info("Inserimento dati in 'file_scansioni' nel secondo database...")
+    new_rows_count = 0
+
+    for row in rows:
+        row_with_piva = row + (azienda_config['p_iva'],)
+        try:
+            cursor2.execute(
+                "INSERT INTO file_scansioni (id_scansione, nmapxml, enum4json, masscanxml, nmaphtml, p_iva) VALUES (%s, %s, %s, %s, %s, %s)",
+                row_with_piva
+            )
+            new_rows_count += 1
+        except mysql.connector.Error as e:
+            if e.errno == 1062:
+                continue
+            else:
+                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
+                raise
+
+    logging.info(f"Inserite {new_rows_count} nuove righe in 'file_scansioni'.")
 
     # Trasferimento dati dalla tabella extended_enum
     logging.info("Lettura dati dalla tabella 'extended_enum'...")

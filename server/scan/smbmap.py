@@ -95,7 +95,7 @@ def create_table_if_not_exists(connection):
         Share VARCHAR(255),
         Privs VARCHAR(255),
         Comment TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        timestamp TEXT,
         PRIMARY KEY (id_scansione, Host, Share)
     );
     """
@@ -121,7 +121,7 @@ def insert_data_from_csv(connection, csv_file, id_scansione):
                     data = line.split(",")
                     if len(data) == 4:
                         host, share, privs, comment = data
-                        timestamp = datetime.now()
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         cursor.execute(
                             """
                             INSERT INTO smbmap (id_scansione, ip, Share, Privs, Comment, timestamp)

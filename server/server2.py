@@ -3,6 +3,7 @@ import subprocess
 import mysql.connector
 import re
 import json
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -73,7 +74,7 @@ def create_table_if_not_exists():
             CREATE TABLE IF NOT EXISTS scansioni (
                 id_scansione INT AUTO_INCREMENT PRIMARY KEY,
                 p_iva VARCHAR(255) NOT NULL,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                timestamp TEXT,
                 tipo_scansione VARCHAR(255) NOT NULL CHECK (tipo_scansione <> ''),
                 stato INT NOT NULL,
                 FOREIGN KEY (p_iva) REFERENCES aziende(p_iva) ON DELETE CASCADE
@@ -84,16 +85,16 @@ def create_table_if_not_exists():
         conn.close()
 
 
-def insert_scansioni(tipo_scansione):
+def insert_scansioni(timestamp, tipo_scansione):
     """Inserisce i dati della scansione nella tabella scansioni e restituisce l'ID della scansione."""
     conn = connect_db()
     if conn:
         cursor = conn.cursor()
         try:
             cursor.execute("""
-                INSERT INTO scansioni (p_iva, tipo_scansione, stato)
-                VALUES (%s, %s, %s)
-            """, (P_IVA, tipo_scansione, 1))  # Stato "IN CORSO" = 1
+                INSERT INTO scansioni (p_iva, timestamp, tipo_scansione, stato)
+                VALUES (%s, %s, %s, %s)
+            """, (P_IVA, timestamp, tipo_scansione, 1))  # Stato "IN CORSO" = 1
             conn.commit()
 
             # Ottieni l'ID della scansione appena inserita
@@ -135,8 +136,7 @@ def handle_client(client_socket, subnet):
     while True:
         # Invia il messaggio di benvenuto
         client_socket.send(
-            f"Collegamento riuscito.
-              Ti sei collegato alla sonda dell'azienda {AZIENDA}.".encode()
+            f"Collegamento riuscito. Ti sei collegato alla sonda dell'azienda {AZIENDA}.".encode()
         )
 
         # Ricevi la scelta di scansione dal client
@@ -145,8 +145,9 @@ def handle_client(client_socket, subnet):
             print(f"Scelta scansione ricevuta: {scelta_scansione}")
             
             if scelta_scansione != "":
+               timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             # Inserisci la scansione nel database
-               id_scansione = insert_scansioni(scelta_scansione)
+               id_scansione = insert_scansioni(timestamp, scelta_scansione)
             
             if id_scansione:
                 print(f"Scelta scansione registrata nel database con ID: {id_scansione}")

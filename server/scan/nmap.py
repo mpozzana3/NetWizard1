@@ -65,6 +65,29 @@ def create_table(conn):
     finally:
         cursor.close()
 
+# Funzione per inserire il file di output nella tabella file scansioni
+def insert_into_file_scansioni(connection, id_scansione, xml_path, html_path):
+    try:
+        with open(xml_path, "rb") as xml_file:
+            xml_content = xml_file.read()
+        with open(html_path, "rb") as html_file:
+            html_content = html_file.read()
+
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO file_scansioni (id_scansione, nmapxml, nmaphtml)
+        VALUES (%s, %s, %s)
+        ON DUPLICATE KEY UPDATE 
+           nmapxml = VALUES(nmapxml), 
+           nmaphtml = VALUES(nmaphtml);
+        """
+        cursor.execute(insert_query, (id_scansione, xml_content, html_content))
+        connection.commit()
+        cursor.close()
+        print("File salvati nel database con successo.")
+    except FileNotFoundError as e:
+        print(f"Errore: {e}")
+
 def parse_nmap_output(xml_path):
     """Analizza il file XML di output di Nmap e restituisce i dati estratti."""
     try:
@@ -187,6 +210,7 @@ def generate_html_report(output_file="scan.xml"):
         html_file = "report.html"
         subprocess.run(["xsltproc", "-o", html_file, xslt_file, output_file], check=True)
         print(f"File HTML generato con successo: {html_file}")
+        return html_file
     except subprocess.CalledProcessError as e:
         print(f"Errore durante la generazione del report HTML: {e}")
 
@@ -207,7 +231,9 @@ def main():
     scan_network(target, output_file)
 
     # Genera il report HTML dopo la scansione
-    generate_html_report(output_file)
+    nmap_html = generate_html_report(output_file)
+
+    insert_into_file_scansioni(conn, id_scansione, output_file, nmap_html)
 
     for data in parse_nmap_output(output_file):
         insert_data(conn, data, id_scansione)

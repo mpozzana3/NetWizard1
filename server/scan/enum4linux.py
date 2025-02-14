@@ -3,6 +3,7 @@ import json
 import os
 import mysql.connector
 import argparse
+from datetime import datetime
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -38,7 +39,7 @@ def create_enum4linux_table(connection):
         domain TEXT,
         nmblookup TEXT,
         errors TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        timestamp TEXT,
         PRIMARY KEY (id_scansione, ip)
     );
     """
@@ -54,7 +55,7 @@ def create_extended_enum_table(connection):
         id_scansione VARCHAR(255) NOT NULL,
         ip VARCHAR(15) NOT NULL,
         json_data TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        timestamp TEXT,
         PRIMARY KEY (id_scansione, ip)
     );
     """
@@ -63,19 +64,32 @@ def create_extended_enum_table(connection):
     cursor.close()
 
 # Funzione per inserire dati nella tabella extended_enum
-def insert_into_extended_enum(connection, id_scansione, ip, json_data):
+def insert_into_extended_enum(connection, id_scansione, ip, json_data, timestamp):
     cursor = connection.cursor()
     insert_query = """
-    INSERT INTO extended_enum (id_scansione, ip, json_data)
-    VALUES (%s, %s, %s)
+    INSERT INTO extended_enum (id_scansione, ip, json_data, timestamp)
+    VALUES (%s, %s, %s, %s)
     """
-    cursor.execute(insert_query, (id_scansione, ip, json_data))
+    cursor.execute(insert_query, (id_scansione, ip, json_data, timestamp))
+    connection.commit()
+    cursor.close()
+
+# Funzione per inserire il file di output nella tabella file scansioni
+def insert_into_file_scansioni(connection, id_scansione, enum4json):
+    cursor = connection.cursor()
+    insert_query = """
+    INSERT INTO file_scansioni (id_scansione, enum4json)  
+    VALUES (%s, %s)  
+    ON DUPLICATE KEY UPDATE enum4json = VALUES(enum4json);
+    """
+    cursor.execute(insert_query, (id_scansione, enum4json))
     connection.commit()
     cursor.close()
 
 # Funzione per eseguire enum4linux-ng e salvare i risultati nel database e nel file
 def run_enum4linux(ip, output_file, connection, id_scansione):
     command = f"python3 scan/enum4linux-ng/enum4linux-ng.py -A {ip} -oJ temp_output"
+
     subprocess.run(command, shell=True)
 
     json_file = "temp_output.json"
@@ -83,6 +97,7 @@ def run_enum4linux(ip, output_file, connection, id_scansione):
         with open(json_file, 'r') as f:
             data = json.load(f)
 
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         credentials_data = data.get("credentials", {})
         listeners_data = data.get("listeners", {})
         domain = data.get("domain", "")
@@ -103,10 +118,10 @@ def run_enum4linux(ip, output_file, connection, id_scansione):
 
         cursor = connection.cursor()
         insert_query = """
-        INSERT INTO enum4linux (id_scansione, ip, credentials, listeners, domain, nmblookup, errors)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO enum4linux (id_scansione, ip, credentials, listeners, domain, nmblookup, errors, timestamp)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(insert_query, (id_scansione, ip, credentials, listeners, domain_str, nmblookup_str, errors_str))
+        cursor.execute(insert_query, (id_scansione, ip, credentials, listeners, domain_str, nmblookup_str, errors_str, timestamp))
         connection.commit()
         cursor.close()
 
@@ -116,7 +131,15 @@ def run_enum4linux(ip, output_file, connection, id_scansione):
 
         # se nmblookup diverso da null, è ricco di informazioni, allora inseriamo in un'altra tabella tutto il file json
         if nmblookup != "null":
-            insert_into_extended_enum(connection, id_scansione, ip, json.dumps(data))
+            insert_into_extended_enum(connection, id_scansione, ip, json.dumps(data), timestamp)
+
+
+        # Apre il file di output per leggerlo dopo aver scritto
+        with open(output_file, "r", encoding="utf-8") as file:
+            file_content = file.read()  # Contenuto completo del file
+
+        # Inserisce il contenuto del file nella tabella scansioni
+        insert_into_file_scansioni(connection, id_scansione, file_content)
 
         os.remove(json_file)
 
@@ -127,6 +150,8 @@ def main():
     args = parser.parse_args()
 
     output_file = "output_combined.json"
+    with open(output_file, "w") as f:
+       f.write("")  # Sovrascrive il file con un contenuto vuoto
     with open('nbtscan.txt', 'r') as file:
         lines = file.readlines()
 
