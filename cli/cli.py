@@ -1,121 +1,140 @@
+import os
 import sys
-import socket
+import psycopg2
+import requests
+import click
 
-HOST = 'localhost'  # Indirizzo del server-centrale
-PORT = 12345         # Porta del server-centrale
+# Configurazione del database
+DB_HOST = "localhost"  # Host del database
+DB_NAME = "tirocinio"  # Nome del database
+DB_USER = "postgres"  # Nome utente per il database
+DB_PASS = "20134"  # Password per l'utente del database
 
-def recv_message(sock):
-    """Riceve un messaggio dal server gestendo errori di connessione."""
+# Funzione per creare la tabella lista_clienti
+def create_table():
+    """Crea la tabella lista_clienti se non esiste."""
     try:
-        return sock.recv(1024).decode().strip()
-    except (socket.error, ConnectionResetError):
-        print("Errore di connessione. Chiudo il client.")
-        sock.close()
-        exit(1)
+        conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASS)
+        cursor = conn.cursor()
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS lista_clienti (
+            id SERIAL PRIMARY KEY,
+            nome TEXT NOT NULL,
+            piva TEXT NOT NULL UNIQUE
+        )
+        ''')
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        print(f"Errore durante la creazione della tabella: {e}")
+        sys.exit(1)
 
-def start_client():
-    """Avvia la CLI del client e comunica con il server."""
-    # Crea un socket per connettersi al server
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect((HOST, PORT))
+# Funzione per aggiungere un cliente
+def add_cliente(nome, piva):
+    """Aggiunge un cliente alla tabella lista_clienti."""
+    try:
+        conn = psycopg2.connect(host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASS)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO lista_clienti (nome, piva) VALUES (%s, %s) ON CONFLICT (piva) DO NOTHING", (nome, piva))
+        conn.commit()
+        if cursor.rowcount > 0:
+            print(f"Cliente '{nome}' con P.IVA '{piva}' aggiunto con successo.")
+        else:
+            print(f"Cliente con P.IVA '{piva}' già esistente.")
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        print(f"Errore durante l'inserimento del cliente: {e}")
+        sys.exit(1)
 
-    # Ricevi il messaggio dal server
-    server_message = client_socket.recv(1024).decode()
-    print(server_message)
+# Funzione per inviare richieste al server
+def send_request_to_server(command, args=None):
+    """Invia un comando al server remoto."""
+    url = "http://localhost:5001/execute"
+    data = {
+        "command": command,
+        "args": args or []
+    }
+    try:
+        response = requests.post(url, json=data)
+        if response.status_code == 200:
+            print(f"Comando '{command}' eseguito con successo.")
+            print(f"Risultati: {response.json().get('result')}")
+        else:
+            print(f"Errore nell'esecuzione del comando '{command}': {response.json().get('error', 'Errore sconosciuto')}")
+    except requests.exceptions.RequestException as e:
+        print(f"Errore di connessione al server: {e}")
 
-    # Inserisci la scelta dell'utente
-    scelta = input("Inserisci la tua scelta (1 o 2): ")
+# Funzione per avviare la scansione ARP
+def start_scan_on_server():
+    """Invia il comando di avvio della scansione ARP al server."""
+    send_request_to_server("start-scan")
 
-    # Controlla che la scelta sia valida se no loop
-    while scelta not in {"1", "2"}:
-        print("Scelta non valida. Riprova.")
-        scelta = input("Scegli il tipo di operazione (1 o 2): ")
-    client_socket.send(scelta.encode())
+# Funzione per avviare la scansione ARP con intervallo IP
+def start_scan2_on_server(ip_range):
+    """Invia il comando di avvio della scansione ARP con intervallo IP al server."""
+    send_request_to_server("start-scan2", [ip_range])
 
-    # Se viene scelto Scansioni
-    if scelta == "1":
-            response = recv_message(client_socket)
-            print(response)
+# Funzione per avviare la scansione NMAP
+def start_nmap_scan_on_server(ip_range):
+    """Invia il comando NMAP al server."""
+    send_request_to_server("start-nmap-scan", [ip_range])
 
-            # Chiedi al client il nome dell'azienda e la P.IVA, .strip() per eliminare spazzi
-            azienda = input("Inserisci il nome dell'azienda: ").strip()
-            p_iva = input("Inserisci la P.IVA dell'azienda: ").strip()
+# Funzione per avviare la scansione completa
+def start_scan_completa(ip_range):
+    """Esegue tutte le scansioni (ARP passivo, ARP attivo, NMAP) in sequenza."""
+    send_request_to_server("start-scan-completa", [ip_range])
 
-            # Invia i dati al server
-            client_socket.sendall(azienda.encode())
-            client_socket.sendall(p_iva.encode())
+@click.group()
+def cli():
+    """CLI per gestire clienti e scansioni sul server remoto."""
+    pass
 
-            # Ricevi il messaggio con le opzioni di scansione
-            print("Inizio a ricevere il messaggio con le opzioni di scansione...")
-            server_message = recv_message(client_socket)
-            print("Messaggio ricevuto dal server:", server_message)
+@cli.command()
+def aggiungi_cliente():
+    """Aggiunge un cliente al database."""
+    create_table()
+    print("Inserisci le informazioni del cliente:")
+    nome = input("Nome cliente: ").strip()
+    piva = input("P.IVA cliente: ").strip()
+    add_cliente(nome, piva)
 
-            if server_message == "Azienda non trovata o non valida.":
-             print("Chiusura connessione...")
-             client_socket.close()
-             return
+@cli.command()
+def scegli_scansione():
+    """Seleziona e avvia una scansione sul server remoto."""
+    opzioni = [
+        ("ARP scanning passivo", "start-scan"),
+        ("ARP scanning attivo", "start-scan2"),
+        ("NMAP scanning", "start-nmap-scan"),
+        ("Scansione completa", "start-scan-completa")
+    ]
+    print("Seleziona il tipo di scansione:")
+    for i, (desc, _) in enumerate(opzioni, start=1):
+        print(f"{i}. {desc}")
 
-            # Inserisci la scelta della scansione
-            print("A questo punto dovrebbe arrivare la richiesta per inserire la scelta.")
-            sys.stdout.flush() 
-            scelta_scansione = input("Inserisci la tua scelta: ").strip()
-
-            print(f"Scelta inserita: {scelta_scansione}")
-            client_socket.sendall(scelta_scansione.encode())
-            print(f"Scelta della scansione inviata: {scelta_scansione}")
-            sys.stdout.flush()
-
-            # Ricevi conferma della scelta dal server
-            validita = recv_message(client_socket)
-            print(validita)
-
-            # Ricevi stato della scansione
-            response = recv_message(client_socket)
-            print(response)
-
-            # Ricevi stato finale scansione
-            response = recv_message(client_socket)
-            print(response)
-
-    # Se viene scelto Analisi DB
-    elif scelta == "2":
-        # Ricevi messaggio con lista tabelle disponibili
-        tables_message = client_socket.recv(1024).decode()
-        print(tables_message)
-
-        # Chiedi di scegliere una tabella
-        tab = input("Seleziona una tabella: ").strip()
-        client_socket.send(tab.encode())
-
-        # Ricevi l'elenco delle colonne per la tabella scelta
-        columns_message = client_socket.recv(1024).decode()
-        print(columns_message)
-
-        # Chiedi di selezionare le colonne
-        col = input("Seleziona le colonne da includere (o '*' per tutte): ").strip()
-        client_socket.send(col.encode())
-
-        # Ricevi il messaggio riguardante il vincolo opzionale
-        constraint_message = client_socket.recv(1024).decode()
-        print(constraint_message)
-
-        # Chiedi se si vuole applicare un vincolo opzionale
-        vincolo = input("Indica un vincolo opzionale: ").strip()
-        client_socket.send(vincolo.encode())
-
-        # Ricevi il risultato della query dal server, buffer più grande per ricevere molti dati 
-        data = []
-        while True:
-            chunk = client_socket.recv(8192).decode() 
-            if not chunk:  
+    while True:
+        try:
+            scelta = int(input("Inserisci il numero dell'opzione: "))
+            if 1 <= scelta <= len(opzioni):
+                comando = opzioni[scelta - 1][1]
+                if comando == "start-scan2" or comando == "start-nmap-scan":
+                    ip_range = input("Inserisci l'intervallo IP (es. 192.168.1.0/24): ").strip()
+                    if comando == "start-scan2":
+                        start_scan2_on_server(ip_range)
+                    elif comando == "start-nmap-scan":
+                        start_nmap_scan_on_server(ip_range)
+                elif comando == "start-scan-completa":
+                    ip_range = input("Inserisci l'intervallo IP per la scansione completa (es. 192.168.1.0/24): ").strip()
+                    start_scan_completa(ip_range)
+                else:
+                    start_scan_on_server()
                 break
-            data.append(chunk)
-
-        server_response = "".join(data)
-        print(f"Risultato della query: {server_response}")
-
-    # Chiudi la connessione
-    client_socket.close()
+            else:
+                print("Opzione non valida. Riprova.")
+        except ValueError:
+            print("Inserisci un numero valido.")
 
 if __name__ == "__main__":
-    start_client()
+    cli()
+
