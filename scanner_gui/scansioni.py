@@ -42,7 +42,7 @@ def stream():
                 print(f"📤 Invio dati: {dati_da_inviare}")
                 s.sendall(dati_da_inviare.encode())
 
-                for i in range(3):
+                for i in range(4):
                     response = s.recv(1024).decode().strip()
                     if response:
                         print(f"📩 Ricevuto dal server [{i+1}]: {response}")
