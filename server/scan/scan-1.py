@@ -4,6 +4,8 @@ import json
 from macaddress import get_mac_vendor
 import sys
 from datetime import datetime
+import random
+from mac_vendor_lookup import MacLookup
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -16,7 +18,6 @@ DB_NAME = DB_CONFIG["name"]
 DB_USER = DB_CONFIG["user"]
 DB_PASS = DB_CONFIG["password"]
 
-# File per salvare i risultati
 output_file = "test.txt"
 
 # Carica i dati dei vendor dal file JSON
@@ -32,7 +33,6 @@ def load_vendor_data(json_file):
 
 # Connessione al database MariaDB
 def connect_db():
-    """Connessione al database MariaDB."""
     try:
         conn = mysql.connector.connect(
             host=DB_HOST,
@@ -45,6 +45,16 @@ def connect_db():
         return conn
     except mysql.connector.Error as e:
         print(f"Errore nella connessione al database: {e}")
+        return None
+
+def load_vendor_data(json_file):
+    """Carica i dati dei vendor dal file JSON."""
+    try:
+        with open(json_file, 'r') as file:
+            vendor_data = json.load(file)
+        return vendor_data
+    except Exception as e:
+        print(f"Errore nel caricamento del file JSON: {e}")
         return None
 
 # Funzione per creare la tabella se non esiste
@@ -84,10 +94,9 @@ def process_packet(packet, vendor_data, id_scansione):
     if ARP in packet and packet[ARP].op in (1, 2):  # ARP request (1) o reply (2)
         mac = packet[ARP].hwsrc
         ip = packet[ARP].psrc
-        print(f"IP: {ip} - MAC: {mac}")
-
+        timestamp = packet.time  # Timestamp del pacchetto
         # Recupera il vendor del MAC usando la funzione dal modulo macaddress.py
-        vendor = get_mac_vendor(mac, vendor_data)
+        mac_vendor = get_mac_vendor(mac, vendor_data)
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -95,12 +104,15 @@ def process_packet(packet, vendor_data, id_scansione):
         with open(output_file, "a") as f:
             f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} - {timestamp}\n")
 
-        # Inserisci nel database
+        print(f"IP: {ip}, MAC: {mac}, Vendor: {mac_vendor}")
+
+        # Connessione al database e inserimento dati
         conn = connect_db()
         if conn:
-            insert_into_db(conn, id_scansione, ip, mac, timestamp, vendor)
+            insert_data(conn, id_scansione, ip, mac, timestamp, mac_vendor, "arp-passivo")
             conn.close()
 
+# Funzione principale
 def main():
     # Verifica che l'ID della scansione sia stato passato come argomento
     if len(sys.argv) < 2:
@@ -117,18 +129,21 @@ def main():
         print("Impossibile caricare i dati del vendor. Termino.")
         return
 
-    # Connessione al database
+    # Genera un id_scansione casuale
+    id_scansione = random.randint(100000, 999999)
+
+    # Connessione al database e creazione della tabella se non esiste
     conn = connect_db()
     if conn:
-        create_table(conn)
+        create_table_if_not_exists(conn)
         conn.close()
 
-    print("Sniffing ARP packets. Premere Ctrl+C per interrompere.")
+    print(f"Inizio scansione ARP. ID scansione: {id_scansione}. Premere Ctrl+C per interrompere.")
     try:
         # Avvia lo sniffing sulla rete per pacchetti ARP
         sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=200)
     except KeyboardInterrupt:
-        print("\nInterrotto dallo user.")
+        print("\nScansione interrotta dall'utente.")
 
 if __name__ == "__main__":
     main()

@@ -12,3 +12,4 @@ test.txt
 server/scan/__pycache__
 masscan.xml
 masscanu.xml 
+.DS_Store
