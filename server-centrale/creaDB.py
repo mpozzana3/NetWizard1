@@ -26,6 +26,15 @@ def create_tables(connection):
     """Crea le tabelle nel database."""
     queries = [
         """
+        CREATE TABLE IF NOT EXISTS aziende (
+            id INT PRIMARY KEY,
+            azienda VARCHAR(255) NOT NULL,
+            p_iva VARCHAR(255) NOT NULL UNIQUE,
+            IP_sonda VARCHAR(255) NOT NULL,
+            Porta_sonda INT NOT NULL
+        )
+        """,
+        """
         CREATE TABLE IF NOT EXISTS nbtscan (
             id_scansione VARCHAR(255),
             ip VARCHAR(15) NOT NULL,
@@ -33,7 +42,7 @@ def create_tables(connection):
             server VARCHAR(255),
             user VARCHAR(255),
             mac_address VARCHAR(17),
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, p_iva)
         )
@@ -42,7 +51,7 @@ def create_tables(connection):
         CREATE TABLE IF NOT EXISTS scansioni (
             id_scansione INT PRIMARY KEY,
             p_iva VARCHAR(255) NOT NULL,
-            timestamp VARCHAR(255) NOT NULL,
+            timestamp TEXT NOT NULL,
             tipo_scansione VARCHAR(255) NOT NULL,
             stato INT NOT NULL
         )
@@ -56,7 +65,7 @@ def create_tables(connection):
             domain TEXT,
             nmblookup TEXT,
             errors TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, p_iva)
         )
@@ -66,7 +75,7 @@ def create_tables(connection):
             id_scansione VARCHAR(255) NOT NULL,
             ip VARCHAR(15) NOT NULL,
             json_data TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, p_iva)
         )
@@ -81,7 +90,7 @@ def create_tables(connection):
             state VARCHAR(10),
             reason VARCHAR(50),
             reason_ttl INT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, portid, p_iva)
         )
@@ -101,7 +110,7 @@ def create_tables(connection):
             port_product VARCHAR(255) DEFAULT NULL,
             port_script_id VARCHAR(255) DEFAULT NULL,
             port_script_output TEXT DEFAULT NULL,
-            p_iva VARCHAR(255),
+            p_iva VARCHAR(255)
         )
         """,
         """
@@ -109,7 +118,7 @@ def create_tables(connection):
             id_scansione VARCHAR(255),
             ip VARCHAR(15),
             mac_address VARCHAR(17),
-            time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             vendor VARCHAR(255),
             tipo_scansione VARCHAR(255) DEFAULT NULL,
             p_iva VARCHAR(255),
@@ -121,8 +130,20 @@ def create_tables(connection):
             id_scansione VARCHAR(255) NOT NULL,
             ip VARCHAR(15) NOT NULL,
             login_anonimo VARCHAR(20) NOT NULL,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, p_iva)
+        )
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS file_scansioni (
+            id_scansione INT,
+            nmapxml LONGTEXT,
+            enum4json LONGTEXT,
+            masscanxml LONGTEXT,
+            nmaphtml LONGTEXT,
+            p_iva VARCHAR(25),
+            PRIMARY KEY (id_scansione, p_iva)
         )
         """,
         """
@@ -132,7 +153,7 @@ def create_tables(connection):
             Share VARCHAR(255),
             Privs VARCHAR(255),
             Comment TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             p_iva VARCHAR(255),
             PRIMARY KEY (id_scansione, ip, Share, p_iva)
         )

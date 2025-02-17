@@ -32,17 +32,22 @@ def connect_to_db():
 
 def execute_query(connection, query):
     """
-    Esegue una query sul database e restituisce i risultati.
+    Esegue una query sul database e restituisce i risultati con un separatore personalizzato.
     """
     cursor = connection.cursor()
     try:
         cursor.execute(query)
         if query.strip().lower().startswith("select"):
             results = cursor.fetchall()
+            column_names = [desc[0] for desc in cursor.description]  # Ottieni i nomi delle colonne
+
             if results:
-                print("Risultati della query:")
+              #  print("Risultati della query:")
+              #  print(" § ".join(column_names))  # Stampa l'intestazione delle colonne
+              #  print("-" * 40)
+
                 for row in results:
-                    print(row)
+                    print(" § ".join(str(cell) for cell in row)) 
             else:
                 print("Nessun risultato trovato.")
         else:
@@ -64,9 +69,9 @@ def main():
     query = sys.argv[1]  
 
     connection = connect_to_db()
-    print("Connesso al database.")
+    # print("Connesso al database.")
 
-    print(f"Eseguendo la query: {query}")
+    # print(f"Eseguendo la query: {query}")
     execute_query(connection, query)
 
     connection.close()
