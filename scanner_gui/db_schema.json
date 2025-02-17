@@ -422,6 +422,44 @@
                 "column_key": ""
             }
         ],
+        "file_scansioni": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "int(11)",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "nmapxml",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "enum4json",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "masscanxml",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "nmaphtml",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar(25)",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ],
         "nmap": [
             {
                 "column_name": "id_scansione",

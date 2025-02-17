@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, Response, jsonify
 import socket
 import time
 
@@ -7,6 +7,7 @@ app = Flask(__name__)
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 12346
 
+client_data = {}
 
 @app.route('/')
 def index():
@@ -14,39 +15,47 @@ def index():
 
 @app.route('/send_data', methods=['POST'])
 def send_data():
+    global client_data
     data = request.json
-    azienda = data.get("azienda", "")
-    p_iva = data.get("p_iva", "")
-    scan_type = data.get("scan_type", "")
+    client_data = {
+        "azienda": data.get("azienda", ""),
+        "p_iva": data.get("p_iva", ""),
+        "scan_type": data.get("scan_type", "")
+    }
+    print(f"📤 Ricevuti dati: {client_data}")
+    return jsonify({"message": "Dati ricevuti, inizio scansione..."})
 
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            print(f"📡 Connessione al server {SERVER_HOST}:{SERVER_PORT}...")
-            s.connect((SERVER_HOST, SERVER_PORT))
+@app.route('/stream')
+def stream():
+    def event_stream():
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                print(f"📡 Connessione al server {SERVER_HOST}:{SERVER_PORT}...")
+                s.connect((SERVER_HOST, SERVER_PORT))
 
-            s.sendall(b"1\n")  # Send the first message
-            print("Initial message sent")
+                s.sendall(b"1\n")  # Invia il primo messaggio
+                print("Initial message sent")
 
-            time.sleep(0.1)
-            
-            # Formatta correttamente i dati
-            dati_da_inviare = f"{azienda}|{p_iva}|{scan_type}"
-            print(f"📤 Invio dati: {dati_da_inviare}")
-            s.sendall(dati_da_inviare.encode())
+                time.sleep(0.1)
 
-            responses = []
-            for i in range(3):
-                response = s.recv(1024).decode().strip()
-                if response:
-                    print(f"📩 Ricevuto dal server [{i+1}]: {response}")
-                    responses.append(response)
-                else:
-                    print(f"⚠️ Nessuna risposta ricevuta alla {i+1}ª richiesta.")
+                dati_da_inviare = f"{client_data['azienda']}|{client_data['p_iva']}|{client_data['scan_type']}"
+                print(f"📤 Invio dati: {dati_da_inviare}")
+                s.sendall(dati_da_inviare.encode())
 
-            return jsonify({"responses": responses})
-    except Exception as e:
-        print(f"❌ Errore durante la comunicazione: {e}")
-        return jsonify({"error": str(e)})
+                for i in range(3):
+                    response = s.recv(1024).decode().strip()
+                    if response:
+                        print(f"📩 Ricevuto dal server [{i+1}]: {response}")
+                        yield f"data: {response}\n\n"
+                        time.sleep(0.1)  # Simula un'attesa tra i messaggi
+                    else:
+                        print(f"⚠️ Nessuna risposta ricevuta alla {i+1}ª richiesta.")
+
+        except Exception as e:
+            print(f"❌ Errore durante la comunicazione: {e}")
+            yield f"data: Errore: {e}\n\n"
+
+    return Response(event_stream(), mimetype='text/event-stream')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5005)

@@ -47,26 +47,30 @@ def submit_query():
     response = send_query_to_server(query)
 
     # Convertire la risposta in una lista di liste per DataTables
-    rows = [row.split(',') for row in response.split('\n') if row]
+    rows = [row.split('§') for row in response.split('\n') if row]
 
     return render_template('index2.html', query=query, columns=columns, results=rows)
 
 def send_query_to_server(query):
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.settimeout(5)
+            s.settimeout(10)
             s.connect((SERVER_HOST, SERVER_PORT))
             s.sendall(b"2\n")
             time.sleep(0.1)
             s.sendall(query.encode('utf-8') + b'\n')
 
             response = ''
+            total_received = 0  # Per tracciare quanti byte sono stati ricevuti in totale
             while True:
                 chunk = s.recv(4096).decode('utf-8')
                 response += chunk
-                if len(chunk) < 4096:
+                total_received += len(chunk)
+                print(f"Ricevuto {len(chunk)} byte. Totale ricevuto: {total_received} byte.")
+                if not chunk:
                     break
 
+            print(f"Risposta completa: {len(response)} byte.")
             return response
     except Exception as e:
         return f"Errore nella connessione al server: {e}"

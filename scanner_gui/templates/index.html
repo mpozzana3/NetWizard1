@@ -5,22 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scansioni di rete</title>
     <script>
-        function sendData() {
-            let azienda = document.getElementById("azienda").value;
-            let p_iva = document.getElementById("p_iva").value;
-            let scan_type = document.getElementById("scan_type").value;
-            
-            fetch("/send_data", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ azienda, p_iva, scan_type })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("response").innerText = JSON.stringify(data.responses, null, 2);
-            })
-            .catch(error => console.error("Errore:", error));
-        }
+            function sendData() {
+    let azienda = document.getElementById("azienda").value;
+    let p_iva = document.getElementById("p_iva").value;
+    let scan_type = document.getElementById("scan_type").value;
+
+    fetch("/send_data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ azienda, p_iva, scan_type })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("✅ Dati inviati con successo:", data);
+
+        // Avvia EventSource per ricevere risposte
+        let eventSource = new EventSource("/stream");
+
+        eventSource.onmessage = function(event) {
+            let div = document.createElement("div");
+            div.textContent = "📩 Risposta ricevuta: " + event.data;
+            document.getElementById("response").appendChild(div);
+        };
+
+        eventSource.onerror = function(event) {
+            console.error("❌ Errore nella connessione SSE");
+            eventSource.close();
+        };
+    })
+    .catch(error => console.error("❌ Errore:", error));
+}
     </script>
     <style>
         body {
@@ -80,12 +94,14 @@
             color: #0f0;
             padding: 15px;
             border-radius: 5px;
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+            max-width: 90%;
             margin-top: 20px;
-            text-align: left;
+            text-align: center;
             white-space: pre-wrap;
             word-wrap: break-word;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -102,13 +118,13 @@ SMBCLIENT (solo dopo NBTSCAN)
 MASSCAN
 COMPLETA
     </pre>
-
+    <h3>Scansioni di rete</h3>
     <input type="text" id="azienda" placeholder="Azienda">
     <input type="text" id="p_iva" placeholder="P. IVA">
     <input type="text" id="scan_type" placeholder="Tipo Scansione">
     
     <button onclick="sendData()">Invia</button>
 
-    <pre id="response"></pre>
+    <div id="response"></div>
 </body>
 </html>
