@@ -1,6 +1,7 @@
 import mysql.connector
 import logging
 import json
+import sys
 
 # Carica il file di configurazione
 with open('config.json', 'r') as f:
@@ -16,6 +17,8 @@ logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+check = True  # Variabile di controllo
 
 try:
     # Connessione al primo database
@@ -65,243 +68,64 @@ try:
                 continue
             else:
                 logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
+                check = False  # Segna errore critico
                 raise
 
     logging.info(f"Inserite {new_rows_count} nuove righe in 'scansioni'.")
 
-    # Trasferimento dati dalla tabella tabella_host
-    logging.info("Lettura dati dalla tabella 'tabella_host'...")
-    cursor1.execute("SELECT * FROM tabella_host")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'tabella_host'.")
 
-    logging.info("Inserimento dati in 'tabella_host' nel secondo database...")
-    new_rows_count = 0
+    # Funzione di inserimento dei dati in una tabella
+    def insert_data_to_db(cursor, table, query, rows):
+        new_rows_count = 0
+        for row in rows:
+            try:
+                cursor.execute(query, row)
+                new_rows_count += 1
+            except mysql.connector.Error as e:
+                if e.errno == 1062:  # Ignora duplicati
+                    continue
+                else:
+                    logging.error(f"Errore durante l'inserimento della riga {row} nella tabella {table}: {e}")
+                    global check
+                    check = False  # Segna errore critico
+                    raise  # Rilancia l'eccezione per interrompere...
+        logging.info(f"Inserite {new_rows_count} nuove righe in '{table}'.")
 
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO tabella_host (id_scansione, ip, mac_address, timestamp, vendor, tipo_scansione, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
+    # Lista delle tabelle con le query di inserimento e le relative letture
+    tables = [
+        ("tabella_host", "SELECT * FROM tabella_host", 
+         "INSERT INTO tabella_host (id_scansione, ip, mac_address, timestamp, vendor, tipo_scansione, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)"),
+        ("nmap", "SELECT * FROM nmap", 
+         "INSERT INTO nmap (id_scansione, ip, timestamp, vendor, hostname, extraports_count, extraports_state, port_id, port_state, port_service_name, port_product, port_script_id, port_script_output, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"),
+        ("nbtscan", "SELECT * FROM nbtscan", 
+         "INSERT INTO nbtscan (id_scansione, ip, netbios_name, server, user, mac_address, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"),
+        ("enum4linux", "SELECT * FROM enum4linux", 
+         "INSERT INTO enum4linux (id_scansione, ip, credentials, listeners, domain, nmblookup, errors, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"),
+        ("smbclient", "SELECT * FROM smbclient", 
+         "INSERT INTO smbclient (id_scansione, ip, login_anonimo, timestamp, p_iva) VALUES (%s, %s, %s,  %s, %s)"),
+        ("smbmap", "SELECT * FROM smbmap", 
+         "INSERT INTO smbmap (id_scansione, ip, Share, Privs, Comment, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)"),
+        ("file_scansioni", "SELECT * FROM file_scansioni", 
+         "INSERT INTO file_scansioni (id_scansione, nmapxml, enum4json, masscanxml, nmaphtml, p_iva) VALUES (%s, %s, %s, %s, %s, %s)"),
+        ("extended_enum", "SELECT * FROM extended_enum", 
+         "INSERT INTO extended_enum (id_scansione, ip, json_data, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s)"),
+        ("masscan", "SELECT * FROM masscan", 
+         "INSERT INTO masscan (id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+    ]
 
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'tabella_host'.")
+    # Ciclo sulle tabelle
+    for table, select_query, insert_query in tables:
+        logging.info(f"Lettura dati dalla tabella '{table}'...")
+        cursor1.execute(select_query)
+        rows = cursor1.fetchall()
+        logging.info(f"{len(rows)} record letti dalla tabella '{table}'.")
 
-    # Trasferimento dati dalla tabella nmap
-    logging.info("Lettura dati dalla tabella 'nmap'...")
-    cursor1.execute("SELECT * FROM nmap")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'nmap'.")
+        # Aggiungi p_iva a ciascun record
+        rows_with_piva = [row + (azienda_config['p_iva'],) for row in rows]
 
-    logging.info("Inserimento dati in 'nmap' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO nmap (id_scansione, ip, timestamp, vendor, hostname, extraports_count, extraports_state, port_id, port_state, port_service_name, port_product, port_script_id, port_script_output, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'nmap'.")
-	
-	# Trasferimento dati dalla tabella nbtscan
-    logging.info("Lettura dati dalla tabella 'nbtscan'...")
-    cursor1.execute("SELECT * FROM nbtscan")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'nbtscan'.")
-
-    logging.info("Inserimento dati in 'nbtscan' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO nbtscan (id_scansione, ip, netbios_name, server, user, mac_address, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'nbtscan'.")
-
-        # Trasferimento dati dalla tabella enum4linux
-    logging.info("Lettura dati dalla tabella 'enum4linux'...")
-    cursor1.execute("SELECT * FROM enum4linux")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'enum4linux'.")
-
-    logging.info("Inserimento dati in 'enum4linux' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO enum4linux (id_scansione, ip, credentials, listeners, domain, nmblookup, errors, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'enum4linux'.")
-
-    # Trasferimento dati dalla tabella smbclient
-    logging.info("Lettura dati dalla tabella 'smbclient'...")
-    cursor1.execute("SELECT * FROM smbclient")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'smbclient'.")
-
-    logging.info("Inserimento dati in 'smbclient' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO smbclient (id_scansione, ip, login_anonimo, timestamp, p_iva) VALUES (%s, %s, %s,  %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'smbclient'.")
-
-    # Trasferimento dati dalla tabella smbmap
-    logging.info("Lettura dati dalla tabella 'smbmap'...")
-    cursor1.execute("SELECT * FROM smbmap")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'smbmap'.")
-
-    logging.info("Inserimento dati in 'smbmap' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO smbmap (id_scansione, ip, Share, Privs, Comment, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'smbmap'.")
-
-    # Trasferimento dati dalla tabella file_scansioni
-    logging.info("Lettura dati dalla tabella 'file_scansioni'...")
-    cursor1.execute("SELECT * FROM file_scansioni")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'file_scansioni'.")
-
-    logging.info("Inserimento dati in 'file_scansioni' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO file_scansioni (id_scansione, nmapxml, enum4json, masscanxml, nmaphtml, p_iva) VALUES (%s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'file_scansioni'.")
-
-    # Trasferimento dati dalla tabella extended_enum
-    logging.info("Lettura dati dalla tabella 'extended_enum'...")
-    cursor1.execute("SELECT * FROM extended_enum")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'extended_enum'.")
-
-    logging.info("Inserimento dati in 'extended_enum' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO extended_enum (id_scansione, ip, json_data, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'extended_enum'.")
-
-   # Trasferimento dati dalla tabella masscan
-    logging.info("Lettura dati dalla tabella 'masscan'...")
-    cursor1.execute("SELECT * FROM masscan")
-    rows = cursor1.fetchall()
-    logging.info(f"{len(rows)} record letti dalla tabella 'masscan'.")
-    logging.info("Inserimento dati in 'masscan' nel secondo database...")
-    new_rows_count = 0
-
-    for row in rows:
-        row_with_piva = row + (azienda_config['p_iva'],)
-        try:
-            cursor2.execute(
-                "INSERT INTO masscan (id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                row_with_piva
-            )
-            new_rows_count += 1
-        except mysql.connector.Error as e:
-            if e.errno == 1062:
-                continue
-            else:
-                logging.error(f"Errore durante l'inserimento della riga {row}: {e}")
-                raise
-
-    logging.info(f"Inserite {new_rows_count} nuove righe in 'masscan'.")
-
+        # Inserisci i dati nel secondo database
+        logging.info(f"Inserimento dati in '{table}' nel secondo database...")
+        insert_data_to_db(cursor2, table, insert_query, rows_with_piva)
 
     # Commit delle operazioni
     conn1.commit()
@@ -322,3 +146,6 @@ finally:
     if 'conn2' in locals():
         conn2.close()
         logging.info("Connessione al secondo database chiusa.")
+if not check:
+    logging.error("L'operazione è stata interrotta a causa di un errore critico.")
+    sys.exit(1)

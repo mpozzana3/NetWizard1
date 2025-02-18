@@ -64,6 +64,22 @@ def connect_db():
         print(f"Errore nella connessione al database: {e}")
         return None
 
+def create_stdout_if_not_exists():
+    """Crea la tabella stdout se non esiste già."""
+    conn = connect_db()
+    if conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS stdout (
+                id_scansione INT PRIMARY KEY,
+                stdout LONGTEXT,
+                FOREIGN KEY (id_scansione) REFERENCES scansioni(id_scansione) ON DELETE CASCADE
+            );
+        """)
+        conn.commit()
+        cursor.close()
+        conn.close()
+
 
 def create_table_if_not_exists():
     """Crea la tabella scansioni se non esiste già."""
@@ -83,6 +99,26 @@ def create_table_if_not_exists():
         conn.commit()
         cursor.close()
         conn.close()
+
+def insert_stdout(id_scansione, stdout):
+    """Inserisce o aggiorna l'output della scansione nella tabella stdout."""
+    conn = connect_db()
+    if conn:
+        cursor = conn.cursor()
+        try:
+            # Prova a fare un aggiornamento prima di un inserimento
+            cursor.execute("""
+                INSERT INTO stdout (id_scansione, stdout)
+                VALUES (%s, %s)
+                ON DUPLICATE KEY UPDATE stdout = CONCAT(stdout, %s)
+            """, (id_scansione, stdout, stdout))
+            conn.commit()
+            print(f"Output della scansione con ID {id_scansione} aggiornato o inserito nella tabella stdout.")
+        except mysql.connector.Error as e:
+            print(f"Errore nell'inserimento o aggiornamento dell'output della scansione nel database: {e}")
+        finally:
+            cursor.close()
+            conn.close()
 
 
 def insert_scansioni(timestamp, tipo_scansione):
@@ -168,23 +204,36 @@ def handle_client(client_socket, subnet):
         # Lancia il relativo script in base alla scelta
         try:
             if scelta_scansione == "ARP_PASSIVA":
-                subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/scan-1.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout 
             elif scelta_scansione == "ARP_ATTIVA":
-                subprocess.run(["python3", "scan/scan-2.py", subnet, str(id_scansione)], check=True)
-            elif scelta_scansione == "NMAP":
-                subprocess.run(["python3", "scan/nmap.py", str(id_scansione), subnet], check=True)
+                result = subprocess.run(["python3", "scan/scan-2.py", subnet, str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
+            elif scelta_scansione == "NMAP": 
+                result = subprocess.run(["python3", "scan/nmap.py", str(id_scansione), subnet], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
             elif scelta_scansione == "NBTSCAN":
-                subprocess.run(["python3", "scan/NetBios.py", subnet, str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/NetBios.py", subnet, str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout 
             elif scelta_scansione == "ENUM4LINUX":
-                subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/enum4linux.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
             elif scelta_scansione == "SMBMAP":
-                subprocess.run(["python3", "scan/smbmap.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/smbmap.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
             elif scelta_scansione == "SMBCLIENT":
-                subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/smbclient.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
             elif scelta_scansione == "COMPLETA":
-                subprocess.run(["python3", "scan/main.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/main.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
             elif scelta_scansione == "MASSCAN":
-                subprocess.run(["python3", "scan/masscan.py", str(id_scansione)], check=True)
+                result = subprocess.run(["python3", "scan/masscan.py", str(id_scansione)], capture_output=True, text=True, check=True)
+                stdout = result.stdout                                    
+
+            # Inserisci l'output nella tabella stdout
+            insert_stdout(id_scansione, stdout)
+
 
             # Aggiorna lo stato della scansione a COMPLETATA
             update_stato_scansione(id_scansione)
@@ -196,19 +245,38 @@ def handle_client(client_socket, subnet):
             client_socket.send(f"Errore nell'esecuzione della scansione {scelta_scansione}.\n".encode())
 
 
+                # Esegui lo script aggiornadb.py per aggiornare il database centrale con i valori del server sonda
+        try:
+            result2 = subprocess.run(["python3", "aggiornadb.py"], capture_output=True, text=True, check=True)
+            if result2.stdout:
+                 stdout2 = result2.stdout
+            else:
+                 stdout2 = "Nessun output prodotto dallo script."
+    
+            if result2.stderr:
+                 stdout2 += "\n" + result2.stderr
+            insert_stdout(id_scansione, stdout2)
+            print("Script aggiornadb.py eseguito.")
+            
+            # Se lo script va a buon fine, invia un log al client
+            client_socket.send(f"Script aggiornadb.py eseguito con successo. I dati sono stati aggiornati nel database centrale.\n".encode())
+        except subprocess.CalledProcessError as e:
+            print(f"Errore nell'esecuzione dello script aggiornadb.py: {e}")
+            stdout2 = e.stderr if e.stderr else "Errore sconosciuto nell'esecuzione del comando."
+            insert_stdout(id_scansione, stdout2)
+            
+            # Se lo script fallisce, invia un messaggio di errore al client
+            client_socket.send(f"Errore nell'esecuzione dello script aggiornadb.py. Impossibile aggiornare il database centrale.\n".encode())
+        
         # Chiudi la connessione
         client_socket.close()
         print("Ho chiuso la connessione.")
-
-        # Esegui lo script aggiornadb.py per aggiornare il database centrale con i valori del server sonda
-        subprocess.run(["python3", "aggiornadb.py"], check=True)
-        print("Script aggiornadb.py eseguito.")
-
-        break  # Exit the while loop
+        break  # Esci dal ciclo while
 
 def start_server():
     """Avvia il server per l'ascolto delle connessioni dei client."""
     create_table_if_not_exists()  # Crea la tabella nel DB se non esiste già
+    create_stdout_if_not_exists()
 
     # Crea un socket TCP
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

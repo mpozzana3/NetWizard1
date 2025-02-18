@@ -30,8 +30,8 @@ def load_config():
 
 def run_masscan(target_ip):
     commands = [
-        ["masscan", "-oX", "masscan.xml", "--ports", "0-5000", target_ip],
-        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-5000", target_ip]
+        ["masscan", "-oX", "masscan.xml", "--ports", "0-500", target_ip],
+        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-500", target_ip]
     ]
     
     for cmd in commands:

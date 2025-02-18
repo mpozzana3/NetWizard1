@@ -28,22 +28,23 @@ def subnet_extract():
 def run_script(script_name, *args):
     """
     Esegue uno script Python esterno passando eventuali argomenti.
-    Mostra solo un messaggio di completamento senza mostrare i risultati.
+    Se uno script fallisce, interrompe l'esecuzione.
     """
     try:
-        # Costruisci il comando per eseguire lo script
         command = ["python3", script_name] + list(args)
         print(f"Lancio {script_name}...")        
 
-        # Esegui lo script
-        result = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        
-        if result.returncode == 0:
-            print(f"{script_name} completato con successo.")
-        else:
-            print(f"Errore nell'esecuzione di {script_name}.")
+        result = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+
+        print(f"{script_name} completato con successo.")
+    
+    except subprocess.CalledProcessError:
+        print(f"❌ Errore: {script_name} fallito. Interruzione delle scansioni.")
+        sys.exit(1)  # Termina lo script principale
+    
     except Exception as e:
-        print(f"Errore nell'esecuzione di {script_name}: {e}")
+        print(f"❌ Errore generico in {script_name}: {e}")
+        sys.exit(1)
 
 def main():
     # Controlla se l'id_scansione è passato come argomento
