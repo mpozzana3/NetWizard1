@@ -5,7 +5,6 @@ gemini.py
 nbtscan.txt
 output_combined.json
 scan.xml
-server/scan/__pycache__/openai.cpython-311.pyc
 scan/my_venv/
 server/scan/openai_integration.py
 test.txt
@@ -13,3 +12,4 @@ server/scan/__pycache__
 masscan.xml
 masscanu.xml 
 .DS_Store
+scanner_gui/__pycache__
