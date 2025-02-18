@@ -109,6 +109,8 @@ try:
          "INSERT INTO file_scansioni (id_scansione, nmapxml, enum4json, masscanxml, nmaphtml, p_iva) VALUES (%s, %s, %s, %s, %s, %s)"),
         ("extended_enum", "SELECT * FROM extended_enum", 
          "INSERT INTO extended_enum (id_scansione, ip, json_data, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s)"),
+        ("stdout", "SELECT * FROM stdout",
+         "INSERT INTO stdout (id_scansione, stdout, p_iva) VALUES (%s, %s, %s)"),
         ("masscan", "SELECT * FROM masscan", 
          "INSERT INTO masscan (id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp, p_iva) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
     ]

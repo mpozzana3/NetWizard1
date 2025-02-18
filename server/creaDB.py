@@ -131,6 +131,13 @@ def create_tables(connection):
         )
         """,
         """
+        CREATE TABLE IF NOT EXISTS stdout (
+            id_scansione INT NOT NULL,
+            stdout LONGTEXT,
+            PRIMARY KEY (id_scansione)
+        )
+        """,
+        """
         CREATE TABLE IF NOT EXISTS smbmap (
             id_scansione INT NOT NULL,
             ip VARCHAR(255) NOT NULL,

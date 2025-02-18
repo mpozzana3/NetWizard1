@@ -159,6 +159,14 @@ def create_tables(connection):
         )
         """,
         """
+        CREATE TABLE IF NOT EXISTS stdout (
+            id_scansione INT NOT NULL,
+            stdout LONGTEXT,
+            p_iva VARCHAR(255),
+            PRIMARY KEY (id_scansione, p_iva)
+        )
+        """,
+        """
         CREATE TABLE IF NOT EXISTS snmp_scan (
             id INT AUTO_INCREMENT,
             hostname VARCHAR(255),
