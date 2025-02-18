@@ -50,8 +50,12 @@ def submit_query():
     max_cell_length = 50  # Imposta una lunghezza massima della cella
 
     rows = []
-    # Splittiamo la risposta in base al simbolo 'ç' che rappresenta la fine di una riga
-    for row in response.split('ç'):
+    response_lines = response.split('ç')
+    
+    # Ignorare le prime due righe
+    filtered_lines = response_lines[2:]
+    
+    for row in filtered_lines:
         row = row.strip()  # Rimuoviamo gli spazi extra prima e dopo la riga
         if row:  # Se la riga non è vuota
             print(f"Raw row: {row}")
