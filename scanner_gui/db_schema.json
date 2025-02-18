@@ -422,6 +422,26 @@
                 "column_key": ""
             }
         ],
+        "stdout": [
+            {
+                "column_name": "id_scansione",
+                "data_type": "int(11)",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            },
+            {
+                "column_name": "stdout",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "p_iva",
+                "data_type": "varchar(25)",
+                "is_nullable": "NO",
+                "column_key": "PRI"
+            }
+        ],
         "file_scansioni": [
             {
                 "column_name": "id_scansione",

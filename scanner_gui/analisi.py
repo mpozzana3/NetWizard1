@@ -46,8 +46,28 @@ def submit_query():
 
     response = send_query_to_server(query)
 
-    # Convertire la risposta in una lista di liste per DataTables
-    rows = [row.split('§') for row in response.split('\n') if row]
+    # Processare l'output per eliminare gli "a capo" e troncare il testo se troppo lungo
+    max_cell_length = 50  # Imposta una lunghezza massima della cella
+
+    rows = []
+    # Splittiamo la risposta in base al simbolo 'ç' che rappresenta la fine di una riga
+    for row in response.split('ç'):
+        row = row.strip()  # Rimuoviamo gli spazi extra prima e dopo la riga
+        if row:  # Se la riga non è vuota
+            print(f"Raw row: {row}")
+            
+            # Dividere la riga in celle tramite il separatore "§"
+            cells = [cell.strip() for cell in row.split('§')]  # Rimuove spazi extra in ogni cella
+            print(f"Cells: {cells}")  # Stampa per vedere come vengono suddivise le celle
+
+            # Troncamento del contenuto delle celle se necessario
+            formatted_cells = [
+                (cell[:max_cell_length] + '...' if len(cell) > max_cell_length else cell)
+                for cell in cells
+            ]
+
+            # Aggiungi la riga formattata alla lista delle righe
+            rows.append(formatted_cells)
 
     return render_template('index2.html', query=query, columns=columns, results=rows)
 
