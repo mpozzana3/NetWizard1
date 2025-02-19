@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import json
 import socket
 import time
+import struct
 
 app = Flask(__name__)
 
@@ -64,12 +65,6 @@ def submit_query():
             cells = [cell.strip() for cell in row.split('§')]  # Rimuove spazi extra in ogni cella
             print(f"Cells: {cells}")  # Stampa per vedere come vengono suddivise le celle
 
-            # Troncamento del contenuto delle celle se necessario
-#            formatted_cells = [
- #               (cell[:max_cell_length] + '...' if len(cell) > max_cell_length else cell)
-  #              for cell in cells
-   #         ]
-
             # Aggiungi la riga formattata alla lista delle righe
             rows.append(cells)
 
@@ -84,20 +79,25 @@ def send_query_to_server(query):
             time.sleep(0.1)
             s.sendall(query.encode('utf-8') + b'\n')
 
+            # Prima riceviamo la lunghezza totale del messaggio (4 byte)
+            data_length = struct.unpack('!I', s.recv(4))[0]
+            print(f"📦 Riceverò {data_length} byte.")
+
             response = ''
-            total_received = 0  # Per tracciare quanti byte sono stati ricevuti in totale
-            while True:
-                chunk = s.recv(4096).decode('utf-8')
-                response += chunk
-                total_received += len(chunk)
-                print(f"Ricevuto {len(chunk)} byte. Totale ricevuto: {total_received} byte.")
+            total_received = 0
+            while total_received < data_length:
+                chunk = s.recv(min(4096, data_length - total_received)).decode('utf-8', errors='ignore')
                 if not chunk:
                     break
+                response += chunk
+                total_received += len(chunk)
+                print(f"Ricevuti {total_received}/{data_length} byte.")
 
-            print(f"Risposta completa: {len(response)} byte.")
+            print("✅ Risposta ricevuta completamente.")
             return response
     except Exception as e:
         return f"Errore nella connessione al server: {e}"
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5006)

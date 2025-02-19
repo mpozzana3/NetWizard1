@@ -4,6 +4,8 @@ import subprocess
 import signal
 import sys
 import json
+import struct
+import time
 
 # Carica la configurazione da file JSON
 with open('config2.json', 'r') as f:
@@ -50,12 +52,28 @@ def execute_query(query):
         return f"Errore nell'esecuzione della query: {e}"
 
 def send_message(client_socket, message):
-    """Invia un messaggio al client usando sendall() per evitare troncamenti, in blocchi."""
-    print(f"Inizio invio di {len(message)} byte.")
-    for i in range(0, len(message), 1024):
-        client_socket.sendall(message[i:i+1024].encode())
-        print(f"Inviati {i + 1024} byte (su {len(message)})")  # Log dell'invio parziale
-    print(f"Invio completato.")
+    """Invia un messaggio al client in blocchi gestendo errori e connessione."""
+    try:
+        # Converti il messaggio in bytes
+        message_bytes = message.encode()
+
+        # Invia prima la lunghezza del messaggio come valore fisso a 4 byte (unsigned int)
+        client_socket.sendall(struct.pack('!I', len(message_bytes)))
+
+        # Invia il messaggio a blocchi
+        print(f"Inizio invio di {len(message_bytes)} byte.")
+        for i in range(0, len(message_bytes), 4096):
+            chunk = message_bytes[i:i+4096]
+            client_socket.sendall(chunk)  # Invia il blocco
+            print(f"Inviati {i + len(chunk)} byte (su {len(message_bytes)})")
+        
+        print("✅ Invio completato.")
+    
+    except BrokenPipeError:
+        print("⚠️ Errore: Il client ha chiuso la connessione prima della fine dell'invio.")
+    
+    except Exception as e:
+        print(f"⚠️ Errore durante l'invio: {e}")
 
 def handle_client(client_socket):
     """Gestisce la comunicazione con il client."""
@@ -72,7 +90,7 @@ def handle_client(client_socket):
             if '|' in dati_ricevuti:
                 azienda_choice, p_iva_choice, tipo_scansione = dati_ricevuti.split('|')
             else:
-                send_message(client_socket, "Errore: dati non validi")
+                client_socket.send(f"Errore: dati non validi".encode())
                 return
 
             print(f"✅ Azienda: {azienda_choice}, P.IVA: {p_iva_choice}, Tipo: {tipo_scansione}")
@@ -86,13 +104,13 @@ def handle_client(client_socket):
                 db_connection.close()
 
             if not result:
-                send_message(client_socket, "Errore: Azienda non trovata")
+                client_socket.send(f"Errore: Azienda non trovata".encode())
                 return
 
             scansioni_valide = ["ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA", "MASSCAN"]
 
             if tipo_scansione not in scansioni_valide:
-                send_message(client_socket, f"Errore: Scelta scansione non valida: {tipo_scansione}")
+                client_socket.send(f"Errore: Scelta scansione non valida: {tipo_scansione}".encode())
                 print(f"Scelta scansione non valida: {tipo_scansione}")
                 return
 
@@ -107,9 +125,9 @@ def handle_client(client_socket):
                     for _ in range(4):
                         response = sonda_socket.recv(1024).decode()
                         print(f"📩 Ricevuto dalla sonda: {response}")
-                        send_message(client_socket, response)
+                        client_socket.send(f"{response}".encode())
             except Exception as e:
-                send_message(client_socket, f"Errore nella connessione al server sonda: {e}")
+                client_socket.send(f"Errore nella connessione al server sonda: {e}".encode())
 
         elif client_choice == '2':
            print("✅ Scelto analisi DB, attendo query...\n")
@@ -121,6 +139,7 @@ def handle_client(client_socket):
 
            result = execute_query(query)
            send_message(client_socket, result)
+           time.sleep(0.5)
            print(f"Risposta completa: {len(result)} byte.")  # Log per la risposta completa
 
     finally:
