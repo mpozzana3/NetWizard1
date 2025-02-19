@@ -75,7 +75,7 @@ def main():
                 response = ''
                 total_received = 0  # Per tracciare quanti byte sono stati ricevuti in totale
                 while True:
-                    chunk = s.recv(4096).decode('utf-8')
+                    chunk = s.recv(4096).decode('utf-8', errors='ignore')
                     if not chunk:
                         break
                     response += chunk
