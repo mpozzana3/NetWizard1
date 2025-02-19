@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Stile personalizzato -->
     <style>
@@ -146,11 +149,79 @@
                 {% endfor %}
             </tbody>
         </table>
+        <button id="export-txt">Esporta come TXT</button>
+        <button id="export-image">Esporta come Immagine</button>
+        <button id="export-csv">Esporta come CSV</button>
+        <button id="export-pdf">Esporta come PDF</button>
         <button type="button" id="new-analysis-btn">Nuova Analisi</button>
     {% endif %}
 
     <script>
         $(document).ready(function() {
+
+            $("#export-pdf").click(function() {
+                 const { jsPDF } = window.jspdf;
+                 let doc = new jsPDF();
+
+                 doc.autoTable({ html: "#queryResults" });
+
+                 doc.save("tabella.pdf");
+            });
+            $("#export-image").click(function() {
+                     html2canvas(document.querySelector("#queryResults")).then(canvas => {
+                         let link = document.createElement("a");
+                         link.href = canvas.toDataURL("image/png");
+                         link.download = "tabella.png";
+                         link.click();
+                     });
+            });
+            $("#export-txt").click(function() {
+                let table = document.querySelector("#queryResults");
+    		let rows = table.querySelectorAll("tr");
+    		let txt = [];
+
+    		rows.forEach(row => {
+        	   let cols = row.querySelectorAll("th, td");
+        	   let rowData = [];
+
+        	   cols.forEach(col => {
+            		let text = col.innerText.trim(); // Rimuove spazi iniziali/finali
+            		rowData.push(text === "" ? "-" : text); // Sostituisce celle vuote con "-"
+        	   });
+
+       		   txt.push(rowData.join("\t")); // Separatore tabulazione
+    		});
+
+    		let txtContent = "data:text/plain;charset=utf-8," + encodeURIComponent(txt.join("\n"));
+    		let link = document.createElement("a");
+    		link.setAttribute("href", txtContent);
+    		link.setAttribute("download", "tabella.txt");
+    		document.body.appendChild(link);
+    		link.click();
+    		document.body.removeChild(link);
+            });
+
+            $("#export-csv").click(function() {
+               let table = document.querySelector("#queryResults");
+               let rows = table.querySelectorAll("tr");
+               let csv = [];
+
+               rows.forEach(row => {
+                   let cols = row.querySelectorAll("th, td");
+                   let rowData = [];
+                   cols.forEach(col => rowData.push(`"${col.innerText}"`)); // Usa virgolette per evitare problemi con le virgole nei dati
+                   csv.push(rowData.join(","));
+               });
+
+               let csvContent = "data:text/csv;charset=utf-8," + csv.join("\n");
+               let encodedUri = encodeURI(csvContent);
+               let link = document.createElement("a");
+               link.setAttribute("href", encodedUri);
+               link.setAttribute("download", "tabella.csv");
+               document.body.appendChild(link);
+               link.click();
+               document.body.removeChild(link);
+            });
             // Popolamento colonne dinamico
             $('#table').change(function() {
                 var tableName = $(this).val();
