@@ -65,13 +65,13 @@ def submit_query():
             print(f"Cells: {cells}")  # Stampa per vedere come vengono suddivise le celle
 
             # Troncamento del contenuto delle celle se necessario
-            formatted_cells = [
-                (cell[:max_cell_length] + '...' if len(cell) > max_cell_length else cell)
-                for cell in cells
-            ]
+#            formatted_cells = [
+ #               (cell[:max_cell_length] + '...' if len(cell) > max_cell_length else cell)
+  #              for cell in cells
+   #         ]
 
             # Aggiungi la riga formattata alla lista delle righe
-            rows.append(formatted_cells)
+            rows.append(cells)
 
     return render_template('index2.html', query=query, columns=columns, results=rows)
 

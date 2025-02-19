@@ -9,7 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- Stile personalizzato -->
     <style>
         body {
@@ -65,29 +66,29 @@
 
         /* Stile della tabella */
         th, td {
-           padding: 8px;
-           border-bottom: 1px solid #ddd;
-           text-align: center;
-           word-wrap: break-word; /* Permette il wrapping del testo nelle celle */
-           max-width: 150px; /* Impedisce che le colonne si allarghino troppo */
-           overflow: hidden; /* Nasconde il testo che supera la larghezza */
-           text-overflow: ellipsis; /* Mostra "..." se il testo è troppo lungo */
-           white-space: nowrap; /* Impedisce che il testo vada a capo */
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 150px;
+            overflow: auto;
+            white-space: nowrap;
+            resize: both;
         }
 
         th {
-           background: #007bff;
-           color: white;
-           padding: 10px;
-           text-align: center;
-           border-bottom: 2px solid #ddd;
-           white-space: nowrap; /* Impedisce che il testo dell'intestazione vada a capo */
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            white-space: nowrap;
         }
 
         table {
-           width: 100%;
-           table-layout: fixed;  /* Distribuisce uniformemente le colonne */
-           border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
         }
 
         tr:nth-child(even) {
@@ -190,6 +191,12 @@
                     "lengthMenu": [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]]
                 });
             }
+
+            $("td").resizable({
+                 handles: "all",
+                 minWidth: 50,
+                 maxWidth: 300
+            });
         });
     </script>
 </body>
