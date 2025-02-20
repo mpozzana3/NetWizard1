@@ -85,7 +85,3 @@ I risultati possono essere analizzati:
 ## Autore
 Progetto sviluppato da **Matteo Pozz**.
 
----
-
-## Licenza
-Questo progetto è rilasciato sotto licenza MIT.
