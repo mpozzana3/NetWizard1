@@ -177,7 +177,7 @@ def scan_network(target, output_file="scan.xml"):
     try:
         # Esegui il comando Nmap e cattura l'output e gli errori
         result = subprocess.run(
-            ["nmap", "-sC", "-sV", "--stats-every", "1m", "--stylesheet", "https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl", "-oX", output_file, target],
+            ["nmap", "-sC", "-sV", "--stats-every", "10s", "--stylesheet", "https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl", "-oX", output_file, target],
             check=True, 
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE, 

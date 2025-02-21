@@ -107,7 +107,7 @@ def handle_client(client_socket):
                 client_socket.send(f"Errore: Azienda non trovata".encode())
                 return
 
-            scansioni_valide = ["ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA", "MASSCAN"]
+            scansioni_valide = ["ARP_PASSIVA", "ARP_ATTIVA", "NMAP", "NBTSCAN", "ENUM4LINUX", "SMBMAP", "SMBCLIENT", "COMPLETA", "MASSCAN", "SNMP"]
 
             if tipo_scansione not in scansioni_valide:
                 client_socket.send(f"Errore: Scelta scansione non valida: {tipo_scansione}".encode())

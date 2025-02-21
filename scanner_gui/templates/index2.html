@@ -156,6 +156,20 @@
         <button type="button" id="new-analysis-btn">Nuova Analisi</button>
     {% endif %}
 
+    {% if not results %}
+        <h2>Risultati</h2>
+        <table id="queryResults" class="display">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+        </table>
+        <button type="button" id="new-analysis-btn">Nuova Analisi</button>
+    {% endif %}
+
     <script>
         $(document).ready(function() {
 

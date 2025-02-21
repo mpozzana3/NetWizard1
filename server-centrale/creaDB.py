@@ -27,7 +27,7 @@ def create_tables(connection):
     queries = [
         """
         CREATE TABLE IF NOT EXISTS aziende (
-            id INT PRIMARY KEY,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             azienda VARCHAR(255) NOT NULL,
             p_iva VARCHAR(255) NOT NULL UNIQUE,
             IP_sonda VARCHAR(255) NOT NULL,
@@ -58,7 +58,7 @@ def create_tables(connection):
         """,
         """
         CREATE TABLE IF NOT EXISTS enum4linux (
-            id_scansione VARCHAR(255) NOT NULL,
+            id_scansione VARCHAR(255),
             ip VARCHAR(15),
             credentials TEXT,
             listeners TEXT,
@@ -142,6 +142,7 @@ def create_tables(connection):
             enum4json LONGTEXT,
             masscanxml LONGTEXT,
             nmaphtml LONGTEXT,
+            snmp LONGTEXT,
             p_iva VARCHAR(25),
             PRIMARY KEY (id_scansione, p_iva)
         )
@@ -168,14 +169,14 @@ def create_tables(connection):
         """,
         """
         CREATE TABLE IF NOT EXISTS snmp_scan (
-            id INT AUTO_INCREMENT,
+            id_scansione INT,
             hostname VARCHAR(255),
             interface_name VARCHAR(50),
             port INT,
             pid INT,
             process_cmd TEXT,
             p_iva VARCHAR(255),
-            PRIMARY KEY (id, hostname, port, p_iva)
+            PRIMARY KEY (id_scansione, hostname, port, p_iva)
         )
         """
     ]

@@ -29,7 +29,7 @@ def main():
                 azienda = input("Azienda: ").strip()
                 p_iva = input("Partita IVA: ").strip()
                 
-                print("Scansioni disponibili: ARP_PASSIVA, ARP_ATTIVA, NMAP, NBTSCAN, ENUM4LINUX, SMBMAP, SMBCLIENT, MASSCAN, COMPLETA")
+                print("Scansioni disponibili: ARP_PASSIVA, ARP_ATTIVA, NMAP, NBTSCAN, MASSCAN\n (i successivi solo dopo aver fatto NBTSCAN)\n ENUM4LINUX, SMBMAP, SMBCLIENT, SNMP, COMPLETA")
                 scansione = input("Scansione: ").strip()
                 
                 s.sendall(f"{azienda}|{p_iva}|{scansione}".encode())

@@ -67,6 +67,7 @@ def main():
     run_script("scan/smbclient.py", id_scansione)
     run_script("scan/smbmap.py", id_scansione)
     run_script("scan/masscan.py", id_scansione)
+    run_script("scan/snmp.py", id_scansione)
 
 
 if __name__ == "__main__":

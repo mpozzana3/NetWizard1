@@ -348,7 +348,7 @@
         ],
         "snmp_scan": [
             {
-                "column_name": "id",
+                "column_name": "id_scansione",
                 "data_type": "int",
                 "is_nullable": "NO",
                 "column_key": "PRI"
@@ -469,6 +469,12 @@
             },
             {
                 "column_name": "nmaphtml",
+                "data_type": "longtext",
+                "is_nullable": "YES",
+                "column_key": ""
+            },
+            {
+                "column_name": "snmp",
                 "data_type": "longtext",
                 "is_nullable": "YES",
                 "column_key": ""

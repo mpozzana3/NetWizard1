@@ -1,6 +1,7 @@
 import subprocess
 import json
 import mysql.connector
+import sys
 import re
 
 def load_config():
@@ -32,6 +33,25 @@ def run_snmp_check(target_ip, community="public"):
     except subprocess.CalledProcessError:
         print(f"Errore SNMP su {target_ip}")
         return None
+
+def insert_into_file_scansioni(connection, file, id_scansione):
+    try:
+        with open(file, "rb") as file:
+            content = file.read()
+
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO file_scansioni (id_scansione, snmp)
+        VALUES (%s, %s)
+        ON DUPLICATE KEY UPDATE 
+           snmp = VALUES(snmp)
+        """
+        cursor.execute(insert_query, (id_scansione, content))
+        connection.commit()
+        cursor.close()
+        print("File salvati nel database con successo.")
+    except FileNotFoundError as e:
+        print(f"Errore: {e}")
 
 def parse_snmp_output(output):
     parsed_data = {
@@ -74,43 +94,54 @@ def create_table(conn):
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS snmp_scan (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id_scansione INT,
             hostname VARCHAR(255),
             interface_name VARCHAR(50),
             port INT,
             pid INT,
             process_cmd TEXT,
-            PRIMARY KEY (id, hostname, port)
+            PRIMARY KEY (id_scansione, hostname, port)
         )
     """)
     conn.commit()
     cursor.close()
 
-def insert_snmp_results(conn, parsed_data):
+def insert_snmp_results(conn, id_scansione, parsed_data):
     cursor = conn.cursor()
 
     for interface in parsed_data["interfaces"]:
         cursor.execute("""
-            INSERT INTO snmp_scan (hostname, interface_name)
-            VALUES (%s, %s)
-        """, (parsed_data["hostname"], interface["name"]))
+            INSERT INTO snmp_scan (id_scansione, hostname, interface_name)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE 
+                interface_name = VALUES(interface_name)
+        """, (id_scansione, parsed_data["hostname"], interface["name"]))
 
     for port in parsed_data["open_ports"]:
         cursor.execute("""
-            INSERT INTO snmp_scan (hostname, port)
-            VALUES (%s, %s)
-        """, (parsed_data["hostname"], port["port"]))
+            INSERT INTO snmp_scan (id_scansione, hostname, port)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE 
+                port = VALUES(port)
+        """, (id_scansione, parsed_data["hostname"], port["port"]))
 
     for process in parsed_data["processes"]:
         cursor.execute("""
-            INSERT INTO snmp_scan (hostname, pid, process_cmd)
-            VALUES (%s, %s, %s)
-        """, (parsed_data["hostname"], process["pid"], process["command"]))
+            INSERT INTO snmp_scan (id_scansione, hostname, pid, process_cmd)
+            VALUES (%s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE 
+                process_cmd = VALUES(process_cmd)
+        """, (id_scansione, parsed_data["hostname"], process["pid"], process["command"]))
 
     conn.commit()
     cursor.close()
 
 def main():
+    if len(sys.argv) != 2:
+        print("Uso: python3 snmp.py <id_scansione>")
+        sys.exit(1)
+
+    id_scansione = sys.argv[1]
     config = load_config()
     ip_list = parse_nbtscan("nbtscan.txt")
     community = "public"
@@ -121,11 +152,13 @@ def main():
     for target_ip in ip_list:
         print(f"Eseguo SNMP scan su {target_ip}")
         output = run_snmp_check(target_ip, community)
-        parsed_data = parse_snmp_output(output)
-        insert_snmp_results(conn, parsed_data)
+        if output:
+             insert_into_file_scansioni(conn, output, id_scansione)
+             parsed_data = parse_snmp_output(output)
+             insert_snmp_results(conn, id_scansione, parsed_data)
 
     conn.close()
-    print("Dati SNMP salvati nel database.")
+    print(f"Dati SNMP salvati nel database con id: {id_scansione}.")
 
 if __name__ == "__main__":
     main()

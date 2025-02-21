@@ -1,6 +1,7 @@
 import subprocess
 import json
 import mysql.connector
+import os
 import sys
 import xml.etree.ElementTree as ET
 import requests
@@ -30,8 +31,8 @@ def load_config():
 
 def run_masscan(target_ip):
     commands = [
-        ["masscan", "-oX", "masscan.xml", "--ports", "0-500", target_ip],
-        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-500", target_ip]
+        ["masscan", "-oX", "masscan.xml", "--ports", "0-5", target_ip],
+        ["masscan", "-oX", "masscanu.xml", "--ports", "U:0-5", target_ip]
     ]
     
     for cmd in commands:
@@ -69,7 +70,7 @@ def insert_into_file_scansioni(connection, file_xml,id_scansione):
         INSERT INTO file_scansioni (id_scansione, masscanxml)
         VALUES (%s, %s)
         ON DUPLICATE KEY UPDATE 
-           masscanxml = VALUES(masscanxml)
+           masscanxml = CONCAT(masscanxml, VALUES(masscanxml))
         """
         cursor.execute(insert_query, (id_scansione, xml_content))
         connection.commit()
@@ -110,26 +111,37 @@ def create_table(conn):
     cursor.close()
 
 def parse_masscan_xml(file_path, id_scansione):
-    tree = ET.parse(file_path)
-    root = tree.getroot()
     scan_results = []
 
-    for host in root.findall("host"):
-        ip_element = host.find("address")
-        ip = ip_element.get("addr")
-        addrtype = ip_element.get("addrtype")
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Controlla se il file esiste e non è vuoto
+    if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+        print(f"⚠️  Nessun host trovato: il file {file_path} è vuoto o non esiste.")
+        return scan_results  # Restituisce una lista vuota invece di far fallire il programma
 
-        for port in host.findall("ports/port"):
-            port_protocol = port.get("protocol")
-            portid = int(port.get("portid"))
-            state_element = port.find("state")
-            state = state_element.get("state")
-            reason = state_element.get("reason")
-            reason_ttl = int(state_element.get("reason_ttl"))
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
 
-            scan_results.append((id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp))
-    
+        for host in root.findall("host"):
+            ip_element = host.find("address")
+            ip = ip_element.get("addr")
+            addrtype = ip_element.get("addrtype")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            for port in host.findall("ports/port"):
+                port_protocol = port.get("protocol")
+                portid = int(port.get("portid"))
+                state_element = port.find("state")
+                state = state_element.get("state")
+                reason = state_element.get("reason")
+                reason_ttl = int(state_element.get("reason_ttl"))
+
+                scan_results.append((id_scansione, ip, addrtype, port_protocol, portid, state, reason, reason_ttl, timestamp))
+
+    except ET.ParseError:
+        print(f"❌ Errore nel parsing XML: il file {file_path} è corrotto o non valido.")
+        return scan_results  # Restituisce una lista vuota invece di generare un'eccezione
+
     return scan_results
 
 def insert_scan_results(conn, scan_results):
@@ -164,8 +176,12 @@ def main():
     create_table(conn)
     
     insert_into_file_scansioni(conn, "masscan.xml", id_scansione)
+    insert_into_file_scansioni(conn, "masscanu.xml", id_scansione)
     scan_results = parse_masscan_xml("masscan.xml", id_scansione)
     insert_scan_results(conn, scan_results)
+    scan_results2 = parse_masscan_xml("masscanu.xml", id_scansione)
+    insert_scan_results(conn, scan_results2)
+    
     
     conn.close()
 

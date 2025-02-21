@@ -115,16 +115,16 @@
 </div></nav><div class="container" style="width: 94%">
 <div class="jumbotron" style="margin-top: 80px; padding-top: 5px; padding-bottom: 30px; padding-left: 30px; padding-right: 30px">
 <h2>Nmap Port Scanning Results</h2>
-<h2><small>Nmap Version 7.95<br>Mon Feb 17 14:51:25 2025 – Mon Feb 17 15:27:48 2025</small></h2>
-<pre style="white-space:pre-wrap; word-wrap:break-word;"><a target="_blank" href="https://explainshell.com/explain?cmd=nmap%20-sC%20-sV%20--stats-every%201m%20--stylesheet%20https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl%20-oX%20scan.xml%20172.16.1.0/24">nmap -sC -sV --stats-every 1m --stylesheet https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl -oX scan.xml 172.16.1.0/24</a></pre>
+<h2><small>Nmap Version 7.95<br>Fri Feb 21 15:41:51 2025 – Fri Feb 21 16:07:24 2025</small></h2>
+<pre style="white-space:pre-wrap; word-wrap:break-word;"><a target="_blank" href="https://explainshell.com/explain?cmd=nmap%20-sC%20-sV%20--stats-every%2010s%20--stylesheet%20https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl%20-oX%20scan.xml%20172.16.1.0/24">nmap -sC -sV --stats-every 10s --stylesheet https://raw.githubusercontent.com/Haxxnet/nmap-bootstrap-xsl/main/nmap-bootstrap.xsl -oX scan.xml 172.16.1.0/24</a></pre>
 <p class="lead">256 hosts scanned.
-              65 hosts up.
-              191 hosts down.
+              60 hosts up.
+              196 hosts down.
             </p>
 <div class="progress">
-<div class="progress-bar progress-bar-success" style="width:25.390625%;">65<span class="sr-only"></span>
+<div class="progress-bar progress-bar-success" style="width:23.4375%;">60<span class="sr-only"></span>
 </div>
-<div class="progress-bar progress-bar-danger" style="width:74.609375%;">191<span class="sr-only"></span>
+<div class="progress-bar progress-bar-danger" style="width:76.5625%;">196<span class="sr-only"></span>
 </div>
 </div>
 <div id="form-wrapper">
@@ -157,7 +157,7 @@
 <tr>
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-2">172.16.1.2</a></td>
-<td>fs02.gftech.srl</td>
+<td>fs02</td>
 <td>4</td>
 <td>0</td>
 </tr>
@@ -165,7 +165,7 @@
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
 <td>DC01.gftech.srl</td>
-<td>13</td>
+<td>3</td>
 <td>0</td>
 </tr>
 <tr>
@@ -206,7 +206,7 @@
 <tr>
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-14">172.16.1.14</a></td>
-<td>salt-master.gftech.srl</td>
+<td>git.gftech.srl</td>
 <td>1</td>
 <td>0</td>
 </tr>
@@ -215,6 +215,13 @@
 <td><a href="#onlinehosts-172-16-1-15">172.16.1.15</a></td>
 <td></td>
 <td>6</td>
+<td>0</td>
+</tr>
+<tr>
+<td><span class="label label-success">up</span></td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td></td>
+<td>4</td>
 <td>0</td>
 </tr>
 <tr>
@@ -247,23 +254,16 @@
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-23">172.16.1.23</a></td>
-<td></td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-31">172.16.1.31</a></td>
 <td></td>
-<td>4</td>
+<td>1</td>
 <td>0</td>
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-32">172.16.1.32</a></td>
 <td></td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 </tr>
 <tr>
@@ -276,13 +276,6 @@
 <tr>
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-38">172.16.1.38</a></td>
-<td></td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-39">172.16.1.39</a></td>
 <td></td>
 <td>0</td>
 <td>0</td>
@@ -305,7 +298,7 @@
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-44">172.16.1.44</a></td>
 <td></td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 </tr>
 <tr>
@@ -366,13 +359,6 @@
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-87">172.16.1.87</a></td>
-<td></td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-88">172.16.1.88</a></td>
 <td></td>
 <td>4</td>
@@ -388,13 +374,6 @@
 <tr>
 <td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-94">172.16.1.94</a></td>
-<td></td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-97">172.16.1.97</a></td>
 <td></td>
 <td>0</td>
 <td>0</td>
@@ -471,16 +450,9 @@
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-159">172.16.1.159</a></td>
+<td><a href="#onlinehosts-172-16-1-154">172.16.1.154</a></td>
 <td></td>
-<td>1</td>
 <td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-171">172.16.1.171</a></td>
-<td></td>
-<td>4</td>
 <td>0</td>
 </tr>
 <tr>
@@ -520,13 +492,6 @@
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-193">172.16.1.193</a></td>
-<td></td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td><span class="label label-success">up</span></td>
 <td><a href="#onlinehosts-172-16-1-194">172.16.1.194</a></td>
 <td></td>
 <td>2</td>
@@ -548,16 +513,16 @@
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-207">172.16.1.207</a></td>
+<td><a href="#onlinehosts-172-16-1-213">172.16.1.213</a></td>
 <td></td>
-<td>0</td>
+<td>1</td>
 <td>0</td>
 </tr>
 <tr>
 <td><span class="label label-success">up</span></td>
-<td><a href="#onlinehosts-172-16-1-210">172.16.1.210</a></td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
 <td></td>
-<td>4</td>
+<td>7</td>
 <td>0</td>
 </tr>
 <tr>
@@ -660,7 +625,7 @@
 <td></td>
 </tr>
 <tr>
-<td>fs02.gftech.srl</td>
+<td>fs02</td>
 <td><a href="#onlinehosts-172-16-1-2">172.16.1.2</a></td>
 <td><a href="#port-172-16-1-2-22">22</a></td>
 <td>tcp</td>
@@ -673,7 +638,7 @@
 <td>cpe:/a:openbsd:openssh:9.9</td>
 </tr>
 <tr>
-<td>fs02.gftech.srl</td>
+<td>fs02</td>
 <td><a href="#onlinehosts-172-16-1-2">172.16.1.2</a></td>
 <td><a href="#port-172-16-1-2-139">139</a></td>
 <td>tcp</td>
@@ -686,7 +651,7 @@
 <td>cpe:/a:samba:samba:4</td>
 </tr>
 <tr>
-<td>fs02.gftech.srl</td>
+<td>fs02</td>
 <td><a href="#onlinehosts-172-16-1-2">172.16.1.2</a></td>
 <td><a href="#port-172-16-1-2-445">445</a></td>
 <td>tcp</td>
@@ -699,7 +664,7 @@
 <td>cpe:/a:samba:samba:4</td>
 </tr>
 <tr>
-<td>fs02.gftech.srl</td>
+<td>fs02</td>
 <td><a href="#onlinehosts-172-16-1-2">172.16.1.2</a></td>
 <td><a href="#port-172-16-1-2-9102">9102</a></td>
 <td>tcp</td>
@@ -714,106 +679,15 @@
 <tr>
 <td>DC01.gftech.srl</td>
 <td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-53">53</a></td>
-<td>tcp</td>
-<td>domain</td>
-<td>Simple DNS Plus</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>cpe:/a:jh_software:simple_dns_plus</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
 <td><a href="#port-172-16-1-3-88">88</a></td>
 <td>tcp</td>
 <td>kerberos-sec</td>
 <td>Microsoft Windows Kerberos</td>
 <td></td>
-<td>server time: 2025-02-17 14:18:08Z</td>
+<td>server time: 2025-02-21 14:57:21Z</td>
 <td></td>
 <td></td>
 <td>cpe:/a:microsoft:kerberos</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-135">135</a></td>
-<td>tcp</td>
-<td>msrpc</td>
-<td>Microsoft Windows RPC</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-139">139</a></td>
-<td>tcp</td>
-<td>netbios-ssn</td>
-<td>Microsoft Windows netbios-ssn</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-389">389</a></td>
-<td>tcp</td>
-<td>ldap</td>
-<td>Microsoft Windows Active Directory LDAP</td>
-<td></td>
-<td>Domain: gftech.srl, Site: Default-First-Site-Name</td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td>Windows Server 2016 Standard 14393 microsoft-ds</td>
-<td></td>
-<td>workgroup: GFTECH</td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-464">464</a></td>
-<td>tcp</td>
-<td>kpasswd5</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-593">593</a></td>
-<td>tcp</td>
-<td>ncacn_http</td>
-<td>Microsoft Windows RPC over HTTP</td>
-<td>1.0</td>
-<td></td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
 </tr>
 <tr>
 <td>DC01.gftech.srl</td>
@@ -831,19 +705,6 @@
 <tr>
 <td>DC01.gftech.srl</td>
 <td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-3268">3268</a></td>
-<td>tcp</td>
-<td>ldap</td>
-<td>Microsoft Windows Active Directory LDAP</td>
-<td></td>
-<td>Domain: gftech.srl, Site: Default-First-Site-Name</td>
-<td></td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
 <td><a href="#port-172-16-1-3-3269">3269</a></td>
 <td>tcp</td>
 <td>tcpwrapped</td>
@@ -853,33 +714,6 @@
 <td></td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-3389">3389</a></td>
-<td>tcp</td>
-<td>ms-wbt-server</td>
-<td>Microsoft Terminal Services</td>
-<td></td>
-<td></td>
-<td>CN: <i>DC01.gftech.srl</i><br>Expiry: <i>2025-08-10T12:02:11</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
-</td>
-<td></td>
-<td>cpe:/o:microsoft:windows</td>
-</tr>
-<tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-5985">5985</a></td>
-<td>tcp</td>
-<td>http</td>
-<td>Microsoft HTTPAPI httpd</td>
-<td>2.0</td>
-<td>SSDP/UPnP</td>
-<td></td>
-<td><i>Not Found</i></td>
-<td>cpe:/o:microsoft:windows</td>
 </tr>
 <tr>
 <td>N/A</td>
@@ -1267,13 +1101,13 @@
 <td>cpe:/a:macournoyer:thin</td>
 </tr>
 <tr>
-<td>salt-master.gftech.srl</td>
+<td>git.gftech.srl</td>
 <td><a href="#onlinehosts-172-16-1-14">172.16.1.14</a></td>
 <td><a href="#port-172-16-1-14-22">22</a></td>
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>8.9p1 Ubuntu 3ubuntu0.10</td>
+<td>8.9p1 Ubuntu 3ubuntu0.11</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -1357,6 +1191,60 @@
 <td></td>
 <td><i>Site doesn't have a title (application/json;charset=utf-8).</i></td>
 <td>cpe:/a:macournoyer:thin</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-22">22</a></td>
+<td>tcp</td>
+<td>ssh</td>
+<td>OpenSSH</td>
+<td>9.2p1 Debian 2+deb12u3</td>
+<td>protocol 2.0</td>
+<td></td>
+<td></td>
+<td>cpe:/a:openbsd:openssh:9.2p1</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-80">80</a></td>
+<td>tcp</td>
+<td>http</td>
+<td>nginx</td>
+<td>1.22.1</td>
+<td></td>
+<td></td>
+<td><i>Did not follow redirect to https://172.16.1.16/</i></td>
+<td>cpe:/a:igor_sysoev:nginx:1.22.1</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-443">443</a></td>
+<td>tcp</td>
+<td>ssl/http</td>
+<td>nginx</td>
+<td>1.22.1</td>
+<td></td>
+<td>CN: <i>localhost</i><br>Expiry: <i>2034-12-15T13:40:11</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
+</td>
+<td><i>Site doesn't have a title (text/html).</i></td>
+<td>cpe:/a:igor_sysoev:nginx:1.22.1</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-8000">8000</a></td>
+<td>tcp</td>
+<td>ssl/http-alt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>CN: <i>edgeinsight</i><br>Expiry: <i>2034-12-17T13:42:05</i><br>SigAlgo: <i>sha512WithRSAEncryption</i>
+</td>
+<td><i>Site doesn't have a title (application/json).</i></td>
+<td></td>
 </tr>
 <tr>
 <td>N/A</td>
@@ -1571,65 +1459,12 @@
 <tr>
 <td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-31">172.16.1.31</a></td>
-<td><a href="#port-172-16-1-31-19">19</a></td>
-<td>tcp</td>
-<td>chargen</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-31">172.16.1.31</a></td>
-<td><a href="#port-172-16-1-31-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-31">172.16.1.31</a></td>
 <td><a href="#port-172-16-1-31-912">912</a></td>
 <td>tcp</td>
 <td>vmware-auth</td>
 <td>VMware Authentication Daemon</td>
 <td>1.0</td>
 <td>Uses VNC, SOAP</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-31">172.16.1.31</a></td>
-<td><a href="#port-172-16-1-31-7070">7070</a></td>
-<td>tcp</td>
-<td>ssl/realserver</td>
-<td></td>
-<td></td>
-<td></td>
-<td>CN: <i>AnyDesk Client</i><br>Expiry: <i>2073-08-22T13:23:27</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
-</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-32">172.16.1.32</a></td>
-<td><a href="#port-172-16-1-32-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1671,7 +1506,7 @@
 <td></td>
 <td>CN: <i>249ad895028e</i><br>Expiry: <i>2033-11-23T01:45:03</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
-<td><i>Site doesn't have a title (text/html).</i></td>
+<td><i>Yealink T44U Phone</i></td>
 <td>cpe:/a:lighttpd:lighttpd</td>
 </tr>
 <tr>
@@ -1824,19 +1659,6 @@
 </tr>
 <tr>
 <td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-44">172.16.1.44</a></td>
-<td><a href="#port-172-16-1-44-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-47">172.16.1.47</a></td>
 <td><a href="#port-172-16-1-47-80">80</a></td>
 <td>tcp</td>
@@ -1845,7 +1667,7 @@
 <td></td>
 <td></td>
 <td></td>
-<td></td>
+<td><i>Site doesn't have a title (text/html).</i></td>
 <td>cpe:/a:lighttpd:lighttpd</td>
 </tr>
 <tr>
@@ -1896,7 +1718,7 @@
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>9.6p1 Ubuntu 3ubuntu13.5</td>
+<td>9.6p1 Ubuntu 3ubuntu13.8</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -1926,7 +1748,7 @@
 <td></td>
 <td>CN: <i>NPI35A166</i><br>Expiry: <i>2028-05-13T19:49:08</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
-<td><i>HP &amp;raquo; Device Status</i></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -1966,7 +1788,7 @@
 <td></td>
 <td>CN: <i>NPI35A166</i><br>Expiry: <i>2028-05-13T19:49:08</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
-<td><i>Site doesn't have a title (text/html).</i></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -2056,7 +1878,7 @@
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>8.9p1 Ubuntu 3ubuntu0.10</td>
+<td>8.9p1 Ubuntu 3ubuntu0.11</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -2289,19 +2111,6 @@
 </tr>
 <tr>
 <td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-94">172.16.1.94</a></td>
-<td><a href="#port-172-16-1-94-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-99">172.16.1.99</a></td>
 <td><a href="#port-172-16-1-99-22">22</a></td>
 <td>tcp</td>
@@ -2374,13 +2183,13 @@
 <td><a href="#onlinehosts-172-16-1-99">172.16.1.99</a></td>
 <td><a href="#port-172-16-1-99-3000">3000</a></td>
 <td>tcp</td>
-<td>hadoop-secondary-namenode</td>
-<td>Apache Hadoop</td>
+<td>ppp</td>
 <td></td>
 <td></td>
 <td></td>
-<td><i>Welcome to ntopng</i></td>
-<td>cpe:/a:cesanta:mongoose</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>N/A</td>
@@ -2717,7 +2526,7 @@
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>9.6p1 Ubuntu 3ubuntu13.5</td>
+<td>9.6p1 Ubuntu 3ubuntu13.8</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -2732,7 +2541,8 @@
 <td>Postfix smtpd</td>
 <td></td>
 <td></td>
-<td></td>
+<td>CN: <i>mint</i><br>Expiry: <i>2033-02-04T13:36:25</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
+</td>
 <td></td>
 <td>cpe:/a:postfix:postfix</td>
 </tr>
@@ -2845,71 +2655,6 @@
 <td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-132">172.16.1.132</a></td>
 <td><a href="#port-172-16-1-132-62078">62078</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-159">172.16.1.159</a></td>
-<td><a href="#port-172-16-1-159-445">445</a></td>
-<td>tcp</td>
-<td>microsoft-ds</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-171">172.16.1.171</a></td>
-<td><a href="#port-172-16-1-171-1145">1145</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-171">172.16.1.171</a></td>
-<td><a href="#port-172-16-1-171-3000">3000</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-171">172.16.1.171</a></td>
-<td><a href="#port-172-16-1-171-3001">3001</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-171">172.16.1.171</a></td>
-<td><a href="#port-172-16-1-171-9998">9998</a></td>
 <td>tcp</td>
 <td>tcpwrapped</td>
 <td></td>
@@ -3164,7 +2909,7 @@
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>8.2p1 Ubuntu 4ubuntu0.11</td>
+<td>8.2p1 Ubuntu 4ubuntu0.12</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -3190,7 +2935,7 @@
 <td>tcp</td>
 <td>ssh</td>
 <td>OpenSSH</td>
-<td>8.2p1 Ubuntu 4ubuntu0.11</td>
+<td>8.2p1 Ubuntu 4ubuntu0.12</td>
 <td>Ubuntu Linux; protocol 2.0</td>
 <td></td>
 <td></td>
@@ -3357,11 +3102,89 @@
 </tr>
 <tr>
 <td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-210">172.16.1.210</a></td>
-<td><a href="#port-172-16-1-210-1145">1145</a></td>
+<td><a href="#onlinehosts-172-16-1-213">172.16.1.213</a></td>
+<td><a href="#port-172-16-1-213-53">53</a></td>
 <td>tcp</td>
-<td>tcpwrapped</td>
+<td>domain</td>
+<td>dnsmasq</td>
+<td>2.90</td>
 <td></td>
+<td></td>
+<td></td>
+<td>cpe:/a:thekelleys:dnsmasq:2.90</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-21">21</a></td>
+<td>tcp</td>
+<td>ftp</td>
+<td>MikroTik router ftpd</td>
+<td>6.47.10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-22">22</a></td>
+<td>tcp</td>
+<td>ssh</td>
+<td>MikroTik RouterOS sshd</td>
+<td></td>
+<td>protocol 2.0</td>
+<td></td>
+<td></td>
+<td>cpe:/o:mikrotik:routeros</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-23">23</a></td>
+<td>tcp</td>
+<td>telnet</td>
+<td>Linux telnetd</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>cpe:/o:linux:linux_kernel</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-53">53</a></td>
+<td>tcp</td>
+<td>domain</td>
+<td></td>
+<td></td>
+<td>generic dns response: NOTIMP</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-80">80</a></td>
+<td>tcp</td>
+<td>http</td>
+<td>MikroTik router config httpd</td>
+<td></td>
+<td></td>
+<td></td>
+<td><i>RouterOS router configuration page</i></td>
+<td>cpe:/o:mikrotik:routeros</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-2000">2000</a></td>
+<td>tcp</td>
+<td>bandwidth-test</td>
+<td>MikroTik bandwidth-test server</td>
 <td></td>
 <td></td>
 <td></td>
@@ -3370,36 +3193,10 @@
 </tr>
 <tr>
 <td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-210">172.16.1.210</a></td>
-<td><a href="#port-172-16-1-210-3000">3000</a></td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-8291">8291</a></td>
 <td>tcp</td>
-<td>tcpwrapped</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-210">172.16.1.210</a></td>
-<td><a href="#port-172-16-1-210-3001">3001</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>N/A</td>
-<td><a href="#onlinehosts-172-16-1-210">172.16.1.210</a></td>
-<td><a href="#port-172-16-1-210-9998">9998</a></td>
-<td>tcp</td>
-<td>tcpwrapped</td>
 <td></td>
 <td></td>
 <td></td>
@@ -3676,17 +3473,6 @@
 </tr></thead>
 <tbody>
 <tr>
-<td>DC01.gftech.srl</td>
-<td><a href="#onlinehosts-172-16-1-3">172.16.1.3</a></td>
-<td><a href="#port-172-16-1-3-5985">5985</a></td>
-<td>http</td>
-<td>Microsoft HTTPAPI httpd</td>
-<td>2.0</td>
-<td><i>Not Found</i></td>
-<td></td>
-<td><a target="_blank" href="http://DC01.gftech.srl:5985">http://DC01.gftech.srl:5985</a></td>
-</tr>
-<tr>
 <td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-4">172.16.1.4</a></td>
 <td><a href="#port-172-16-1-4-80">80</a></td>
@@ -3859,6 +3645,41 @@
 </tr>
 <tr>
 <td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-80">80</a></td>
+<td>http</td>
+<td>nginx</td>
+<td>1.22.1</td>
+<td><i>Did not follow redirect to https://172.16.1.16/</i></td>
+<td></td>
+<td><a target="_blank" href="http://172.16.1.16:80">http://172.16.1.16:80</a></td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-443">443</a></td>
+<td>ssl/http</td>
+<td>nginx</td>
+<td>1.22.1</td>
+<td><i>Site doesn't have a title (text/html).</i></td>
+<td>CN: <i>localhost</i><br>Expiry: <i>2034-12-15T13:40:11</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
+</td>
+<td><a target="_blank" href="https://172.16.1.16:443">https://172.16.1.16:443</a></td>
+</tr>
+<tr>
+<td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-16">172.16.1.16</a></td>
+<td><a href="#port-172-16-1-16-8000">8000</a></td>
+<td>ssl/http-alt</td>
+<td></td>
+<td></td>
+<td><i>Site doesn't have a title (application/json).</i></td>
+<td>CN: <i>edgeinsight</i><br>Expiry: <i>2034-12-17T13:42:05</i><br>SigAlgo: <i>sha512WithRSAEncryption</i>
+</td>
+<td><a target="_blank" href="https://172.16.1.16:8000">https://172.16.1.16:8000</a></td>
+</tr>
+<tr>
+<td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-18">172.16.1.18</a></td>
 <td><a href="#port-172-16-1-18-80">80</a></td>
 <td>http</td>
@@ -3932,7 +3753,7 @@
 <td>ssl/http</td>
 <td>lighttpd</td>
 <td></td>
-<td><i>Site doesn't have a title (text/html).</i></td>
+<td><i>Yealink T44U Phone</i></td>
 <td>CN: <i>249ad895028e</i><br>Expiry: <i>2033-11-23T01:45:03</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
 <td><a target="_blank" href="https://172.16.1.41:443">https://172.16.1.41:443</a></td>
@@ -3979,7 +3800,7 @@
 <td>http</td>
 <td>lighttpd</td>
 <td></td>
-<td></td>
+<td><i>Site doesn't have a title (text/html).</i></td>
 <td></td>
 <td><a target="_blank" href="http://172.16.1.47:80">http://172.16.1.47:80</a></td>
 </tr>
@@ -4013,7 +3834,7 @@
 <td>ssl/http</td>
 <td>HP LaserJet printer http admin</td>
 <td></td>
-<td><i>HP &amp;raquo; Device Status</i></td>
+<td></td>
 <td>CN: <i>NPI35A166</i><br>Expiry: <i>2028-05-13T19:49:08</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
 <td><a target="_blank" href="https://172.16.1.51:443">https://172.16.1.51:443</a></td>
@@ -4036,7 +3857,7 @@
 <td>ssl/http</td>
 <td>HP LaserJet printer http admin</td>
 <td></td>
-<td><i>Site doesn't have a title (text/html).</i></td>
+<td></td>
 <td>CN: <i>NPI35A166</i><br>Expiry: <i>2028-05-13T19:49:08</i><br>SigAlgo: <i>sha256WithRSAEncryption</i>
 </td>
 <td><a target="_blank" href="https://172.16.1.51:7627">https://172.16.1.51:7627</a></td>
@@ -4337,6 +4158,17 @@
 </tr>
 <tr>
 <td>N/A</td>
+<td><a href="#onlinehosts-172-16-1-216">172.16.1.216</a></td>
+<td><a href="#port-172-16-1-216-80">80</a></td>
+<td>http</td>
+<td>MikroTik router config httpd</td>
+<td></td>
+<td><i>RouterOS router configuration page</i></td>
+<td></td>
+<td><a target="_blank" href="http://172.16.1.216:80">http://172.16.1.216:80</a></td>
+</tr>
+<tr>
+<td>N/A</td>
 <td><a href="#onlinehosts-172-16-1-220">172.16.1.220</a></td>
 <td><a href="#port-172-16-1-220-80">80</a></td>
 <td>http</td>
@@ -4484,10 +4316,10 @@
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-2" data-target="#172-16-1-2"><h3 class="panel-title">172.16.1.2 - fs02.gftech.srl</h3></div>
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-2" data-target="#172-16-1-2"><h3 class="panel-title">172.16.1.2 - fs02</h3></div>
 <div class="panel-body collapse in" id="172-16-1-2">
 <h4>Hostnames</h4>
-<ul><li>fs02.gftech.srl (PTR)</li></ul>
+<ul><li>fs02 (PTR)</li></ul>
 <h4>Ports</h4>
 <div class="table-responsive"><table class="table table-bordered">
 <thead><tr>
@@ -4548,16 +4380,16 @@
 </tbody>
 </table></div>
 <h4>Host Script</h4>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: FS02, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:03:22
+  start_date: N/A</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:07
-  start_date: N/A</pre>
+<h5>nbstat</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: FS02, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -4578,85 +4410,15 @@
 </tr></thead>
 <tbody>
 <tr class="success">
-<td title="Port" id="port-172-16-1-3-53">53</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">domain</td>
-<td title="Product">Simple DNS Plus</td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:jh_software:simple_dns_plus">cpe:/a:jh_software:simple_dns_plus</a></td></tr>
-<tr class="success">
 <td title="Port" id="port-172-16-1-3-88">88</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">kerberos-sec</td>
 <td title="Product">Microsoft Windows Kerberos</td>
 <td title="Version"></td>
-<td title="Extra Info">server time: 2025-02-17 14:18:08Z</td>
+<td title="Extra Info">server time: 2025-02-21 14:57:21Z</td>
 </tr>
 <tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:microsoft:kerberos">cpe:/a:microsoft:kerberos</a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-135">135</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">msrpc</td>
-<td title="Product">Microsoft Windows RPC</td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-139">139</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">netbios-ssn</td>
-<td title="Product">Microsoft Windows netbios-ssn</td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-389">389</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ldap</td>
-<td title="Product">Microsoft Windows Active Directory LDAP</td>
-<td title="Version"></td>
-<td title="Extra Info">Domain: gftech.srl, Site: Default-First-Site-Name</td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product">Windows Server 2016 Standard 14393 microsoft-ds</td>
-<td title="Version"></td>
-<td title="Extra Info">workgroup: GFTECH</td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-464">464</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">kpasswd5</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-593">593</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ncacn_http</td>
-<td title="Product">Microsoft Windows RPC over HTTP</td>
-<td title="Version">1.0</td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-3-636">636</td>
 <td title="Protocol">tcp</td>
@@ -4668,16 +4430,6 @@
 </tr>
 <tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
 <tr class="success">
-<td title="Port" id="port-172-16-1-3-3268">3268</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ldap</td>
-<td title="Product">Microsoft Windows Active Directory LDAP</td>
-<td title="Version"></td>
-<td title="Extra Info">Domain: gftech.srl, Site: Default-First-Site-Name</td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a></td></tr>
-<tr class="success">
 <td title="Port" id="port-172-16-1-3-3269">3269</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
@@ -4687,79 +4439,8 @@
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-3389">3389</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ms-wbt-server</td>
-<td title="Product">Microsoft Terminal Services</td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a><h5>rdp-ntlm-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Target_Name: GFTECH
-  NetBIOS_Domain_Name: GFTECH
-  NetBIOS_Computer_Name: DC01
-  DNS_Domain_Name: gftech.srl
-  DNS_Computer_Name: DC01.gftech.srl
-  DNS_Tree_Name: gftech.srl
-  Product_Version: 10.0.14393
-  System_Time: 2025-02-17T14:23:39+00:00</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=DC01.gftech.srl
-Not valid before: 2025-02-08T12:02:11
-Not valid after:  2025-08-10T12:02:11</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">2025-02-17T14:26:26+00:00; 0s from scanner time.</pre>
-</td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-3-5985">5985</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">http</td>
-<td title="Product">Microsoft HTTPAPI httpd</td>
-<td title="Version">2.0</td>
-<td title="Extra Info">SSDP/UPnP</td>
-</tr>
-<tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Microsoft-HTTPAPI/2.0</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Not Found</pre>
-</td></tr>
 </tbody>
 </table></div>
-<h4>Host Script</h4>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: DC01, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 00:0c:29:8d:46:02 (VMware)</pre>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled and required</pre>
-<h5>smb-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  account_used: guest
-  authentication_level: user
-  challenge_response: supported
-  message_signing: required</pre>
-<h5>clock-skew</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">mean: -11m59s, deviation: 26m48s, median: 0s</pre>
-<h5>smb-os-discovery</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  OS: Windows Server 2016 Standard 14393 (Windows Server 2016 Standard 6.3)
-  Computer name: DC01
-  NetBIOS computer name: DC01\x00
-  Domain name: gftech.srl
-  Forest name: gftech.srl
-  FQDN: DC01.gftech.srl
-  System time: 2025-02-17T15:23:07+01:00
-</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:23:06
-  start_date: 2025-02-17T13:25:15</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -4831,15 +4512,15 @@ Not valid after:  2025-08-10T12:02:11</pre>
   Locale version: INTL 000
   OS type: vmnix-x86
   Product Line ID: embeddedEsx</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=localhost.localdomain/organizationName=VMware, Inc/stateOrProvinceName=California/countryName=US
 Subject Alternative Name: DNS:localhost.localdomain
 Not valid before: 2021-07-13T13:05:28
 Not valid after:  2033-01-11T13:05:28</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-4-902">902</td>
@@ -4949,10 +4630,10 @@ Not valid after:  2033-01-11T13:05:28</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:virata:emweb:6.2.1">cpe:/a:virata:emweb:6.2.1</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Virata-EmWeb/R6_2_1</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:virata:emweb:6.2.1">cpe:/a:virata:emweb:6.2.1</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.5/</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Virata-EmWeb/R6_2_1</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-5-443">443</td>
@@ -4964,12 +4645,12 @@ Not valid after:  2033-01-11T13:05:28</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=NPIFC1EDD/organizationName=HP
 Not valid before: 2021-09-21T20:39:59
 Not valid after:  2026-09-20T20:39:59</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-5-515">515</td>
@@ -5075,12 +4756,12 @@ Not valid after:  2026-09-20T20:39:59</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=IPMI/organizationName=Super Micro Computer/stateOrProvinceName=California/countryName=US
 Not valid before: 2020-09-30T00:00:00
 Not valid after:  2023-09-30T00:00:00</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-6-5900">5900</td>
@@ -5163,16 +4844,18 @@ Not valid after:  2026-05-17T09:44:10</pre>
 </tbody>
 </table></div>
 <h4>Host Script</h4>
+<h5>nbstat</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GFTECH-MI, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: c8:d9:d2:0d:07:b9 (Hewlett Packard)</pre>
 <h5>smb2-time</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:06
+  date: 2025-02-21T15:02:32
   start_date: N/A</pre>
+<h5>clock-skew</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">-1s</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GFTECH-MI, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: c8:d9:d2:0d:07:b9 (Hewlett Packard)</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -5241,13 +4924,13 @@ Not valid after:  2026-05-17T09:44:10</pre>
 Subject Alternative Name: DNS:*.go.nodeweaver.eu, DNS:*.go.nodeweaver.io
 Not valid before: 2025-01-07T07:23:16
 Not valid after:  2025-04-07T07:23:15</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">NodeWeaver - Login</pre>
 <h5>tls-alpn</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   http/1.1</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-12-445">445</td>
@@ -5269,15 +4952,15 @@ Not valid after:  2025-04-07T07:23:15</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-auth</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
+<h5>http-auth</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
 HTTP/1.1 401 Unauthorized
   Server returned status 401 but no WWW-Authenticate header.
 </pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (application/json;charset=utf-8).</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
 </td></tr>
 <tr class="active">
 <td>20000</td>
@@ -5336,21 +5019,21 @@ HTTP/1.1 401 Unauthorized
 </tbody>
 </table></div>
 <h4>Host Script</h4>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:07
-  start_date: N/A</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:02:41
+  start_date: N/A</pre>
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-14" data-target="#172-16-1-14"><h3 class="panel-title">172.16.1.14 - salt-master.gftech.srl</h3></div>
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-14" data-target="#172-16-1-14"><h3 class="panel-title">172.16.1.14 - git.gftech.srl</h3></div>
 <div class="panel-body collapse in" id="172-16-1-14">
 <h4>Hostnames</h4>
-<ul><li>salt-master.gftech.srl (PTR)</li></ul>
+<ul><li>git.gftech.srl (PTR)</li></ul>
 <h4>Ports</h4>
 <div class="table-responsive"><table class="table table-bordered">
 <thead><tr>
@@ -5369,7 +5052,7 @@ HTTP/1.1 401 Unauthorized
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">8.9p1 Ubuntu 3ubuntu0.10</td>
+<td title="Version">8.9p1 Ubuntu 3ubuntu0.11</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
 <tr><td colspan="7">
@@ -5417,10 +5100,10 @@ HTTP/1.1 401 Unauthorized
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.18.0">cpe:/a:igor_sysoev:nginx:1.18.0</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.15/</pre>
-<h5>http-server-header</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.18.0">cpe:/a:igor_sysoev:nginx:1.18.0</a><h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">nginx/1.18.0</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.15/</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-15-139">139</td>
@@ -5442,20 +5125,20 @@ HTTP/1.1 401 Unauthorized
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.18.0">cpe:/a:igor_sysoev:nginx:1.18.0</a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>tls-nextprotoneg</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.18.0">cpe:/a:igor_sysoev:nginx:1.18.0</a><h5>tls-nextprotoneg</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   http/1.1</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Edge Cloud Login</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">nginx/1.18.0</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=*.gotomy.nodeweaver.eu
 Subject Alternative Name: DNS:*.gotomy.nodeweaver.eu
 Not valid before: 2025-01-07T07:21:55
 Not valid after:  2025-04-07T07:21:54</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">nginx/1.18.0</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-15-445">445</td>
@@ -5477,13 +5160,13 @@ Not valid after:  2025-04-07T07:21:54</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
-<h5>http-auth</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-auth</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
 HTTP/1.1 401 Unauthorized
   Server returned status 401 but no WWW-Authenticate header.
 </pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (application/json;charset=utf-8).</pre>
 </td></tr>
@@ -5494,12 +5177,162 @@ HTTP/1.1 401 Unauthorized
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:0:0: 
     Message signing enabled but not required</pre>
-<h5>clock-skew</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">-1s</pre>
 <h5>smb2-time</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:11
+  date: 2025-02-21T15:04:40
   start_date: N/A</pre>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-16" data-target="#172-16-1-16"><h3 class="panel-title">172.16.1.16</h3></div>
+<div class="panel-body collapse in" id="172-16-1-16">
+<h4>Ports</h4>
+<div class="table-responsive"><table class="table table-bordered">
+<thead><tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>State<br>Reason</th>
+<th>Service</th>
+<th>Product</th>
+<th>Version</th>
+<th>Extra Info</th>
+</tr></thead>
+<tbody>
+<tr class="success">
+<td title="Port" id="port-172-16-1-16-22">22</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">ssh</td>
+<td title="Product">OpenSSH</td>
+<td title="Version">9.2p1 Debian 2+deb12u3</td>
+<td title="Extra Info">protocol 2.0</td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openbsd:openssh:9.2p1">cpe:/a:openbsd:openssh:9.2p1</a><h5>ssh-hostkey</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  256 27:33:eb:fc:85:43:54:41:48:b6:4e:52:c5:16:93:16 (ECDSA)
+  256 d0:3f:2b:6f:91:47:7e:81:fe:57:22:d7:34:5a:26:56 (ED25519)</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-16-80">80</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">http</td>
+<td title="Product">nginx</td>
+<td title="Version">1.22.1</td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.22.1">cpe:/a:igor_sysoev:nginx:1.22.1</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.16/</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">nginx/1.22.1</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-16-443">443</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">ssl/http</td>
+<td title="Product">nginx</td>
+<td title="Version">1.22.1</td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx:1.22.1">cpe:/a:igor_sysoev:nginx:1.22.1</a><h5>tls-alpn</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  http/1.1
+  http/1.0
+  http/0.9</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=localhost
+Subject Alternative Name: DNS:localhost
+Not valid before: 2024-12-17T13:40:11
+Not valid after:  2034-12-15T13:40:11</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">nginx/1.22.1</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-16-8000">8000</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">ssl/http-alt</td>
+<td title="Product"></td>
+<td title="Version"></td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (application/json).</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">uvicorn</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=edgeinsight
+Subject Alternative Name: DNS:edgeinsight
+Not valid before: 2024-12-17T13:42:05
+Not valid after:  2034-12-17T13:42:05</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+</td></tr>
+<tr class="active">
+<td>20000</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td>dnp</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="active">
+<td>20005</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td>btx</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="active">
+<td>20031</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="active">
+<td>20221</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="active">
+<td>20222</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td>ipulse-ics</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="active">
+<td>20828</td>
+<td>tcp</td>
+<td>closed<br>reset</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 </div>
 <div class="panel panel-default">
@@ -5585,16 +5418,14 @@ HTTP/1.1 401 Unauthorized
 </tbody>
 </table></div>
 <h4>Host Script</h4>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:12
-  start_date: N/A</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
-<h5>clock-skew</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">-1s</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:04:45
+  start_date: N/A</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -5657,6 +5488,8 @@ HTTP/1.1 401 Unauthorized
 <tr><td colspan="7">
 <a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">NodeWeaver - Login</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=*.go.nodeweaver.eu
 Subject Alternative Name: DNS:*.go.nodeweaver.eu, DNS:*.go.nodeweaver.io
@@ -5668,8 +5501,6 @@ Not valid after:  2025-04-07T07:23:15</pre>
 <h5>tls-nextprotoneg</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   http/1.1</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-18-445">445</td>
@@ -5691,15 +5522,15 @@ Not valid after:  2025-04-07T07:23:15</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-auth</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:macournoyer:thin">cpe:/a:macournoyer:thin</a><h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
+<h5>http-auth</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
 HTTP/1.1 401 Unauthorized
   Server returned status 401 but no WWW-Authenticate header.
 </pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (application/json;charset=utf-8).</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">thin</pre>
 </td></tr>
 <tr class="active">
 <td>20000</td>
@@ -5758,14 +5589,16 @@ HTTP/1.1 401 Unauthorized
 </tbody>
 </table></div>
 <h4>Host Script</h4>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:30
-  start_date: N/A</pre>
+<h5>clock-skew</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">-1s</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:04:45
+  start_date: N/A</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -5869,24 +5702,6 @@ Not valid after:  2034-02-24T00:00:00</pre>
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-23" data-target="#172-16-1-23"><h3 class="panel-title">172.16.1.23</h3></div>
-<div class="panel-body collapse in" id="172-16-1-23">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody></tbody>
-</table></div>
-</div>
-</div>
-<div class="panel panel-default">
 <div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-31" data-target="#172-16-1-31"><h3 class="panel-title">172.16.1.31</h3></div>
 <div class="panel-body collapse in" id="172-16-1-31">
 <h4>Ports</h4>
@@ -5902,26 +5717,6 @@ Not valid after:  2034-02-24T00:00:00</pre>
 </tr></thead>
 <tbody>
 <tr class="success">
-<td title="Port" id="port-172-16-1-31-19">19</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">chargen</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-31-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
 <td title="Port" id="port-172-16-1-31-912">912</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
@@ -5931,36 +5726,8 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info">Uses VNC, SOAP</td>
 </tr>
 <tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-31-7070">7070</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">ssl/realserver</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=AnyDesk Client
-Not valid before: 2023-09-04T13:23:27
-Not valid after:  2073-08-22T13:23:27</pre>
-</td></tr>
 </tbody>
 </table></div>
-<h4>Host Script</h4>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GFTECH-NB-CA, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 60:18:95:49:aa:a6 (Dell)</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:31
-  start_date: N/A</pre>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled but not required</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -5977,30 +5744,8 @@ Not valid after:  2073-08-22T13:23:27</pre>
 <th>Version</th>
 <th>Extra Info</th>
 </tr></thead>
-<tbody>
-<tr class="success">
-<td title="Port" id="port-172-16-1-32-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-</tbody>
+<tbody></tbody>
 </table></div>
-<h4>Host Script</h4>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:31
-  start_date: N/A</pre>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: SARA-PC, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 38:ca:84:44:5e:58 (HP)</pre>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled but not required</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -6071,24 +5816,6 @@ Not valid after:  2073-08-22T13:23:27</pre>
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-39" data-target="#172-16-1-39"><h3 class="panel-title">172.16.1.39</h3></div>
-<div class="panel-body collapse in" id="172-16-1-39">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody></tbody>
-</table></div>
-</div>
-</div>
-<div class="panel panel-default">
 <div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-41" data-target="#172-16-1-41"><h3 class="panel-title">172.16.1.41</h3></div>
 <div class="panel-body collapse in" id="172-16-1-41">
 <h4>Ports</h4>
@@ -6113,15 +5840,15 @@ Not valid after:  2073-08-22T13:23:27</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=249ad895028e/organizationName=Yealink Network Technology Co.,Ltd./stateOrProvinceName=Fujian/countryName=CN
 Subject Alternative Name: DNS:249ad895028e
 Not valid before: 2023-11-26T01:45:03
 Not valid after:  2033-11-23T01:45:03</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Yealink T44U Phone</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-41-5060">5060</td>
@@ -6192,12 +5919,12 @@ Not valid after:  2015-01-15T16:38:16</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openldap:openldap">cpe:/a:openldap:openldap</a><h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openldap:openldap">cpe:/a:openldap:openldap</a><h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=Philip Newman/organizationName=Grandstream/stateOrProvinceName=TX/countryName=US
 Not valid before: 2014-01-15T16:38:16
 Not valid after:  2015-01-15T16:38:16</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-42-873">873</td>
@@ -6256,19 +5983,19 @@ Not valid after:  2046-06-02T01:59:20</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>tls-alpn</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  http/1.0
-  http/1.1
-  h2</pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=C074AD5BCF1E/organizationName=Grandstream Networks, Inc./stateOrProvinceName=California/countryName=US
 Not valid before: 2021-06-08T01:59:20
 Not valid after:  2046-06-02T01:59:20</pre>
+<h5>tls-alpn</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  http/1.0
+  http/1.1
+  h2</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-42-8090">8090</td>
@@ -6280,19 +6007,19 @@ Not valid after:  2046-06-02T01:59:20</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=C074AD5BCF1E/organizationName=Grandstream Networks, Inc./stateOrProvinceName=California/countryName=US
-Not valid before: 2021-06-08T01:59:20
-Not valid after:  2046-06-02T01:59:20</pre>
-<h5>tls-alpn</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>tls-alpn</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   http/1.0
   http/1.1
   h2</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=C074AD5BCF1E/organizationName=Grandstream Networks, Inc./stateOrProvinceName=California/countryName=US
+Not valid before: 2021-06-08T01:59:20
+Not valid after:  2046-06-02T01:59:20</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Wave</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-42-8888">8888</td>
@@ -6322,30 +6049,8 @@ Not valid after:  2046-06-02T01:59:20</pre>
 <th>Version</th>
 <th>Extra Info</th>
 </tr></thead>
-<tbody>
-<tr class="success">
-<td title="Port" id="port-172-16-1-44-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-</tbody>
+<tbody></tbody>
 </table></div>
-<h4>Host Script</h4>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled but not required</pre>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-TEO-OFFICE, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 9c:7b:ef:28:54:4e (Hewlett Packard)</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:32
-  start_date: N/A</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -6373,7 +6078,9 @@ Not valid after:  2046-06-02T01:59:20</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-server-header</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">embed httpd</pre>
 </td></tr>
 <tr class="success">
@@ -6386,9 +6093,7 @@ Not valid after:  2046-06-02T01:59:20</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=yealinkgeneric/organizationName=Yealink Network Technology Co.,Ltd./stateOrProvinceName=Fujian/countryName=CN
 Not valid before: 2013-11-07T12:53:42
 Not valid after:  2033-11-06T12:53:42</pre>
@@ -6413,12 +6118,12 @@ Not valid after:  2033-11-06T12:53:42</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=0015659e18e1/organizationName=Yealink Network Technology Co.,Ltd./stateOrProvinceName=Fujian/countryName=CN
 Not valid before: 2014-03-01T00:00:00
 Not valid after:  2034-02-24T00:00:00</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -6445,7 +6150,7 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">9.6p1 Ubuntu 3ubuntu13.5</td>
+<td title="Version">9.6p1 Ubuntu 3ubuntu13.8</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
 <tr><td colspan="7">
@@ -6498,18 +6203,11 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HP &amp;raquo; Device Status</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=NPI35A166/organizationName=HP
 Subject Alternative Name: DNS:NPI35A166
 Not valid before: 2023-05-15T19:49:08
 Not valid after:  2028-05-13T19:49:08</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HP_Compact_Server</pre>
-<h5>http-robots.txt</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
-/</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
@@ -6533,10 +6231,10 @@ Not valid after:  2028-05-13T19:49:08</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:virata:emweb:6.2.1">cpe:/a:virata:emweb:6.2.1</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Virata-EmWeb/R6_2_1</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:virata:emweb:6.2.1">cpe:/a:virata:emweb:6.2.1</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.51/</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Virata-EmWeb/R6_2_1</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-51-7627">7627</td>
@@ -6548,17 +6246,13 @@ Not valid after:  2028-05-13T19:49:08</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=NPI35A166/organizationName=HP
 Subject Alternative Name: DNS:NPI35A166
 Not valid before: 2023-05-15T19:49:08
 Not valid after:  2028-05-13T19:49:08</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HP_Compact_Server</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-51-9100">9100</td>
@@ -6687,18 +6381,18 @@ Not valid after:  2026-03-06T10:25:02</pre>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=MariaDB Server
 Not valid before: 2024-07-25T10:37:29
 Not valid after:  2034-07-23T10:37:29</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>mysql-info</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   Protocol: 10
   Version: 11.4.2-MariaDB
-  Thread ID: 1782
+  Thread ID: 1810
   Capabilities flags: 65534
-  Some Capabilities: SwitchToSSLAfterHandshake, Support41Auth, ConnectWithDatabase, SupportsTransactions, LongColumnFlag, Speaks41ProtocolOld, SupportsLoadDataLocal, Speaks41ProtocolNew, SupportsCompression, InteractiveClient, ODBCClient, IgnoreSpaceBeforeParenthesis, FoundRows, DontAllowDatabaseTableColumn, IgnoreSigpipes, SupportsMultipleResults, SupportsMultipleStatments, SupportsAuthPlugins
+  Some Capabilities: Speaks41ProtocolOld, SupportsCompression, Support41Auth, ODBCClient, SupportsTransactions, SwitchToSSLAfterHandshake, InteractiveClient, DontAllowDatabaseTableColumn, Speaks41ProtocolNew, IgnoreSpaceBeforeParenthesis, SupportsLoadDataLocal, ConnectWithDatabase, LongColumnFlag, FoundRows, IgnoreSigpipes, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins
   Status: Autocommit
-  Salt: O{&gt;aM?5)kb+M%kojF^(H
+  Salt: C7(c;&gt;aPMrsnLqtse}ho
   Auth Plugin Name: mysql_native_password</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -6725,7 +6419,7 @@ Not valid after:  2034-07-23T10:37:29</pre>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">8.9p1 Ubuntu 3ubuntu0.10</td>
+<td title="Version">8.9p1 Ubuntu 3ubuntu0.11</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
 <tr><td colspan="7">
@@ -6772,15 +6466,15 @@ Not valid after:  2034-07-23T10:37:29</pre>
 <td title="Extra Info">Ubuntu</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>imap-capabilities</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">more ENABLE LITERAL+ capabilities ID LOGIN-REFERRALS listed STARTTLS post-login OK have SASL-IR Pre-login LOGINDISABLEDA0001 IDLE IMAP4rev1</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=ubuserver.gftech.srl
 Subject Alternative Name: DNS:ubuserver.gftech.srl
 Not valid before: 2024-02-14T09:41:40
 Not valid after:  2034-02-11T09:41:40</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>imap-capabilities</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ENABLE more have post-login capabilities LOGIN-REFERRALS STARTTLS listed Pre-login ID SASL-IR LOGINDISABLEDA0001 OK LITERAL+ IMAP4rev1 IDLE</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-73-465">465</td>
@@ -6814,15 +6508,15 @@ Not valid after:  2034-02-11T09:41:40</pre>
 <td title="Extra Info">Ubuntu</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>imap-capabilities</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ENABLE more have post-login LOGIN-REFERRALS IMAP4rev1 listed Pre-login capabilities SASL-IR ID OK LITERAL+ AUTH=PLAINA0001 IDLE</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=ubuserver.gftech.srl
 Subject Alternative Name: DNS:ubuserver.gftech.srl
 Not valid before: 2024-02-14T09:41:40
 Not valid after:  2034-02-11T09:41:40</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>imap-capabilities</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">listed AUTH=PLAINA0001 capabilities ID SASL-IR LOGIN-REFERRALS more post-login OK have IMAP4rev1 Pre-login ENABLE IDLE LITERAL+</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -6911,20 +6605,22 @@ Not valid after:  2034-02-11T09:41:40</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html; charset=UTF-8).</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">&lt;empty&gt;</pre>
 <h5>http-robots.txt</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">2 disallowed entries 
 /cgi-bin/ /*.html$</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">&lt;empty&gt;</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=QNAP NAS/organizationName=QNAP Systems, Inc./stateOrProvinceName=Taipei/countryName=TW
+Not valid before: 2024-02-16T16:51:50
+Not valid after:  2034-02-13T16:51:50</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   GetRequest: 
     HTTP/1.1 200 OK
-    Date: Mon, 17 Feb 2025 14:18:58 GMT
+    Date: Fri, 21 Feb 2025 14:58:07 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' ; object-src 'self' ; worker-src 'self' blob:
@@ -6949,12 +6645,12 @@ Not valid after:  2034-02-11T09:41:40</pre>
     else //could be
   HTTPOptions: 
     HTTP/1.1 501 Not Implemented
-    Date: Mon, 17 Feb 2025 14:18:58 GMT
+    Date: Fri, 21 Feb 2025 14:58:07 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' ; object-src 'self' ; worker-src 'self' blob:
     Content-type: text/html
-    Last-modified: Mon, 17 Feb 2025 14:18:58 GMT
+    Last-modified: Fri, 21 Feb 2025 14:58:07 GMT
     Accept-Ranges: bytes
     X-XSS-Protection: 1; mode=block
     Strict-Transport-Security: max-age=0
@@ -6969,10 +6665,8 @@ Not valid after:  2034-02-11T09:41:40</pre>
     &lt;meta http-equiv="Expires" content="-1" /&gt;
     &lt;link rel="shortcut icon" href="/images/favicon.gif" type="image/gif" /&gt;
     &lt;lin</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=QNAP NAS/organizationName=QNAP Systems, Inc./stateOrProvinceName=Taipei/countryName=TW
-Not valid before: 2024-02-16T16:51:50
-Not valid after:  2034-02-13T16:51:50</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html; charset=UTF-8).</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-77-445">445</td>
@@ -7010,14 +6704,13 @@ Not valid after:  2034-02-13T16:51:50</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-robots.txt</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">2 disallowed entries 
-/cgi-bin/ /*.html$</pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-open-proxy</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Proxy might be redirecting requests</pre>
 <h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   GetRequest: 
     HTTP/1.1 200 OK
-    Date: Mon, 17 Feb 2025 14:18:55 GMT
+    Date: Fri, 21 Feb 2025 14:58:02 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' ; object-src 'self' ; worker-src 'self' blob:
@@ -7042,12 +6735,12 @@ Not valid after:  2034-02-13T16:51:50</pre>
     else //could be
   HTTPOptions: 
     HTTP/1.1 501 Not Implemented
-    Date: Mon, 17 Feb 2025 14:18:55 GMT
+    Date: Fri, 21 Feb 2025 14:58:02 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' ; object-src 'self' ; worker-src 'self' blob:
     Content-type: text/html
-    Last-modified: Mon, 17 Feb 2025 14:18:55 GMT
+    Last-modified: Fri, 21 Feb 2025 14:58:02 GMT
     Accept-Ranges: bytes
     X-XSS-Protection: 1; mode=block
     Strict-Transport-Security: max-age=0
@@ -7062,44 +6755,29 @@ Not valid after:  2034-02-13T16:51:50</pre>
     &lt;meta http-equiv="Expires" content="-1" /&gt;
     &lt;link rel="shortcut icon" href="/images/favicon.gif" type="image/gif" /&gt;
     &lt;lin</pre>
-<h5>http-open-proxy</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Proxy might be redirecting requests</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html; charset=UTF-8).</pre>
 <h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">&lt;empty&gt;</pre>
+<h5>http-robots.txt</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">2 disallowed entries 
+/cgi-bin/ /*.html$</pre>
 </td></tr>
 </tbody>
 </table></div>
 <h4>Host Script</h4>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-NAS, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:32
-  start_date: N/A</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-87" data-target="#172-16-1-87"><h3 class="panel-title">172.16.1.87</h3></div>
-<div class="panel-body collapse in" id="172-16-1-87">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody></tbody>
-</table></div>
+<h5>clock-skew</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">-1s</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:04:46
+  start_date: N/A</pre>
+<h5>nbstat</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-NAS, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; (unknown)</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -7163,7 +6841,11 @@ Not valid after:  2034-02-13T16:51:50</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>fingerprint-strings</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=NAKIVO
+Not valid before: 2023-01-17T15:14:28
+Not valid after:  2043-01-18T15:14:28</pre>
+<h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.1 404 
@@ -7171,7 +6853,7 @@ Not valid after:  2034-02-13T16:51:50</pre>
     Content-Type: text/html;charset=utf-8
     Content-Language: en
     Content-Length: 431
-    Date: Mon, 17 Feb 2025 14:19:03 GMT
+    Date: Fri, 21 Feb 2025 14:58:13 GMT
     Connection: close
     Server: 
     &lt;!doctype html&gt;&lt;html lang="en"&gt;&lt;head&gt;&lt;title&gt;HTTP Status 404 
@@ -7181,10 +6863,10 @@ Not valid after:  2034-02-13T16:51:50</pre>
     HTTP/1.1 302 
     Cache-Control: max-age=0
     Location: /c/main
-    Expires: Mon, 17 Feb 2025 14:19:03 GMT
+    Expires: Fri, 21 Feb 2025 14:58:13 GMT
     Content-Type: text/html;charset=UTF-8
     Content-Length: 6
-    Date: Mon, 17 Feb 2025 14:19:03 GMT
+    Date: Fri, 21 Feb 2025 14:58:13 GMT
     Connection: close
     Server:
   HTTPOptions: 
@@ -7193,7 +6875,7 @@ Not valid after:  2034-02-13T16:51:50</pre>
     Content-Type: text/html;charset=utf-8
     Content-Language: en
     Content-Length: 431
-    Date: Mon, 17 Feb 2025 14:19:03 GMT
+    Date: Fri, 21 Feb 2025 14:58:13 GMT
     Connection: close
     Server: 
     &lt;!doctype html&gt;&lt;html lang="en"&gt;&lt;head&gt;&lt;title&gt;HTTP Status 403 
@@ -7204,16 +6886,12 @@ Not valid after:  2034-02-13T16:51:50</pre>
     Content-Type: text/html;charset=utf-8
     Content-Language: en
     Content-Length: 435
-    Date: Mon, 17 Feb 2025 14:19:08 GMT
+    Date: Fri, 21 Feb 2025 14:58:18 GMT
     Connection: close
     Server: 
     &lt;!doctype html&gt;&lt;html lang="en"&gt;&lt;head&gt;&lt;title&gt;HTTP Status 400 
     Request&lt;/title&gt;&lt;style type="text/css"&gt;body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;HTTP Status 400 
     Request&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=NAKIVO
-Not valid before: 2023-01-17T15:14:28
-Not valid after:  2043-01-18T15:14:28</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-88-8080">8080</td>
@@ -7286,46 +6964,6 @@ Not valid after:  2043-01-18T15:14:28</pre>
 <th>Version</th>
 <th>Extra Info</th>
 </tr></thead>
-<tbody>
-<tr class="success">
-<td title="Port" id="port-172-16-1-94-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-</tbody>
-</table></div>
-<h4>Host Script</h4>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:33
-  start_date: N/A</pre>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-PCLUCA, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 30:13:8b:68:6c:41 (HP)</pre>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled but not required</pre>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-97" data-target="#172-16-1-97"><h3 class="panel-title">172.16.1.97</h3></div>
-<div class="panel-body collapse in" id="172-16-1-97">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
 <tbody></tbody>
 </table></div>
 </div>
@@ -7370,14 +7008,14 @@ Not valid after:  2043-01-18T15:14:28</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>pop3-capabilities</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">SASL AUTH-RESP-CODE CAPA RESP-CODES UIDL PIPELINING STLS TOP</pre>
-<h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=imap.example.com
 Not valid before: 2024-07-23T12:25:57
 Not valid after:  2025-07-23T12:25:57</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>pop3-capabilities</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">PIPELINING SASL RESP-CODES UIDL STLS AUTH-RESP-CODE CAPA TOP</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-99-143">143</td>
@@ -7396,7 +7034,7 @@ Not valid after:  2025-07-23T12:25:57</pre>
 Not valid before: 2024-07-23T12:25:57
 Not valid after:  2025-07-23T12:25:57</pre>
 <h5>imap-capabilities</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">more ENABLE LITERAL+ capabilities ID LOGIN-REFERRALS listed STARTTLS post-login OK have SASL-IR Pre-login LOGINDISABLEDA0001 IDLE IMAP4rev1</pre>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ENABLE more have post-login capabilities LOGIN-REFERRALS STARTTLS listed Pre-login ID SASL-IR LOGINDISABLEDA0001 OK LITERAL+ IMAP4rev1 IDLE</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-99-993">993</td>
@@ -7411,7 +7049,7 @@ Not valid after:  2025-07-23T12:25:57</pre>
 <a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 <h5>imap-capabilities</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">listed AUTH=PLAINA0001 capabilities ID SASL-IR LOGIN-REFERRALS more post-login OK have IMAP4rev1 Pre-login ENABLE IDLE LITERAL+</pre>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ENABLE more have post-login LOGIN-REFERRALS IMAP4rev1 listed Pre-login capabilities SASL-IR ID OK LITERAL+ AUTH=PLAINA0001 IDLE</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=imap.example.com
 Not valid before: 2024-07-23T12:25:57
@@ -7427,42 +7065,25 @@ Not valid after:  2025-07-23T12:25:57</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:dovecot:dovecot">cpe:/a:dovecot:dovecot</a><h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>pop3-capabilities</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">PIPELINING SASL(PLAIN) RESP-CODES UIDL USER AUTH-RESP-CODE CAPA TOP</pre>
+<h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=imap.example.com
 Not valid before: 2024-07-23T12:25:57
 Not valid after:  2025-07-23T12:25:57</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-99-3000">3000</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">hadoop-secondary-namenode</td>
-<td title="Product">Apache Hadoop</td>
+<td title="Service">ppp</td>
+<td title="Product"></td>
 <td title="Version"></td>
 <td title="Extra Info"></td>
 </tr>
-<tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:cesanta:mongoose">cpe:/a:cesanta:mongoose</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Welcome to ntopng
-Requested resource was /lua/login.lua?referer=172.16.1.99%3A3000%2F</pre>
-<h5>http-trane-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Problem with XML parsing of /evox/about</pre>
-<h5>hadoop-tasktracker-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Logs: submit</pre>
-<h5>hadoop-secondary-namenode-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Start: flex;
-  Namenode: 100vh;
-  Last Checkpoint: 100%%;
-  Checkpoint Period: 15px;
-  Checkpoint: auto;</pre>
-<h5>hadoop-datanode-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Logs: submit</pre>
-</td></tr>
+<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-99-3306">3306</td>
 <td title="Protocol">tcp</td>
@@ -7605,21 +7226,11 @@ Requested resource was /lua/login.lua?referer=172.16.1.99%3A3000%2F</pre>
 </tr>
 <tr><td colspan="7">
 <a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a><h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">2025-02-17T14:26:26+00:00; 0s from scanner time.</pre>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">2025-02-21T15:05:57+00:00; 0s from scanner time.</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=GF-ciuchino.gftech.srl
 Not valid before: 2024-12-28T17:24:35
 Not valid after:  2025-06-29T17:24:35</pre>
-<h5>rdp-ntlm-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Target_Name: GFTECH
-  NetBIOS_Domain_Name: GFTECH
-  NetBIOS_Computer_Name: GF-CIUCHINO
-  DNS_Domain_Name: gftech.srl
-  DNS_Computer_Name: GF-ciuchino.gftech.srl
-  DNS_Tree_Name: gftech.srl
-  Product_Version: 10.0.19041
-  System_Time: 2025-02-17T14:24:18+00:00</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-110-5357">5357</td>
@@ -7631,24 +7242,24 @@ Not valid after:  2025-06-29T17:24:35</pre>
 <td title="Extra Info">SSDP/UPnP</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Microsoft-HTTPAPI/2.0</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:microsoft:windows">cpe:/o:microsoft:windows</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Service Unavailable</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Microsoft-HTTPAPI/2.0</pre>
 </td></tr>
 </tbody>
 </table></div>
 <h4>Host Script</h4>
+<h5>nbstat</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-CIUCHINO, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 00:68:eb:af:a8:40 (HP)</pre>
+<h5>smb2-time</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  date: 2025-02-21T15:04:48
+  start_date: N/A</pre>
 <h5>smb2-security-mode</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   3:1:1: 
     Message signing enabled but not required</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:33
-  start_date: N/A</pre>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GF-CIUCHINO, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 00:68:eb:af:a8:40 (HP)</pre>
 </div>
 </div>
 <div class="panel panel-default">
@@ -7711,11 +7322,11 @@ Not valid after:  2025-06-29T17:24:35</pre>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   Protocol: 10
   Version: 5.5.5-10.11.10-MariaDB
-  Thread ID: 181713
+  Thread ID: 189064
   Capabilities flags: 63486
-  Some Capabilities: Support41Auth, ConnectWithDatabase, SupportsTransactions, LongColumnFlag, Speaks41ProtocolOld, SupportsLoadDataLocal, Speaks41ProtocolNew, SupportsCompression, InteractiveClient, ODBCClient, IgnoreSpaceBeforeParenthesis, FoundRows, DontAllowDatabaseTableColumn, IgnoreSigpipes, SupportsMultipleResults, SupportsMultipleStatments, SupportsAuthPlugins
+  Some Capabilities: Speaks41ProtocolOld, SupportsCompression, Support41Auth, ODBCClient, SupportsTransactions, InteractiveClient, DontAllowDatabaseTableColumn, Speaks41ProtocolNew, IgnoreSpaceBeforeParenthesis, SupportsLoadDataLocal, ConnectWithDatabase, LongColumnFlag, FoundRows, IgnoreSigpipes, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins
   Status: Autocommit
-  Salt: +P2J]vX8MZ\&gt;`K5e}ffN
+  Salt: ;'P@.d.VHFgSITIP8clw
   Auth Plugin Name: mysql_native_password</pre>
 </td></tr>
 <tr class="success">
@@ -7854,11 +7465,13 @@ Not valid after:  2030-10-01T13:21:03</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>fingerprint-strings</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html; charset=utf-8).</pre>
+<h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.0 404 Not Found
-    Date: Mon, 17 Feb 2025 14:19:16 GMT
+    Date: Fri, 21 Feb 2025 14:58:27 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     X-Content-Type-Options: nosniff
@@ -7873,33 +7486,9 @@ Not valid after:  2030-10-01T13:21:03</pre>
     &lt;p&gt;Can't open document: /Opera_Deploy/appWeb/web/nice ports,/Trinity.txt.bak&lt;/p&gt;
     &lt;/body&gt;
     &lt;/html&gt;
-  GetRequest: 
-    HTTP/1.0 200 OK
-    Date: Mon, 17 Feb 2025 14:19:16 GMT
-    Server: 
-    X-Frame-Options: SAMEORIGIN
-    X-Content-Type-Options: nosniff
-    X-XSS-Protection: 1; mode=block
-    Cache-Control: no-cache
-    ETag: "62-2709-2e14"
-    Content-Type: text/html; charset=utf-8
-    Connection: close
-    Transfer-Encoding: chunked
-    &lt;!--trc(readvalueofparam) content: NULL --&gt;
-    Last-Modified: Mon, 17 Feb 2025 14:19:16 GMT
-    &lt;!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'&gt;
-    &lt;html lang='it'&gt;
-    &lt;!--TRC(ReadValueOfParam) content: NULL --&gt;
-    &lt;!--TRC(ReadValueOfParam) content: NULL --&gt;
-    &lt;head&gt;
-    &lt;title&gt;Openstage IP Phone User&lt;/title&gt;
-    &lt;meta http-equiv='content-type' content='text/html; charset=UTF-8'&gt; 
-    &lt;meta name='author' content='Unify Software and Solutions GmbH &amp; Co. KG, www.unify.com'&gt; 
-    &lt;meta name='description' content='Opera-Phone User'&gt;
-    &lt;meta name
   HTTPOptions: 
     HTTP/1.0 200 OK
-    Date: Mon, 17 Feb 2025 14:19:16 GMT
+    Date: Fri, 21 Feb 2025 14:58:27 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     X-Content-Type-Options: nosniff
@@ -7908,19 +7497,17 @@ Not valid after:  2030-10-01T13:21:03</pre>
     Content-Type: text/html; charset=utf-8
     Connection: close
     Allow: OPTIONS,GET,HEAD,POST,PUT</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=Default Certificate for OpenStage and Desk Phone - please update/organizationName=Unify Software and Solutions GmbH &amp; Co. KG
+Not valid before: 2015-09-07T12:51:18
+Not valid after:  2038-11-18T12:51:18</pre>
 <h5>http-methods</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   Potentially risky methods: PUT</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html; charset=utf-8).</pre>
 <h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">&lt;empty&gt;</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=Default Certificate for OpenStage and Desk Phone - please update/organizationName=Unify Software and Solutions GmbH &amp; Co. KG
-Not valid before: 2015-09-07T12:51:18
-Not valid after:  2038-11-18T12:51:18</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-123-8085">8085</td>
@@ -7936,7 +7523,7 @@ Not valid after:  2038-11-18T12:51:18</pre>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.0 301 Moved Permanently
-    Date: Mon, 17 Feb 2025 14:19:11 GMT
+    Date: Fri, 21 Feb 2025 14:58:21 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     X-Content-Type-Options: nosniff
@@ -7953,7 +7540,7 @@ Not valid after:  2038-11-18T12:51:18</pre>
     &lt;/html&gt;
   GetRequest: 
     HTTP/1.0 301 Moved Permanently
-    Date: Mon, 17 Feb 2025 14:19:11 GMT
+    Date: Fri, 21 Feb 2025 14:58:21 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     X-Content-Type-Options: nosniff
@@ -7970,7 +7557,7 @@ Not valid after:  2038-11-18T12:51:18</pre>
     &lt;/html&gt;
   HTTPOptions: 
     HTTP/1.0 301 Moved Permanently
-    Date: Mon, 17 Feb 2025 14:19:16 GMT
+    Date: Fri, 21 Feb 2025 14:58:28 GMT
     Server: 
     X-Frame-Options: SAMEORIGIN
     X-Content-Type-Options: nosniff
@@ -8011,10 +7598,15 @@ Not valid after:  2038-11-18T12:51:18</pre>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">9.6p1 Ubuntu 3ubuntu13.5</td>
+<td title="Version">9.6p1 Ubuntu 3ubuntu13.8</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openbsd:openssh:9.6p1">cpe:/a:openbsd:openssh:9.6p1</a></td></tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:openbsd:openssh:9.6p1">cpe:/a:openbsd:openssh:9.6p1</a><h5>ssh-hostkey</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  256 58:4a:1e:2f:aa:5b:6f:83:86:62:8d:4c:d9:18:cf:55 (ECDSA)
+  256 f4:f1:59:43:b9:b6:ff:a5:b9:fc:21:8a:b7:49:4a:e2 (ED25519)</pre>
+</td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-128-25">25</td>
 <td title="Protocol">tcp</td>
@@ -8025,8 +7617,15 @@ Not valid after:  2038-11-18T12:51:18</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:postfix:postfix">cpe:/a:postfix:postfix</a><h5>smtp-commands</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Couldn't establish connection on port 25</pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:postfix:postfix">cpe:/a:postfix:postfix</a><h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=mint
+Subject Alternative Name: DNS:mint
+Not valid before: 2023-02-07T13:36:25
+Not valid after:  2033-02-04T13:36:25</pre>
+<h5>smtp-commands</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">massimo-Dell-Latitude-7480, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -8072,15 +7671,15 @@ Not valid after:  2038-11-18T12:51:18</pre>
 <td title="Extra Info">(CentOS Stream) OpenSSL/3.0.7 mod_fcgid/2.3.9</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.57">cpe:/a:apache:http_server:2.4.57</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HTTP Server Test Page powered by CentOS</pre>
-<h5>http-generator</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HTML Tidy for HTML5 for Linux version 5.7.28</pre>
-<h5>http-methods</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.57">cpe:/a:apache:http_server:2.4.57</a><h5>http-methods</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   Potentially risky methods: TRACE</pre>
 <h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.57 (CentOS Stream) OpenSSL/3.0.7 mod_fcgid/2.3.9</pre>
+<h5>http-generator</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">HTML Tidy for HTML5 for Linux version 5.7.28</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">HTTP Server Test Page powered by CentOS</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-129-443">443</td>
@@ -8092,25 +7691,25 @@ Not valid after:  2038-11-18T12:51:18</pre>
 <td title="Extra Info">(CentOS Stream) OpenSSL/3.0.7 mod_fcgid/2.3.9</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.57">cpe:/a:apache:http_server:2.4.57</a><h5>http-methods</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Potentially risky methods: TRACE</pre>
-<h5>http-generator</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.57">cpe:/a:apache:http_server:2.4.57</a><h5>http-generator</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">HTML Tidy for HTML5 for Linux version 5.7.28</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HTTP Server Test Page powered by CentOS</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=nextcloud.gftech.srl/organizationName=Unspecified/countryName=US
 Subject Alternative Name: DNS:nextcloud.gftech.srl
 Not valid before: 2024-01-03T09:32:56
 Not valid after:  2025-01-02T09:32:56</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.57 (CentOS Stream) OpenSSL/3.0.7 mod_fcgid/2.3.9</pre>
-<h5>ssl-date</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-methods</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  Potentially risky methods: TRACE</pre>
 <h5>tls-alpn</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   http/1.1</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">HTTP Server Test Page powered by CentOS</pre>
+<h5>ssl-date</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.57 (CentOS Stream) OpenSSL/3.0.7 mod_fcgid/2.3.9</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -8213,41 +7812,41 @@ Not valid after:  2025-01-02T09:32:56</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>fingerprint-strings</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>rtsp-methods</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
+<h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.1 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250042730
+    X-Apple-RequestReceivedTimestamp: 95234805
   GetRequest: 
     HTTP/1.1 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
-    X-Apple-ProcessingTime: 4
-    X-Apple-RequestReceivedTimestamp: 250037678
+    X-Apple-ProcessingTime: 9
+    X-Apple-RequestReceivedTimestamp: 95229582
   HTTPOptions: 
     HTTP/1.1 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
-    X-Apple-ProcessingTime: 0
-    X-Apple-RequestReceivedTimestamp: 250042710
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 95234774
   RTSPRequest: 
     RTSP/1.0 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250037703
+    X-Apple-RequestReceivedTimestamp: 95229693
   SIPOptions: 
     RTSP/1.0 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     CSeq: 42 OPTIONS
-    X-Apple-ProcessingTime: 0
-    X-Apple-RequestReceivedTimestamp: 250042768</pre>
-<h5>rtsp-methods</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 95234825</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-131-7000">7000</td>
@@ -8259,9 +7858,7 @@ Not valid after:  2025-01-02T09:32:56</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>rtsp-methods</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
-<h5>irc-info</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>irc-info</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Unable to open connection</pre>
 <h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
@@ -8270,32 +7867,34 @@ Not valid after:  2025-01-02T09:32:56</pre>
     Content-Length: 0
     Server: AirTunes/830.10.1
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250042899
+    X-Apple-RequestReceivedTimestamp: 95235583
   GetRequest: 
     HTTP/1.1 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
-    X-Apple-ProcessingTime: 0
-    X-Apple-RequestReceivedTimestamp: 250042843
+    X-Apple-ProcessingTime: 1
+    X-Apple-RequestReceivedTimestamp: 95235502
   HTTPOptions: 
     HTTP/1.1 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250042865
+    X-Apple-RequestReceivedTimestamp: 95235543
   RTSPRequest: 
     RTSP/1.0 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250037824
+    X-Apple-RequestReceivedTimestamp: 95230466
   SIPOptions: 
     RTSP/1.0 403 Forbidden
     Content-Length: 0
     Server: AirTunes/830.10.1
     CSeq: 42 OPTIONS
     X-Apple-ProcessingTime: 1
-    X-Apple-RequestReceivedTimestamp: 250042919</pre>
+    X-Apple-RequestReceivedTimestamp: 95235603</pre>
+<h5>rtsp-methods</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -8341,8 +7940,8 @@ Not valid after:  2025-01-02T09:32:56</pre>
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-159" data-target="#172-16-1-159"><h3 class="panel-title">172.16.1.159</h3></div>
-<div class="panel-body collapse in" id="172-16-1-159">
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-154" data-target="#172-16-1-154"><h3 class="panel-title">172.16.1.154</h3></div>
+<div class="panel-body collapse in" id="172-16-1-154">
 <h4>Ports</h4>
 <div class="table-responsive"><table class="table table-bordered">
 <thead><tr>
@@ -8354,91 +7953,7 @@ Not valid after:  2025-01-02T09:32:56</pre>
 <th>Version</th>
 <th>Extra Info</th>
 </tr></thead>
-<tbody>
-<tr class="success">
-<td title="Port" id="port-172-16-1-159-445">445</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">microsoft-ds</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-</tbody>
-</table></div>
-<h4>Host Script</h4>
-<h5>nbstat</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">NetBIOS name: GFTECH-AP, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: 34:29:8f:10:64:e9 (BlackEdge Capital)</pre>
-<h5>smb2-security-mode</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  3:1:1: 
-    Message signing enabled but not required</pre>
-<h5>smb2-time</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  date: 2025-02-17T14:25:34
-  start_date: N/A</pre>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-171" data-target="#172-16-1-171"><h3 class="panel-title">172.16.1.171</h3></div>
-<div class="panel-body collapse in" id="172-16-1-171">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody>
-<tr class="success">
-<td title="Port" id="port-172-16-1-171-1145">1145</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-171-3000">3000</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-171-3001">3001</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-171-9998">9998</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>uptime-agent-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;"></pre>
-</td></tr>
-</tbody>
+<tbody></tbody>
 </table></div>
 </div>
 </div>
@@ -8505,12 +8020,7 @@ Not valid after:  2025-01-02T09:32:56</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">RouterOS</pre>
-<h5>http-robots.txt</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
-/</pre>
-<h5>fingerprint-strings</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   GetRequest: 
     HTTP/1.0 200 OK
@@ -8518,8 +8028,8 @@ Not valid after:  2025-01-02T09:32:56</pre>
     Connection: close
     Content-Length: 1280
     Content-Type: text/html
-    Date: Mon, 17 Feb 2025 14:19:17 GMT
-    Expires: Tue, 17 Feb 2026 14:19:17 GMT
+    Date: Fri, 21 Feb 2025 14:58:33 GMT
+    Expires: Sat, 21 Feb 2026 14:58:33 GMT
     X-Frame-Options: sameorigin
     &lt;!doctype html&gt;
     &lt;html lang="en"&gt;
@@ -8547,7 +8057,7 @@ Not valid after:  2025-01-02T09:32:56</pre>
     Connection: close
     Content-Length: 109
     Content-Type: text/html
-    Date: Mon, 17 Feb 2025 14:19:17 GMT
+    Date: Fri, 21 Feb 2025 14:58:33 GMT
     Expires: 0
     Pragma: no-cache
     X-Frame-Options: sameorigin
@@ -8555,6 +8065,11 @@ Not valid after:  2025-01-02T09:32:56</pre>
     &lt;html lang=en&gt;
     &lt;title&gt;Error 503 : unknown method&lt;/title&gt;
     &lt;h1&gt;Error 503 : unknown method&lt;/h1&gt;</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">RouterOS</pre>
+<h5>http-robots.txt</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
+/</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-175-2000">2000</td>
@@ -8692,10 +8207,10 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">yealink embed httpd</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">yealink embed httpd</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-181-443">443</td>
@@ -8818,20 +8333,16 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">OpenCTI - Cyber Threat Intelligence Platform</pre>
-<h5>http-open-proxy</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>http-open-proxy</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Proxy might be redirecting requests</pre>
-<h5>http-trane-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Problem with XML parsing of /evox/about</pre>
 <h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   GetRequest: 
     HTTP/1.1 200 OK
     X-RateLimit-Limit: 10000
     X-RateLimit-Remaining: 9999
-    Date: Mon, 17 Feb 2025 14:19:38 GMT
-    X-RateLimit-Reset: 1739801979
+    Date: Fri, 21 Feb 2025 14:58:52 GMT
+    X-RateLimit-Reset: 1740149933
     Content-Security-Policy: default-src 'self';script-src 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/;style-src 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com/;script-src-attr 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com/;font-src 'self' data: https://fonts.gstatic.com/;img-src 'self' data: https://* http://*;connect-src 'self' wss://* ws://* data: http://* https://*;object-src 'self' data: http://* https://*;frame-src 'self' data: http://* https://*
     Expect-CT: max-age=30, enforce
     Origin-Agent-Cluster: ?1
@@ -8842,14 +8353,18 @@ Not valid after:  2034-02-24T00:00:00</pre>
     HTTP/1.1 200 OK
     X-RateLimit-Limit: 10000
     X-RateLimit-Remaining: 9999
-    Date: Mon, 17 Feb 2025 14:19:39 GMT
-    X-RateLimit-Reset: 1739801981
+    Date: Fri, 21 Feb 2025 14:58:53 GMT
+    X-RateLimit-Reset: 1740149935
     Content-Security-Policy: default-src 'self';script-src 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/;style-src 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com/;script-src-attr 'self' 'unsafe-inline' http://cdn.jsdelivr.net/npm/@apollographql/ https://fonts.googleapis.com/;font-src 'self' data: https://fonts.gstatic.com/;img-src 'self' data: https://* http://*;connect-src 'self' wss://* ws://* data: http://* https://*;object-src 'self' data: http://* https://*;frame-src 'self' data: http://* https://*
     Expect-CT: max-age=30, enforce
     Origin-Agent-Cluster: ?1
     Referrer-Policy: unsafe-url
     Strict-Transport-Security: max-age=15552000; includeSubDomains
     X-Content-Type-Options: nosniff</pre>
+<h5>http-trane-info</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Problem with XML parsing of /evox/about</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">OpenCTI - Cyber Threat Intelligence Platform</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-189-9000">9000</td>
@@ -8861,30 +8376,12 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:minio:minio">cpe:/a:minio:minio</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to http://172.16.1.189:33567</pre>
-<h5>http-server-header</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:minio:minio">cpe:/a:minio:minio</a><h5>http-server-header</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">MinIO</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to http://172.16.1.189:33567</pre>
 </td></tr>
 </tbody>
-</table></div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-193" data-target="#172-16-1-193"><h3 class="panel-title">172.16.1.193</h3></div>
-<div class="panel-body collapse in" id="172-16-1-193">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody></tbody>
 </table></div>
 </div>
 </div>
@@ -8909,7 +8406,7 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">8.2p1 Ubuntu 4ubuntu0.11</td>
+<td title="Version">8.2p1 Ubuntu 4ubuntu0.12</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
 <tr><td colspan="7">
@@ -8929,11 +8426,11 @@ Not valid after:  2034-02-24T00:00:00</pre>
 <td title="Extra Info">Python 3.8</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:python:python:3.8">cpe:/a:python:python:3.8</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Python/3.8 aiohttp/3.8.4</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:python:python:3.8">cpe:/a:python:python:3.8</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">GNS3 Web UI
 Requested resource was /static/web-ui/bundled</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Python/3.8 aiohttp/3.8.4</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -8960,7 +8457,7 @@ Requested resource was /static/web-ui/bundled</pre>
 <td title="State / Reason">open<br>syn-ack</td>
 <td title="Service">ssh</td>
 <td title="Product">OpenSSH</td>
-<td title="Version">8.2p1 Ubuntu 4ubuntu0.11</td>
+<td title="Version">8.2p1 Ubuntu 4ubuntu0.12</td>
 <td title="Extra Info">Ubuntu Linux; protocol 2.0</td>
 </tr>
 <tr><td colspan="7">
@@ -9046,11 +8543,13 @@ Requested resource was /static/web-ui/bundled</pre>
 <tr><td colspan="7">
 <a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>rtsp-methods</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">ERROR: Script execution failed (use -d to debug)</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.204/designs/imm/index.php</pre>
 <h5>fingerprint-strings</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.0 404 Not Found
-    Date: Mon, 17 Feb 2025 12:09:48 GMT
+    Date: Fri, 21 Feb 2025 12:48:53 GMT
     Connection: close
     Content-Type: text/html
     Content-length: 126
@@ -9059,7 +8558,7 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;/BODY&gt;&lt;/HTML&gt;
   GetRequest, HTTPOptions: 
     HTTP/1.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:09:48 GMT
+    Date: Fri, 21 Feb 2025 12:48:53 GMT
     Connection: close
     Content-Type: text/html
     X-Content-Type-Options: nosniff
@@ -9070,7 +8569,7 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;/BODY&gt;&lt;/HTML&gt;
   RTSPRequest: 
     RTSP/1.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:09:48 GMT
+    Date: Fri, 21 Feb 2025 12:48:53 GMT
     Connection: keep-alive
     Keep-Alive: timeout=60, max=2000
     Content-Type: text/html
@@ -9080,7 +8579,7 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;/BODY&gt;&lt;/HTML&gt;
   SIPOptions: 
     SIP/2.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:09:53 GMT
+    Date: Fri, 21 Feb 2025 12:48:58 GMT
     Connection: keep-alive
     Keep-Alive: timeout=60, max=2000
     Content-Type: text/html
@@ -9088,8 +8587,6 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Document Error: Bad Request&lt;/TITLE&gt;&lt;/HEAD&gt;
     &lt;BODY&gt;&lt;H2&gt;Access Error: 400 -- Bad Request&lt;/H2&gt;
     &lt;/BODY&gt;&lt;/HTML&gt;</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Did not follow redirect to https://172.16.1.204/designs/imm/index.php</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-204-427">427</td>
@@ -9115,16 +8612,16 @@ Requested resource was /static/web-ui/bundled</pre>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
   FourOhFourRequest: 
     HTTP/1.0 404 Not Found
-    Date: Mon, 17 Feb 2025 12:09:56 GMT
+    Date: Fri, 21 Feb 2025 12:49:04 GMT
     Connection: close
     Content-Type: text/html
     Content-length: 126
     &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Document Error: Not Found&lt;/TITLE&gt;&lt;/HEAD&gt;
     &lt;BODY&gt;&lt;H2&gt;Access Error: 404 -- Not Found&lt;/H2&gt;
     &lt;/BODY&gt;&lt;/HTML&gt;
-  GetRequest, HTTPOptions: 
+  HTTPOptions: 
     HTTP/1.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:09:55 GMT
+    Date: Fri, 21 Feb 2025 12:49:03 GMT
     Connection: close
     Content-Type: text/html
     X-Content-Type-Options: nosniff
@@ -9135,7 +8632,7 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;/BODY&gt;&lt;/HTML&gt;
   RTSPRequest: 
     RTSP/1.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:10:06 GMT
+    Date: Fri, 21 Feb 2025 12:49:14 GMT
     Connection: keep-alive
     Keep-Alive: timeout=60, max=2000
     Content-Type: text/html
@@ -9145,7 +8642,7 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;/BODY&gt;&lt;/HTML&gt;
   SIPOptions: 
     SIP/2.0 400 Bad Request
-    Date: Mon, 17 Feb 2025 12:10:07 GMT
+    Date: Fri, 21 Feb 2025 12:49:15 GMT
     Connection: keep-alive
     Keep-Alive: timeout=60, max=2000
     Content-Type: text/html
@@ -9153,17 +8650,14 @@ Requested resource was /static/web-ui/bundled</pre>
     &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Document Error: Bad Request&lt;/TITLE&gt;&lt;/HEAD&gt;
     &lt;BODY&gt;&lt;H2&gt;Access Error: 400 -- Bad Request&lt;/H2&gt;
     &lt;/BODY&gt;&lt;/HTML&gt;</pre>
-<h5>http-methods</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Potentially risky methods: TRACE</pre>
-<h5>ssl-cert</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=IMM2-6cae8b56b2bc/organizationName=System X/stateOrProvinceName=NC/countryName=US
-Not valid before: 2014-12-24T20:10:52
-Not valid after:  2024-12-21T20:10:52</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Site doesn't have a title (text/html).</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>ssl-cert</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=IMM2-6cae8b56b2bc/organizationName=System X/stateOrProvinceName=NC/countryName=US
+Not valid before: 2014-12-24T20:10:52
+Not valid after:  2024-12-21T20:10:52</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-204-3389">3389</td>
@@ -9195,15 +8689,15 @@ Not valid after:  2024-12-21T20:10:52</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">IBM IMM2 Web Server</pre>
-<h5>http-auth</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-auth</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
 HTTP/1.1 401 Unauthorized
   Basic realm=avocent.com
 </pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">401 - Unauthorized</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">IBM IMM2 Web Server</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-204-5986">5986</td>
@@ -9215,21 +8709,21 @@ HTTP/1.1 401 Unauthorized
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-auth</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">
-HTTP/1.1 401 Unauthorized
-  Basic realm=avocent.com
-</pre>
-<h5>http-title</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">401 - Unauthorized</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">IBM IMM2 Web Server</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=IMM2-6cae8b56b2bc/organizationName=System X/stateOrProvinceName=NC/countryName=US
 Not valid before: 2014-12-24T20:10:52
 Not valid after:  2024-12-21T20:10:52</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">IBM IMM2 Web Server</pre>
+<h5>http-auth</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+HTTP/1.1 401 Unauthorized
+  Basic realm=avocent.com
+</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-204-5988">5988</td>
@@ -9261,34 +8755,8 @@ Not valid after:  2024-12-21T20:10:52</pre>
 </div>
 </div>
 <div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-207" data-target="#172-16-1-207"><h3 class="panel-title">172.16.1.207</h3></div>
-<div class="panel-body collapse in" id="172-16-1-207">
-<h4>Ports</h4>
-<div class="table-responsive"><table class="table table-bordered">
-<thead><tr>
-<th>Port</th>
-<th>Protocol</th>
-<th>State<br>Reason</th>
-<th>Service</th>
-<th>Product</th>
-<th>Version</th>
-<th>Extra Info</th>
-</tr></thead>
-<tbody><tr class="warning">
-<td>9080</td>
-<td>tcp</td>
-<td>filtered<br>no-response</td>
-<td>glrpc</td>
-<td></td>
-<td></td>
-<td></td>
-</tr></tbody>
-</table></div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-210" data-target="#172-16-1-210"><h3 class="panel-title">172.16.1.210</h3></div>
-<div class="panel-body collapse in" id="172-16-1-210">
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-213" data-target="#172-16-1-213"><h3 class="panel-title">172.16.1.213</h3></div>
+<div class="panel-body collapse in" id="172-16-1-213">
 <h4>Ports</h4>
 <div class="table-responsive"><table class="table table-bordered">
 <thead><tr>
@@ -9302,48 +8770,123 @@ Not valid after:  2024-12-21T20:10:52</pre>
 </tr></thead>
 <tbody>
 <tr class="success">
-<td title="Port" id="port-172-16-1-210-1145">1145</td>
+<td title="Port" id="port-172-16-1-213-53">53</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
+<td title="Service">domain</td>
+<td title="Product">dnsmasq</td>
+<td title="Version">2.90</td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:thekelleys:dnsmasq:2.90">cpe:/a:thekelleys:dnsmasq:2.90</a><h5>dns-nsid</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  bind.version: dnsmasq-2.90</pre>
+</td></tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading clickable" data-toggle="collapse" id="onlinehosts-172-16-1-216" data-target="#172-16-1-216"><h3 class="panel-title">172.16.1.216</h3></div>
+<div class="panel-body collapse in" id="172-16-1-216">
+<h4>Ports</h4>
+<div class="table-responsive"><table class="table table-bordered">
+<thead><tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>State<br>Reason</th>
+<th>Service</th>
+<th>Product</th>
+<th>Version</th>
+<th>Extra Info</th>
+</tr></thead>
+<tbody>
+<tr class="success">
+<td title="Port" id="port-172-16-1-216-21">21</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">ftp</td>
+<td title="Product">MikroTik router ftpd</td>
+<td title="Version">6.47.10</td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>ftp-syst</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  SYST: UNIX MikroTik 6.47.10</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-216-22">22</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">ssh</td>
+<td title="Product">MikroTik RouterOS sshd</td>
+<td title="Version"></td>
+<td title="Extra Info">protocol 2.0</td>
+</tr>
+<tr><td colspan="7">
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:mikrotik:routeros">cpe:/o:mikrotik:routeros</a><h5>ssh-hostkey</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">
+  1024 0d:f1:06:d7:67:11:ed:3d:e0:95:f1:8f:4c:b1:31:e1 (DSA)
+  2048 94:aa:50:89:5f:c5:90:7c:98:c5:56:e0:6d:09:82:80 (RSA)</pre>
+</td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-216-23">23</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">telnet</td>
+<td title="Product">Linux telnetd</td>
 <td title="Version"></td>
 <td title="Extra Info"></td>
 </tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
+<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:linux:linux_kernel">cpe:/o:linux:linux_kernel</a></td></tr>
 <tr class="success">
-<td title="Port" id="port-172-16-1-210-3000">3000</td>
+<td title="Port" id="port-172-16-1-216-53">53</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
+<td title="Service">domain</td>
 <td title="Product"></td>
 <td title="Version"></td>
-<td title="Extra Info"></td>
+<td title="Extra Info">generic dns response: NOTIMP</td>
 </tr>
 <tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
 <tr class="success">
-<td title="Port" id="port-172-16-1-210-3001">3001</td>
+<td title="Port" id="port-172-16-1-216-80">80</td>
 <td title="Protocol">tcp</td>
 <td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
-<td title="Version"></td>
-<td title="Extra Info"></td>
-</tr>
-<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
-<tr class="success">
-<td title="Port" id="port-172-16-1-210-9998">9998</td>
-<td title="Protocol">tcp</td>
-<td title="State / Reason">open<br>syn-ack</td>
-<td title="Service">tcpwrapped</td>
-<td title="Product"></td>
+<td title="Service">http</td>
+<td title="Product">MikroTik router config httpd</td>
 <td title="Version"></td>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a><h5>uptime-agent-info</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;"></pre>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/o:mikrotik:routeros">cpe:/o:mikrotik:routeros</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">RouterOS router configuration page</pre>
+<h5>http-robots.txt</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
+/</pre>
 </td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-216-2000">2000</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service">bandwidth-test</td>
+<td title="Product">MikroTik bandwidth-test server</td>
+<td title="Version"></td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
+<tr class="success">
+<td title="Port" id="port-172-16-1-216-8291">8291</td>
+<td title="Protocol">tcp</td>
+<td title="State / Reason">open<br>syn-ack</td>
+<td title="Service"></td>
+<td title="Product"></td>
+<td title="Version"></td>
+<td title="Extra Info"></td>
+</tr>
+<tr><td colspan="7"><a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version="></a></td></tr>
 </tbody>
 </table></div>
 </div>
@@ -9386,18 +8929,18 @@ Not valid after:  2024-12-21T20:10:52</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>ssl-cert</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:igor_sysoev:nginx">cpe:/a:igor_sysoev:nginx</a><h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Greenbone Enterprise Appliance</pre>
+<h5>http-robots.txt</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
+/</pre>
+<h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=gsm.gbuser.net/organizationName=Greenbone AG Customer/stateOrProvinceName=Niedersachsen/countryName=DE
 Subject Alternative Name: DNS:gsm.gbuser.net
 Not valid before: 2023-12-06T19:53:57
 Not valid after:  2025-12-05T19:53:57</pre>
-<h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Greenbone Enterprise Appliance</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-robots.txt</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">1 disallowed entry 
-/</pre>
 </td></tr>
 </tbody>
 </table></div>
@@ -9524,25 +9067,25 @@ Not valid after:  2025-12-05T19:53:57</pre>
 <td title="Extra Info">(centos) OpenSSL/1.1.1k</td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.37">cpe:/a:apache:http_server:2.4.37</a><h5>http-methods</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:apache:http_server:2.4.37">cpe:/a:apache:http_server:2.4.37</a><h5>http-generator</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">HTML Tidy for HTML5 for Linux version 5.7.28</pre>
+<h5>tls-alpn</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
-  Potentially risky methods: TRACE</pre>
+  http/1.1</pre>
 <h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
-<h5>http-server-header</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.37 (centos) OpenSSL/1.1.1k</pre>
 <h5>http-title</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">HTTP Server Test Page powered by CentOS</pre>
-<h5>http-generator</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">HTML Tidy for HTML5 for Linux version 5.7.28</pre>
+<h5>http-server-header</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">Apache/2.4.37 (centos) OpenSSL/1.1.1k</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=osticket.gftech.srl/organizationName=Unspecified/countryName=US
 Subject Alternative Name: DNS:osticket.gftech.srl
 Not valid before: 2021-07-14T15:08:56
 Not valid after:  2022-07-19T16:48:56</pre>
-<h5>tls-alpn</h5>
+<h5>http-methods</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">
-  http/1.1</pre>
+  Potentially risky methods: TRACE</pre>
 </td></tr>
 <tr class="success">
 <td title="Port" id="port-172-16-1-236-3306">3306</td>
@@ -9606,10 +9149,10 @@ Not valid after:  2022-07-19T16:48:56</pre>
 <td title="Extra Info"></td>
 </tr>
 <tr><td colspan="7">
-<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>http-title</h5>
-<pre style="white-space:pre-wrap; word-wrap:break-word;">UniFi Video</pre>
-<h5>ssl-date</h5>
+<a href="https://nvd.nist.gov/vuln/search/results?form_type=Advanced&amp;cves=on&amp;cpe_version=cpe:/a:lighttpd:lighttpd">cpe:/a:lighttpd:lighttpd</a><h5>ssl-date</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">TLS randomness does not represent time</pre>
+<h5>http-title</h5>
+<pre style="white-space:pre-wrap; word-wrap:break-word;">UniFi Video</pre>
 <h5>ssl-cert</h5>
 <pre style="white-space:pre-wrap; word-wrap:break-word;">Subject: commonName=camera.ubnt.dev/organizationName=Ubiquiti Networks Inc./countryName=TW
 Not valid before: 1970-01-10T23:37:22

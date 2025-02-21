@@ -4,8 +4,6 @@ import json
 from macaddress import get_mac_vendor
 import sys
 from datetime import datetime
-import random
-from mac_vendor_lookup import MacLookup
 
 # Leggere la configurazione dal file JSON
 with open("config.json", "r") as config_file:
@@ -45,16 +43,6 @@ def connect_db():
         return conn
     except mysql.connector.Error as e:
         print(f"Errore nella connessione al database: {e}")
-        return None
-
-def load_vendor_data(json_file):
-    """Carica i dati dei vendor dal file JSON."""
-    try:
-        with open(json_file, 'r') as file:
-            vendor_data = json.load(file)
-        return vendor_data
-    except Exception as e:
-        print(f"Errore nel caricamento del file JSON: {e}")
         return None
 
 # Funzione per creare la tabella se non esiste
@@ -102,14 +90,14 @@ def process_packet(packet, vendor_data, id_scansione):
 
         # Salva nel file
         with open(output_file, "a") as f:
-            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {vendor} - {timestamp}\n")
+            f.write(f"IP: {ip} - MAC: {mac} - Vendor: {mac_vendor} - {timestamp}\n")
 
         print(f"IP: {ip}, MAC: {mac}, Vendor: {mac_vendor}")
 
         # Connessione al database e inserimento dati
         conn = connect_db()
         if conn:
-            insert_data(conn, id_scansione, ip, mac, timestamp, mac_vendor, "arp-passivo")
+            insert_into_db(conn, id_scansione, ip, mac, timestamp, mac_vendor, "arp-passivo")
             conn.close()
 
 # Funzione principale
@@ -129,19 +117,16 @@ def main():
         print("Impossibile caricare i dati del vendor. Termino.")
         return
 
-    # Genera un id_scansione casuale
-    id_scansione = random.randint(100000, 999999)
-
     # Connessione al database e creazione della tabella se non esiste
     conn = connect_db()
     if conn:
-        create_table_if_not_exists(conn)
+        create_table(conn)
         conn.close()
 
     print(f"Inizio scansione ARP. ID scansione: {id_scansione}. Premere Ctrl+C per interrompere.")
     try:
         # Avvia lo sniffing sulla rete per pacchetti ARP
-        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=200)
+        sniff(filter="arp", prn=lambda packet: process_packet(packet, vendor_data, id_scansione), store=False, timeout=50)
     except KeyboardInterrupt:
         print("\nScansione interrotta dall'utente.")
 
